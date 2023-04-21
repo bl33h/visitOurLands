@@ -39,6 +39,24 @@
 }
 
 .signin-button {
-    
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+    color: white;
+    font-size: 20px;
+    position: relative;
+    display: table;
+    margin: 15px 70px 10px 70px;
+    padding: 2px 5px 2px 5px;
+    text-align: center;
+    border-radius: 5px;
+    border: 0.5px solid black;
+    cursor: pointer;
+    width: 170px;
+    height: 40px;
+    background-color: #8C4303;
+    text-decoration: inherit;
 }
 
+h2{
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+    color: #8C4303;
+}
