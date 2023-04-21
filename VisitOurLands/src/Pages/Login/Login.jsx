@@ -1,6 +1,12 @@
 import './Login.css'
+import { useState } from 'react';
 
 function Login() {
+  const [mostrarContrasena, setMostrarContrasena] = useState(false);
+
+  function handleCheckboxChange() {
+    setMostrarContrasena(!mostrarContrasena);
+  }
   return (
     <div className="login-root" >
       <div className="login-guest-container"></div>
@@ -10,8 +16,10 @@ function Login() {
           <input id="input-username"  className="input-login"></input>
           
           <div className="login-labels">Password:</div>
-          <input type='password' id="input-password" className="input-login"></input>          
-          
+          <input type={mostrarContrasena ? 'text' : 'password'}  id="input-password" className="input-login"></input>
+          <label htmlFor="mostrar-contrasena">Mostrar contraseña</label>
+          <input type="checkbox" id="mostrar-contrasena" onChange={handleCheckboxChange} />
+
           <button className="login-button">INICIAR SESION</button>
           <h2>¿Aún no tienes una cuenta?</h2>
           <button className="signin-button">REGISTRATE</button>
