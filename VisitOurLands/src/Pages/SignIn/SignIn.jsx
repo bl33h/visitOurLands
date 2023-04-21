@@ -4,7 +4,13 @@ import './SignIn.css'
 
 function SignIn() {
   const [isChecked, setIsChecked] = useState(false)
-    
+  const [mostrarContrasena1, setMostrarContrasena1] = useState(false);
+  const [mostrarContrasena2, setMostrarContrasena2] = useState(false);
+  function handleCheckboxChange1(){
+    setMostrarContrasena1(!mostrarContrasena1)
+    setMostrarContrasena2(!mostrarContrasena2);
+  }
+  
   return (
     <div className="signin-root" >
       <div className="sign-in-container">
@@ -14,9 +20,12 @@ function SignIn() {
         <div className="login-labels">Usuario:</div>
         <input id="input-username"  className="input-login"></input>
         <div className="login-labels">Contraseña:</div>
-        <input type='password' id="input-password" className="input-login"></input>
+        <input type={mostrarContrasena1 ? 'text' : 'password'} id="input-password" className="input-login"></input>
         <div className="login-labels">Confirmar contraseña:</div>
-        <input type='password' id="input-confirm-password"  className="input-login"></input>
+        <input type={mostrarContrasena2 ? 'text' : 'password'} id="input-confirm-password"  className="input-login"></input>
+        <input type="checkbox" id="mostrar-contrasena" onChange={handleCheckboxChange1} className="input-checkbox" />
+        <label htmlFor="mostrar-contrasena" className="checkbox-label">Mostrar contraseñas</label>
+        <br></br>
         <label className="checkbox-label">
           <input
             type="checkbox"
