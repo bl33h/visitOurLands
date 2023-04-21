@@ -1,24 +1,30 @@
-//import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 //import { useHistory } from 'react-router-dom'
 import './SignIn.css'
 
 function SignIn() {
+  const [isChecked, setIsChecked] = useState(false)
     
   return (
     <div className="signin-root" >
       <div className="sign-in-container">
-        <div className="login-labels">Username:</div>
+      <div className="login-labels">Correo electrónico:</div>
+        <input id="input-correo"  className="input-login"></input>
+        <div className="login-labels">Usuario:</div>
         <input id="input-username"  className="input-login"></input>
-        <div className="login-labels">Password:</div>
-        <input id="input-password" className="input-login"></input>
-        <div className="login-labels">Confirm password:</div>
-        <input id="input-confirm-password"  className="input-login"></input>
-        <button className="sign-in-button" >
-          Sign in
-        </button>
-        <button className="login-button-link"  >
-          Back to Login
-        </button>
+        <div className="login-labels">Contraseña:</div>
+        <input type='password' id="input-password" className="input-login"></input>
+        <div className="login-labels">Confirmar contraseña:</div>
+        <input type='password' id="input-confirm-password"  className="input-login"></input>
+        <label className="checkbox-label-doctor">
+          <input
+            type="checkbox"
+            id="input-role"
+            hecked={isChecked.toString()}
+            className="input-checkbox-doctor"
+          />Soy dueño de un lugar turístico
+        </label>
+        <button className="sign-in-button">REGISTRARME</button>
       </div>
     </div>
   )
