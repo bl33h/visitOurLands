@@ -1,0 +1,78 @@
+* {
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial,
+}
+
+.signin-root {
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.sign-in-container {
+    height: 300px;
+    width: 230px;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    display: table;
+    flex-direction: column;
+    background-color: white;
+}
+
+h1{
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+    color: #8C4303;
+	display: block;
+}
+
+.login-labels {
+    font-size: 25px;
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+    text-align: left;
+    padding: 15px 0px 0px 0px;
+    color: #04738C;
+}
+
+.input-login {
+    font-size: 25px;
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+    width: 100%;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    border-radius: 3px;
+    border: 0.5px solid #04738C;
+    text-indent: 3px;
+}
+
+.input-checkbox {
+    margin: 15px 10px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    border-radius: 5px;
+    color: #04738C;
+}
+  
+.checkbox-label {
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+    font-size: 16px;
+    color: #04738C;
+}
+
+.sign-in-button {
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+    color: white;
+    font-size: 20px;
+    position: relative;
+    display: table;
+    margin: 15px 70px 10px 70px;
+    padding: 2px 5px 2px 5px;
+    text-align: center;
+    border-radius: 5px;
+    border: 0.5px solid black;
+    cursor: pointer;
+    background-color: #D97C2B;
+    text-decoration: inherit;
+}
+  
