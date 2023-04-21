@@ -6,10 +6,10 @@ function Login() {
       <div className="login-guest-container"></div>
       <div className="login-container-root">
         <div className="login-container">
-          <h1>Username:</h1>
+          <div className="login-labels">Username:</div>
           <input id="input-username"  className="input-login"></input>
           
-          <h1>Password:</h1>
+          <div className="login-labels">Password:</div>
           <input type='password' id="input-password" className="input-login"></input>          
           
           <button className="login-button">INICIAR SESION</button>
