@@ -1,0 +1,17 @@
+.root {
+    display: grid;
+    place-items: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.container {
+    height: 300px;
+    width: 230px;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    display: table;
+    flex-direction: column;
+    background-color: white;
+}

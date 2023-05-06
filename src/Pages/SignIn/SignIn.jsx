@@ -1,6 +1,8 @@
 import { useState } from 'react'
 //import { useHistory } from 'react-router-dom'
 import './SignIn.css'
+import '/src/Components/texts.css'
+import '/src/Components/display.css'
 
 function SignIn() {
   const [mostrarContrasena1, setMostrarContrasena1] = useState(false);
@@ -11,12 +13,12 @@ function SignIn() {
   }
 
   return (
-    <div className="signin-root" >
+    <div className="root" >
       <div style={{ display: 'inline-flex', alignItems: 'center' }}>
         <img className="jagui" src="/src/assets/jagui.png"/>
         <h3>¡Únete a Visita Nuestras Tierras!</h3>
       </div>
-      <div className="sign-in-container">
+      <div className="container">
         <h1>Correo electrónico:</h1>
         <input id="input-correo"  className="input-login"></input>
         <h1>Usuario:</h1>
