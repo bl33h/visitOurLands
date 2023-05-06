@@ -1,12 +1,6 @@
-* {
-    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial,
-}
-
 .signin-root {
     display: grid;
     place-items: center;
-    height: 100vh;
-    width: 100vw;
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -20,20 +14,6 @@
     display: table;
     flex-direction: column;
     background-color: white;
-}
-
-h1{
-    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
-    color: #8C4303;
-	display: block;
-}
-
-.login-labels {
-    font-size: 25px;
-    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
-    text-align: left;
-    padding: 15px 0px 0px 0px;
-    color: #04738C;
 }
 
 .input-login {
@@ -66,13 +46,19 @@ h1{
     font-size: 20px;
     position: relative;
     display: table;
-    margin: 15px 70px 10px 70px;
+    margin: 0px 70px 10px 70px;
     padding: 2px 5px 2px 5px;
     text-align: center;
     border-radius: 5px;
-    border: 0.5px solid black;
+    border: 0.5px solid #8C4303;
     cursor: pointer;
+    width: 190px;
+    height: 40px;
     background-color: #D97C2B;
     text-decoration: inherit;
+    font-size: medium;
 }
-  
+
+.jagui{
+    width: 150px;
+}

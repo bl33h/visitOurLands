@@ -1,4 +1,5 @@
 import './Login.css'
+import '/src/Components/texts.css'
 import { useState } from 'react';
 
 function Login() {
@@ -12,16 +13,20 @@ function Login() {
       <div className="login-guest-container"></div>
       <div className="login-container-root">
         <div className="login-container">
-          <div className="login-labels">Username:</div>
+          <img className="welcome-jagui" src="/src/assets/welcome.png"/>
+          
+          <h1>Username:</h1>
           <input id="input-username"  className="input-login"></input>
           
-          <div className="login-labels">Password:</div>
+          <h1>Password:</h1>
           <input type={mostrarContrasena ? 'text' : 'password'}  id="input-password" className="input-login"></input>
-          <label htmlFor="mostrar-contrasena">Mostrar contraseña</label>
-          <input type="checkbox" id="mostrar-contrasena" onChange={handleCheckboxChange} />
 
+          <div style={{ display: 'inline-flex', alignItems: 'center' }}>
+            <p>Mostrar contraseña</p>
+            <input type="checkbox" id="mostrar-contrasena" onChange={handleCheckboxChange} />
+          </div>
           <button className="login-button">INICIAR SESION</button>
-          <h2>¿Aún no tienes una cuenta?</h2>
+          <br></br><h2>¿Aún no tienes una cuenta?</h2>
           <button className="signin-button">REGISTRATE</button>
         </div>
       </div>

@@ -12,18 +12,30 @@ function SignIn() {
 
   return (
     <div className="signin-root" >
+      <div style={{ display: 'inline-flex', alignItems: 'center' }}>
+        <img className="jagui" src="/src/assets/jagui.png"/>
+        <h3>¡Únete a Visita Nuestras Tierras!</h3>
+      </div>
       <div className="sign-in-container">
-        <h1>¡Únete a Visita Nuestras Tierras!</h1>
-      <div className="login-labels">Correo electrónico:</div>
+        <h1>Correo electrónico:</h1>
         <input id="input-correo"  className="input-login"></input>
-        <div className="login-labels">Usuario:</div>
+        <h1>Usuario:</h1>
         <input id="input-username"  className="input-login"></input>
-        <div className="login-labels">Contraseña:</div>
+        <h1>Contraseña:</h1>
         <input type={mostrarContrasena1 ? 'text' : 'password'} id="input-password" className="input-login"></input>
-        <div className="login-labels">Confirmar contraseña:</div>
+        <h1>Confirmar contraseña:</h1>
         <input type={mostrarContrasena2 ? 'text' : 'password'} id="input-confirm-password"  className="input-login"></input>
-        <input type="checkbox" id="mostrar-contrasena" onChange={handleCheckboxChange1} className="input-checkbox" />
-        <label htmlFor="mostrar-contrasena" className="checkbox-label">Mostrar contraseñas</label>
+
+        <div style={{ display: 'inline-flex', alignItems: 'center' }}>
+          <p>Mostrar contraseñas</p>
+          <input type="checkbox" id="mostrar-contrasena" onChange={handleCheckboxChange1} className="input-checkbox"/>
+        </div>
+
+        <div style={{ display: 'inline-flex', alignItems: 'center' }}>
+          <input type="checkbox" id="input-role" className="input-checkbox"/>
+          <p>Soy dueño de un lugar turístico</p>
+        </div>
+
         <br></br>
         <button className="sign-in-button">REGISTRARME</button>
       </div>

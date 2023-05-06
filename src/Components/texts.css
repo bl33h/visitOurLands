@@ -1,0 +1,35 @@
+* {
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial,
+}
+
+h1{
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+    color: #04738C;
+    padding: 15px 0px 0px 0px;
+    text-align: left;
+    font-size: 20px;
+	display: block;
+}
+
+h2{
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+    font-size:large;
+    padding: 15px 0px 0px 0px;
+    color: #8C4303;
+}
+
+h3{
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+    color: #8C4303;
+    padding: 15px 0px 0px 0px;
+    text-align: left;
+    font-size: 20px;
+	display: block;
+    font-size: 30px;
+}
+
+p{
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+    font-size:medium;
+    color: #8C4303;
+}
