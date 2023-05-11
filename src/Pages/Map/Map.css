@@ -12,3 +12,9 @@
 	stroke: #FFAA4F;
 	stroke-width: 5px;
 }
+.mapadiv path:hover {
+  fill: #FFAA4F;
+  /* Zoom al departamento
+  transform: scale(1.2); 
+  */
+}
