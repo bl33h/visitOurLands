@@ -10,7 +10,7 @@ const Page = () => {
                 <SignIn />
             </Route>
             <Route path="/">
-                <SignIn />
+                <Login />
             </Route>
         </Switch>
     )
