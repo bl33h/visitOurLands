@@ -1,7 +1,17 @@
+import './Map.css'
 import { useState } from 'react'
 import React from 'react'
 
 function Mapa(){
+	const [showBox, setShowBox] = useState(false);
+
+	const handleClick = () => {
+		setShowBox(true);
+		setTimeout(() => {
+		  setShowBox(false);
+		}, 3000); // box will disappear after 5 seconds
+	  };
+	  
     return(
         <div className="mapadiv">
 		<svg version="1.2" viewBox="0 0 1000 1056" xmlns="http://www.w3.org/2000/svg">
