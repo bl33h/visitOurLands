@@ -17,4 +17,34 @@
   /* Zoom al departamento
   transform: scale(1.2); 
   */
+
+}
+.tooltip {
+  position: absolute;
+  z-index: 9999;
+  background-color: #FFAA4F;
+  color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+}
+.mapadiv path:hover + .tooltip {
+  display: block;
+}
+.my-box {
+  position: absolute; 
+  top: 50%; 
+  left: 10%;
+  transform: translate(-120%, -100%); 
+  width: 70%; 
+  height: 40%;
+  background-color: #F4D6B4; 
+  border: 2px solid #FFAA4F; 
+  padding: 10px; 
+  font-size: 100%;
+}
+.imag{
+  width: 60%;
+  height: 60%;
 }

@@ -85,6 +85,7 @@ function Mapa(){
 			<circle cx="673.6" cy="716.6" id="1"/>
 			<circle cx="855.4" cy="532.1" id="2"/>
 		</svg>
+				{showBox && <div className='my-box'>Petén: <br /><br /> En este gran departamento se encuentra el famoso "Tikal" <br /> <img className='imag' src='https://www.prensalibre.com/wp-content/uploads/2018/12/a2cfdddc-2f55-468d-906d-16ebd3b968f0.jpg?quality=52&w=760&h=430&crop=1'/></div>}
 	</div>
     
         )
