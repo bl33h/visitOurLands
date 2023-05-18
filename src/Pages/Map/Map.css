@@ -48,3 +48,9 @@
   width: 60%;
   height: 60%;
 }
+
+.jagui-mapa{
+  position: absolute;
+  width: 250px;
+  top: 60%;
+}

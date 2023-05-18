@@ -1,2 +1,2 @@
-import Mapa from './Map'
-export default Mapa
+import Map from './Map'
+export default Map
