@@ -1,9 +1,15 @@
-import { useState } from 'react'
+import { useState, useEffect} from 'react'
 import './Profile.css'
 import '/src/Components/texts.css'
 import '/src/Components/display.css'
 
 function Profile(){
+    const [user, setUser] = useState({})
+
+    useEffect(() => {
+        const browser_data = window.localStorage.getItem('LOGIN_STATUS')
+        if (browser_data !== null) setUser(JSON.parse(browser_data))
+      }, [])
 
     return(
         <div className="root">
@@ -11,8 +17,8 @@ function Profile(){
                 <div className="info">
                     <img id="profile-picture" src="/src/assets/profile.png" />
                     <div className="column">
-                        <h1 className="username">Username</h1>
-                        <p className="description">Description</p>
+                        <h1 className="username">{user.username}</h1>
+                        <p className="description">{user.role}</p>
                     </div>
                 </div>
 

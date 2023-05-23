@@ -15,6 +15,12 @@ function SignIn() {
   const [isChecked, setIsChecked] = useState(false)
   const history = useHistory()
 
+  useEffect(() => {
+    console.log('writing', user)
+    window.localStorage.setItem('LOGIN_STATUS', JSON.stringify(user))
+  }, [user])
+
+
   function handleCheckboxChange1(){
     setMostrarContrasena1(!mostrarContrasena1)
     setMostrarContrasena2(!mostrarContrasena2);
@@ -23,11 +29,6 @@ function SignIn() {
   const handleOnChange = () => {
     setIsChecked(!isChecked)
   }
-
-  useEffect(() => {
-    console.log('writing', user)
-    //window.localStorage.setItem('SIGNIN_INFORMATION', JSON.stringify(user))
-  }, [user])
 
   useEffect(() => {
     fetchPosts()

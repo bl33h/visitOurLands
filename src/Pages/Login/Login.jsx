@@ -14,6 +14,11 @@ function Login() {
   const history = useHistory()
 
   useEffect(() => {
+    console.log('writing', user)
+    window.localStorage.setItem('LOGIN_STATUS', JSON.stringify(user))
+  }, [user])
+
+  useEffect(() => {
     fetchPosts()
     //history.push('//')
   }, [])
@@ -27,7 +32,7 @@ function Login() {
   const evaluate_login = () => {
     if (succesfull_login) {    
       setTimeout(() => {
-        history.push('/Map') 
+        history.push('/Profile') 
       }, 3000)
     } 
   }
