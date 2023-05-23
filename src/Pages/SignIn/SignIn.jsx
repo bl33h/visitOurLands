@@ -41,7 +41,7 @@ function SignIn() {
       createUser()
       setTimeout(() => {
         history.push('/Profile')
-      }, 3000)
+      }, 2000)
     }
     
   }

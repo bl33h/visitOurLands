@@ -34,7 +34,7 @@ function Login() {
     if (succesfull_login) {    
       setTimeout(() => {
         history.push('/Map') 
-      }, 3000)
+      }, 1500)
     } 
   }
 
@@ -50,7 +50,7 @@ function Login() {
   const check_login = () => {
     succesfull_login = false
     username = document.getElementById('input-username').value
-    password = document.getElementById('input-password').value
+    password = document.getElementById('input-password').value 
     if(!((username==='')&&(password===''))){
       let while_counter = 0
       while ((while_counter < users.length) && (succesfull_login == false)) {
@@ -75,10 +75,10 @@ function Login() {
       <div className="container">
        {/* <img className="welcome-jagui" src={welcomeJagui} alt="welcome Jagui" /> */}
         <h1>Username:</h1>
-        <input id="input-username"  className="input-login" onClick={fetchPosts} ></input>
+        <input id="input-username"  className="input-login" onClick={fetchPosts} onKeyDown={handleKeyDown}></input>
           
         <h1>Password:</h1>
-        <input type={mostrarContrasena ? 'text' : 'password'}  id="input-password" className="input-login" onClick={fetchPosts} ></input>
+        <input type={mostrarContrasena ? 'text' : 'password'}  id="input-password" className="input-login" onClick={fetchPosts} onKeyDown={handleKeyDown}></input>
 
         <div style={{ display: 'inline-flex', alignItems: 'center' }}>
           <p>Mostrar contraseña</p>

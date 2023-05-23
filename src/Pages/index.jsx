@@ -16,12 +16,12 @@ const Page = () => {
                 <Profile />
             </Route>
 
-            <Route path="/Map">
-                <Map />
+            <Route path="/Login">
+                <Login />
             </Route>
 
             <Route path="/">
-                <Login/>
+                <Map/>
             </Route>
         </Switch>
     )

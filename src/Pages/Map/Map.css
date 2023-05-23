@@ -6,6 +6,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   align-items: center;
+  margin-top: 50px;
 }
 .mapadiv path{
 	fill: #F4D6B4;
@@ -53,4 +54,24 @@
   position: absolute;
   width: 250px;
   top: 60%;
+  margin-left: 180px;
+}
+
+.see-more-button {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+  color: white;
+  font-size: 20px;
+  position: relative;
+  display: table;
+  margin: 0px 70px 10px 70px;
+  padding: 2px 5px 2px 5px;
+  text-align: center;
+  border-radius: 5px;
+  border: 0.5px solid #8C4303;
+  cursor: pointer;
+  width: 100px;
+  height: 40px;
+  background-color: #8C4303;
+  text-decoration: inherit;
+  font-size: medium;
 }
