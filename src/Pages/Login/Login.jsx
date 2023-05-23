@@ -4,6 +4,7 @@ import '/src/Components/display.css'
 import { useState, useEffect } from 'react'
 import { supabase } from '../../client'
 import { useHistory } from 'react-router-dom'
+//import welcomeJagui from '../../assets/welcome.png'
 
 function Login() {
   const [mostrarContrasena, setMostrarContrasena] = useState(false);
@@ -72,8 +73,7 @@ function Login() {
   return (
     <div className="root" >
       <div className="container">
-        <img className="welcome-jagui" src="../src/assets/welcome.png"/>
-        
+       {/* <img className="welcome-jagui" src={welcomeJagui} alt="welcome Jagui" /> */}
         <h1>Username:</h1>
         <input id="input-username"  className="input-login" onClick={fetchPosts} ></input>
           

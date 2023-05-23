@@ -1,7 +1,7 @@
 import './Map.css'
 import { useState } from 'react'
 import React from 'react'
-import jaguiImage from '../../assets/jagui.png';
+import jaguiImage from '../../assets/jagui.png'
 
 function Map(){
 	const [showBox, setShowBox] = useState(false);
