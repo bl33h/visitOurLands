@@ -32,7 +32,7 @@ function Login() {
   const evaluate_login = () => {
     if (succesfull_login) {    
       setTimeout(() => {
-        history.push('/Profile') 
+        history.push('/Map') 
       }, 3000)
     } 
   }
@@ -72,7 +72,7 @@ function Login() {
   return (
     <div className="root" >
       <div className="container">
-        <img className="welcome-jagui" src="/src/assets/welcome.png"/>
+        <img className="welcome-jagui" src="./src/assets/welcome.png"/>
         
         <h1>Username:</h1>
         <input id="input-username"  className="input-login" onClick={fetchPosts} ></input>
