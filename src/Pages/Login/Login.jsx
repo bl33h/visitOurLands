@@ -72,7 +72,7 @@ function Login() {
   return (
     <div className="root" >
       <div className="container">
-        <img className="welcome-jagui" src="./src/assets/welcome.png"/>
+        <img className="welcome-jagui" src="../src/assets/welcome.png"/>
         
         <h1>Username:</h1>
         <input id="input-username"  className="input-login" onClick={fetchPosts} ></input>

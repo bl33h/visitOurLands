@@ -89,7 +89,7 @@ function Map(){
 					
 				</svg>
 				{showBox && <div className='my-box'>Petén: <br /><br /> En este gran departamento se encuentra el famoso "Tikal" <br /> <img className='imag' src='https://www.prensalibre.com/wp-content/uploads/2018/12/a2cfdddc-2f55-468d-906d-16ebd3b968f0.jpg?quality=52&w=760&h=430&crop=1'/></div>}
-				<img className="jagui-mapa" src="./src/assets/jagui.png"/>
+				<img className="jagui-mapa" src="../src/assets/jagui.png"/>
 			</div>
 		</div>
 	)
