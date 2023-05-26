@@ -21,7 +21,6 @@ function Login() {
 
   useEffect(() => {
     fetchPosts()
-    //history.push('//')
   }, [])
 
   const handleKeyDown = (event) => {
@@ -33,7 +32,7 @@ function Login() {
   const evaluate_login = () => {
     if (succesfull_login) {    
       setTimeout(() => {
-        history.push('/Map') 
+        history.push('/MainPage') 
       }, 1500)
     } 
   }
