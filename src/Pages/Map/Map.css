@@ -35,19 +35,19 @@
 }
 .my-box {
   position: absolute; 
-  top: 65%; 
+  top: 50%; 
   left: 10%;
   transform: translate(-120%, -100%); 
   width: 70%; 
-  height: 60%;
+  height: 40%;
   background-color: #F4D6B4; 
   border: 2px solid #FFAA4F; 
   padding: 10px; 
   font-size: 100%;
 }
 .imag{
-  width: 50%;
-  height: 50%;
+  width: 60%;
+  height: 60%;
 }
 
 .jagui-mapa{
