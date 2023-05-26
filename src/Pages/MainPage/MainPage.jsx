@@ -5,6 +5,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material'
 import  Sidebar  from '/src/Components/Navbar/Navbar'
 import Map from '/src/Pages/Map/Map'
 import Profile from '/src/Pages/Profile/Profile'
+import "./MainPage.css"
 
 function MainPage() {
   const [user, setUser] = useState({})
