@@ -1,9 +1,8 @@
-
 .mapadiv{
 	width: 35%;
 	position: fixed;
   top: 50%;
-  left: 50%;
+  left: 65%;
   transform: translate(-50%, -50%);
   align-items: center;
   margin-top: 50px;
@@ -15,10 +14,6 @@
 }
 .mapadiv path:hover {
   fill: #FFAA4F;
-  /* Zoom al departamento
-  transform: scale(1.2); 
-  */
-
 }
 .tooltip {
   position: absolute;
@@ -74,4 +69,8 @@
   background-color: #8C4303;
   text-decoration: inherit;
   font-size: medium;
+}
+
+.card{
+  color: #8C4303;
 }

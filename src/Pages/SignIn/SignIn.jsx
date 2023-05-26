@@ -40,7 +40,7 @@ function SignIn() {
         
       createUser()
       setTimeout(() => {
-        history.push('/Profile')
+        history.push('/Login')
       }, 2000)
     }
     
