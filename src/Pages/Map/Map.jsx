@@ -163,7 +163,7 @@ function Map(){
 		}, 3000); // box will disappear after 5 seconds
 	  };
 	  const handleSeeMore = () => {
-		if (!showBox) {
+		if (!petenshowBox || !gushowBox || !avshowBox || !bvshowBox || !epshowBox || !srshowBox || !cmshowBox || !zpshowBox || !smshowBox || !ttshowBox || !shshowBox || !scshowBox || !qcshowBox || !hhshowBox || !izshowBox || !sashowBox || !eashowBox || !rhshowBox || !jpshowBox || !jashowBox || !qashowBox || !chshowBox) {
 		  setTimeout(() => {
 			history.push('/Login');
 		  }, 1500);
