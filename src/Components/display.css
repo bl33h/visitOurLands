@@ -1,8 +1,9 @@
 .root {
     display: grid;
-    place-items: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+	place-items: center;
+	height: 100%;
+	width: 100%;
+	background-size: cover;
 }
 
 .container {
