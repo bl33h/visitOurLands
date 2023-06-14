@@ -3,7 +3,7 @@ Currently under construction, "Visit Our Lands" is a recommendation system built
 
 It caters to two types of users: tourists and owners of tourist destinations. Tourists receive tailored recommendations based on their preferences and location, while owners have the option to acquire packages that prioritize recommendations for their specific destination.
 
-With a user-friendly interface and comprehensive information about each location, "Visit Our Lands" aims to facilitate seamless interaction between tourists and destination owners. Stay tuned for updates as we continue to enhance the "Visit Our Lands" experience. Feel free to explore this repository and join us on this exciting journey!
+With a user-friendly interface and comprehensive information about each location, "Visit Our Lands" aims to facilitate seamless interaction between tourists and destination owners. Stay tuned for updates as we continue to enhance the website's experience. Feel free to explore this repository and join us on this exciting journey!
 
 <p align="center">
   <br>
