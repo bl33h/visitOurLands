@@ -1,5 +1,5 @@
 # visitOurLands
-Currently under construction, "Visit Our Lands" is a recommendation system built with React and Supabase. This system focuses on providing personalized tourist recommendations for various locations in Guatemala.
+Currently under construction, "Visit Our Lands" is a recommendation system built with React and Supabase. This system focuses on providing tourist recommendations for various locations in Guatemala.
 
 It caters to two types of users: tourists and owners of tourist destinations. Tourists receive tailored recommendations based on their preferences and location, while owners have the option to acquire packages that prioritize recommendations for their specific destination.
 
