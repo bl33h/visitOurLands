@@ -7,7 +7,7 @@ With a user-friendly interface and comprehensive information about each location
 
 <p align="center">
   <br>
-  <img src="https://reactjsexample.com/content/images/2023/06/Code-2023-05-36-15.jpg" alt="wb" width="400">
+  <img src="" alt="pic" width="400">
   <br>
 </p>
 <p align="center" >
