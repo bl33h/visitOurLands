@@ -8,6 +8,7 @@ import welcomeJagui from '../../assets/welcome.png'
 
 function Login() {
   const [mostrarContrasena, setMostrarContrasena] = useState(false);
+  const [error, setError] = useState('');
   const [users, setUsers] = useState([])
   const [user, setUser] = useState({ username: '', password: '', logged_in: false, role:'' })
   let { username, password, role } = ''
@@ -30,9 +31,9 @@ function Login() {
   }
 
   const evaluate_login = () => {
-    if (succesfull_login) {    
+    if (succesfull_login) {
       setTimeout(() => {
-        history.push('/MainPage') 
+        history.push('/MainPage')
       }, 1500)
     } 
   }
@@ -49,7 +50,7 @@ function Login() {
   const check_login = () => {
     succesfull_login = false
     username = document.getElementById('input-username').value
-    password = document.getElementById('input-password').value 
+    password = document.getElementById('input-password').value
     if(!((username==='')&&(password===''))){
       let while_counter = 0
       while ((while_counter < users.length) && (succesfull_login == false)) {
@@ -61,6 +62,17 @@ function Login() {
           while_counter++
         }
       }
+    }
+    if (username && password) {
+      const matchedUser = users.find((user) => user.username === username && user.password === password);
+      if (matchedUser) {
+        setError('');
+        history.push('/MainPage');
+      } else {
+        setError('Usuario o contraseña incorrectos');
+      }
+    } else {
+      setError('Ingrese el nombre de usuario y la contraseña');
     }
     evaluate_login()
   }
@@ -83,7 +95,7 @@ function Login() {
           <p>Mostrar contraseña</p>
           <input type="checkbox" id="mostrar-contrasena" onChange={handleCheckboxChange} />
         </div>
-        
+        {error && <p style={{ color: 'red' }}>{error}</p>}
         <button className="login-button" onClick={check_login}>INICIAR SESION</button>
         <br></br><h2>¿Aún no tienes una cuenta?</h2>
         <button className="signin-button" onClick={sign_in}>REGISTRATE</button>
