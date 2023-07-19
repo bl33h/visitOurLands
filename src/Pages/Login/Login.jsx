@@ -57,26 +57,21 @@ function Login() {
       while ((while_counter < users.length) && (succesfull_login == false)) {
         if ((username == users[while_counter].username) && (password == users[while_counter].password)) {
           succesfull_login = true
+          setError('');
           role = users[while_counter].role
           setUser({ username: username, password: password, logged_in: true, role: role })
         } else {
           while_counter++
+          setError('Usuario o contraseña incorrectos');
         }
       }
     }
-    if (username && password) {
-      const matchedUser = users.find((user) => user.username === username && user.password === password);
-      if (matchedUser) {
-        setError('');
-      } else {
-        setError('Usuario o contraseña incorrectos');
-      }
-    } else {
+    else{
       setError('Ingrese el nombre de usuario y la contraseña');
+
     }
     evaluate_login()
   }
-
 
   function handleCheckboxChange() {
     setMostrarContrasena(!mostrarContrasena);

@@ -1,12 +1,13 @@
-import { useState, useEffect } from 'react';
-import { useHistory, Route, Switch } from 'react-router-dom';
-import { ColorModeContext, useMode } from '/src/Components/theme';
-import { CssBaseline, ThemeProvider } from '@mui/material';
-import Sidebar from '/src/Components/Navbar/Navbar';
-import Map from '/src/Pages/Map/Map';
-import Profile from '/src/Pages/Profile/Profile';
+
+import { useState, useEffect } from 'react'
+import { useHistory, Route, Switch } from 'react-router-dom'
+import { ColorModeContext, useMode } from '/src/Components/theme'
+import { CssBaseline, ThemeProvider } from '@mui/material'
+import  Sidebar  from '/src/Components/Navbar/Navbar'
+import Map from '/src/Pages/Map/Map'
+import Profile from '/src/Pages/Profile/Profile'
 import CreatePlace from '/src/Pages/CreatePlace/CreatePlace';
-import "./MainPage.css";
+import "./MainPage.css"
 
 function MainPage() {
   const [user, setUser] = useState({});
@@ -55,17 +56,14 @@ function MainPage() {
                   <Profile />
                 </Route>
 
-                <Route path="/MainPage/CreatePlace">
+              <Route path="/MainPage/CreatePlace">
                   <CreatePlace />
                 </Route>
-                {/* Agrega más rutas aquí según tus necesidades */}
 
-              </Switch>
-            </main>
-          </div>
-        ) : (
-          <div id="logged-out-status" style={{ color: 'red' }} > Signing out...</div>
-        )}
+            </Switch>
+          </main>
+        </div>
+        : <div id="logged-out-status" style={{color: 'red'}} > Signing out...</div>}
       </div>
     );
   }

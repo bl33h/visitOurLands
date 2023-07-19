@@ -52,7 +52,7 @@ function CreatePlace() {
         <label htmlFor="description" className="label">Descripción corta:</label>
         <textarea
           id="description"
-          className="description"
+          className="description-place"
           value={placeData.description}
           onChange={handleInputChange}
           required
