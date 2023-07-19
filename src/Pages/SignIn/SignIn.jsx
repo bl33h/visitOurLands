@@ -44,7 +44,7 @@ function SignIn() {
       setError('Su usuario ha sido creado con éxito!')
       createUser()
       setTimeout(() => {
-        history.push('/Login')
+        history.push('/')
       }, 2000)
     } else {
       setError('El usuario ya existe.')

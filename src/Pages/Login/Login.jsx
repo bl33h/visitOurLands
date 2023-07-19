@@ -34,6 +34,7 @@ function Login() {
     if (succesfull_login) {
       setTimeout(() => {
         history.push('/MainPage')
+        console.log('redireccionando a MainPage')
       }, 1500)
     } 
   }
@@ -67,7 +68,6 @@ function Login() {
       const matchedUser = users.find((user) => user.username === username && user.password === password);
       if (matchedUser) {
         setError('');
-        history.push('/MainPage');
       } else {
         setError('Usuario o contraseña incorrectos');
       }

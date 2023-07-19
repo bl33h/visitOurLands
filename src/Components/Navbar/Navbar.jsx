@@ -7,6 +7,7 @@ import '/node_modules/react-pro-sidebar/dist/css/styles.css'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 import AirlineStopsIcon from '@mui/icons-material/AirlineStops';
+import CreatePlaceIcon from '@mui/icons-material/AddHome';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined'
 import LogoutIcon from '@mui/icons-material/Logout';
 
@@ -185,6 +186,14 @@ const Sidebar = () => {
               title="Top recomendaciones"
               to="/"
               icon={<AirlineStopsIcon />}
+              selected={selected.page_selected}
+              setSelected={setSelected}
+            />
+
+            <Item
+              title="Crear un Lugar"
+              to="/MainPage/CreatePlace"
+              icon={<CreatePlaceIcon />}
               selected={selected.page_selected}
               setSelected={setSelected}
             />
