@@ -6,7 +6,6 @@ import Map from './Map'
 import MainPage from './MainPage'
 import CreatePlace from './CreatePlace'
 import { Switch, Route, Redirect} from 'react-router-dom'
-const Page = () => {
 
     return (
         <Switch>
@@ -33,6 +32,7 @@ const Page = () => {
             <Route path="/MainPage">
                 <MainPage />
             </Route>
+
             <Redirect from="/" to="/Login" />
         </Switch>
     )

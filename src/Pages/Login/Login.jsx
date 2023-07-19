@@ -34,6 +34,7 @@ function Login() {
     if (succesfull_login) {
       setTimeout(() => {
         history.push('/MainPage')
+        console.log('redireccionando a MainPage')
       }, 1500)
     } 
   }
