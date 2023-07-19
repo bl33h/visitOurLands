@@ -4,7 +4,7 @@ import SignIn from './SignIn'
 import Profile from './Profile'
 import Map from './Map'
 import MainPage from './MainPage'
-import { Switch, Route, BrowserRouter } from 'react-router-dom'
+import { Switch, Route, Redirect} from 'react-router-dom'
 const Page = () => {
 
     return (
@@ -28,6 +28,7 @@ const Page = () => {
             <Route path="/MainPage">
                 <MainPage />
             </Route>
+            <Redirect from="/" to="/Login" />
         </Switch>
     )
 }
