@@ -63,20 +63,8 @@ function Login() {
         }
       }
     }
-    if (username && password) {
-      const matchedUser = users.find((user) => user.username === username && user.password === password);
-      if (matchedUser) {
-        setError('');
-        history.push('/MainPage');
-      } else {
-        setError('Usuario o contraseña incorrectos');
-      }
-    } else {
-      setError('Ingrese el nombre de usuario y la contraseña');
-    }
     evaluate_login()
   }
-
 
   function handleCheckboxChange() {
     setMostrarContrasena(!mostrarContrasena);

@@ -17,7 +17,7 @@ const Page = () => {
                 <Profile />
             </Route>
 
-            <Route path="/">
+            <Route path="/Login">
                 <Login />
             </Route>
 
