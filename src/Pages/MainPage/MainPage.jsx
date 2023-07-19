@@ -5,6 +5,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material'
 import  Sidebar  from '/src/Components/Navbar/Navbar'
 import Map from '/src/Pages/Map/Map'
 import Profile from '/src/Pages/Profile/Profile'
+import CreatePlace from '/src/Pages/CreatePlace/CreatePlace';
 import "./MainPage.css"
 
 function MainPage() {
@@ -53,6 +54,10 @@ function MainPage() {
               <Route path="/MainPage/Profile">
                 <Profile/>
               </Route>
+
+              <Route path="/MainPage/CreatePlace">
+                  <CreatePlace />
+                </Route>
 
             </Switch>
           </main>
