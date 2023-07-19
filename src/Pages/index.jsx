@@ -6,7 +6,8 @@ import Map from './Map'
 import MainPage from './MainPage'
 import CreatePlace from './CreatePlace'
 import { Switch, Route, Redirect} from 'react-router-dom'
-
+const Page = () => {
+    
     return (
         <Switch>
             <Route path="/SignIn">

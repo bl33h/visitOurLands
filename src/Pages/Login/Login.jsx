@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../../client'
 import { useHistory } from 'react-router-dom'
 import welcomeJagui from '../../assets/welcome.png'
-
 function Login() {
   const [mostrarContrasena, setMostrarContrasena] = useState(false);
   const [error, setError] = useState('');
@@ -14,40 +13,32 @@ function Login() {
   let { username, password, role } = ''
   let succesfull_login = false
   const history = useHistory()
-
   useEffect(() => {
     console.log('writing', user)
     window.localStorage.setItem('LOGIN_STATUS', JSON.stringify(user))
   }, [user])
-
   useEffect(() => {
     fetchPosts()
   }, [])
-
   const handleKeyDown = (event) => {
     if (event.key === 'Enter'){
       check_login()
     }
   }
-
   const evaluate_login = () => {
     if (succesfull_login) {
       setTimeout(() => {
         history.push('/MainPage')
-        console.log('redireccionando a MainPage')
       }, 1500)
     } 
   }
-
   const sign_in = () => {
     history.push('/SignIn')
   }
-
   async function fetchPosts() {
     const { data } = await supabase.from('users').select()
     setUsers(data)
   }
-
   const check_login = () => {
     succesfull_login = false
     username = document.getElementById('input-username').value
@@ -85,7 +76,6 @@ function Login() {
           
         <h1>Password:</h1>
         <input type={mostrarContrasena ? 'text' : 'password'}  id="input-password" className="input-login" onClick={fetchPosts} onKeyDown={handleKeyDown}></input>
-
         <div style={{ display: 'inline-flex', alignItems: 'center' }}>
           <p>Mostrar contraseña</p>
           <input type="checkbox" id="mostrar-contrasena" onChange={handleCheckboxChange} />
@@ -98,5 +88,4 @@ function Login() {
       </div>
   )
 }
-
 export default Login
