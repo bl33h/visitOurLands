@@ -10,6 +10,7 @@ import AirlineStopsIcon from '@mui/icons-material/AirlineStops';
 import CreatePlaceIcon from '@mui/icons-material/AddHome';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined'
 import LogoutIcon from '@mui/icons-material/Logout';
+import touristIcon from '../../assets/icon.png'
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme()
@@ -145,9 +146,7 @@ const Sidebar = () => {
                   alt="profile-user"
                   width="70px"
                   height="70px"
-                  src={
-                    "/src/assets/icon.png"
-                  }
+                  src={touristIcon}
                   style={{ cursor: 'pointer', borderRadius: '50%' }}
                 />
               </Box>
