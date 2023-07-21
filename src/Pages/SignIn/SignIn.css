@@ -10,7 +10,6 @@
 }
 
 .input-checkbox {
-    margin: 15px 10px 0px 0px;
     padding: 0px 0px 0px 0px;
     border-radius: 5px;
     color: #04738C;
@@ -22,7 +21,7 @@
     color: #04738C;
 }
 
-.sign-in-button {
+.sign-in-button, .log-in-button {
     font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
     color: white;
     font-size: 20px;

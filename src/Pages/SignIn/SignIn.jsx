@@ -10,9 +10,16 @@ function SignIn() {
   const [mostrarContrasena2, setMostrarContrasena2] = useState(false);
   const [users, setUsers] = useState([])
   const [user, setUser] = useState({ username: '', password_entry: '', role: '', email: '' })
-  let { username, password, role, email, SignInState } = ''
+  const [error, setError] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordMatch, setPasswordMatch] = useState(true);
+  let { username, password, role, email } = ''
   let UserUnsigned = true
   const [isChecked, setIsChecked] = useState(false)
+  const [passwordRequirements, setPasswordRequirements] = useState({
+    length: false,
+    specialChar: false
+  });
   const history = useHistory()
 
   useEffect(() => {
@@ -36,14 +43,14 @@ function SignIn() {
 
   const evaluate_signin = () => {
     if (UserUnsigned) {
-      SignInState = 'Sign in Succesfully!'
-        
+      setError('Su usuario ha sido creado con éxito!')
       createUser()
       setTimeout(() => {
-        history.push('/Login')
+        history.push('/')
       }, 2000)
+    } else {
+      setError('El usuario ya existe.')
     }
-    
   }
 
   async function fetchPosts() {
@@ -57,6 +64,21 @@ function SignIn() {
     fetchPosts()
   }
 
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
+  }
+
+  const validatePassword = (password) => {
+    const lengthRequirement = password.length >= 5
+    const specialCharRequirement = /[!@#$%^&*(),.?":{}|<>]/.test(password)
+    setPasswordRequirements({
+      length: lengthRequirement,
+      specialChar: specialCharRequirement
+    })
+    return lengthRequirement && specialCharRequirement
+  }
+
   const check_signIn = () => {
     UserUnsigned = true
     if (!(document.getElementById('input-username') == null)) {
@@ -67,6 +89,22 @@ function SignIn() {
         role = 'Dueño'
       } else {
         role = 'Turista'
+      }
+      const confirmPasswordInput = document.getElementById('input-confirm-password');
+
+      if (password !== confirmPassword) {
+        setPasswordMatch(false);
+        confirmPasswordInput.focus();
+        return;
+      }
+      if (!validateEmail(email)) {
+        setError('Ingrese un correo electrónico válido.')
+        return
+      }
+
+      if (!validatePassword(password)) {
+        setError('La contraseña debe tener al menos 5 caracteres y contener caracteres especiales.')
+        return
       }
 
       let while_counter = 0
@@ -89,15 +127,27 @@ function SignIn() {
         <h3>¡Únete a Visita Nuestras Tierras!</h3>
       </div>
       <div className="container">
+        {error && <p>{error}</p>}
+        <br></br>
+        {!passwordMatch && <p style={{ color: 'red' }}>Las contraseñas no coinciden.</p>}
+
         <h1>Correo electrónico:</h1>
-        <input id="input-correo"  className="input-login" onClick={fetchPosts}></input>
+        <input id="input-correo" type="email" className="input-login" onClick={fetchPosts}></input>
         <h1>Usuario:</h1>
         <input id="input-username"  className="input-login" onClick={fetchPosts}></input>
         <h1>Contraseña:</h1>
-        <input type={mostrarContrasena1 ? 'text' : 'password'} id="input-password" className="input-login" onClick={fetchPosts}></input>
+        <input type={mostrarContrasena1 ? 'text' : 'password'} id="input-password" className="input-login" onClick={fetchPosts} onChange={(e) => validatePassword(e.target.value)} ></input>
+        {passwordRequirements.length && passwordRequirements.specialChar && (
+          <p style={{ color: 'green' }}>La contraseña cumple con los requisitos.</p>
+        )}
+        {!passwordRequirements.length && (
+          <p style={{ color: 'black', fontWeight: 'bold' }}>La contraseña debe tener al menos 5 caracteres.</p>
+        )}
+        {!passwordRequirements.specialChar && (
+          <p style={{ color: 'black', fontWeight: 'bold' }}>La contraseña debe contener caracteres especiales.</p>
+        )}
         <h1>Confirmar contraseña:</h1>
-        <input type={mostrarContrasena2 ? 'text' : 'password'} id="input-confirm-password"  className="input-login" onClick={fetchPosts}></input>
-
+        <input type={mostrarContrasena2 ? 'text' : 'password'} id="input-confirm-password"  className="input-login" onClick={fetchPosts}  onChange={(e) => {setConfirmPassword(e.target.value); setPasswordMatch(true);}}></input>
         <div style={{ display: 'inline-flex', alignItems: 'center' }}>
           <p>Mostrar contraseñas</p>
           <input type="checkbox" id="mostrar-contrasena" onChange={handleCheckboxChange1} className="input-checkbox"/>
@@ -110,6 +160,7 @@ function SignIn() {
 
         <br></br>
         <button className="sign-in-button" onClick={check_signIn}>REGISTRARME</button>
+        <button className="log-in-button" onClick={() => history.push('/Login')}>INICIAR SESIÓN</button>
       </div>
     </div>
   )

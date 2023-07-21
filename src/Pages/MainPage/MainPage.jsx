@@ -5,6 +5,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material'
 import  Sidebar  from '/src/Components/Navbar/Navbar'
 import Map from '/src/Pages/Map/Map'
 import Profile from '/src/Pages/Profile/Profile'
+import CreatePlace from '/src/Pages/CreatePlace/CreatePlace';
 import "./MainPage.css"
 
 function MainPage() {
@@ -13,20 +14,15 @@ function MainPage() {
   const [user_Authorized, setUserAuthorized] = useState(false)
   const [theme, colorMode] = useMode()
   const [isSidebar] = useState(true);
-
-
   const history = useHistory()
-
   useEffect(() => {
     const browser_data = window.localStorage.getItem('LOGIN_STATUS')
     if (browser_data !== null) setUser(JSON.parse(browser_data))
   }, [])
-
   useEffect(() => {
     set_Logged_In_Status(user.logged_in)
     setUserAuthorized((user.logged_in))
   }, [user])
-
   const verify_Loggin_status = () => {
     if(!(user.user_id===undefined)){
       if((!logged_In)&&(logged_In!=undefined)){
@@ -37,7 +33,6 @@ function MainPage() {
       }
     }
   }
-
   function UserMainPage() {
     return(
       <div>
@@ -49,10 +44,13 @@ function MainPage() {
               <Route path="/MainPage/Map">
                 <Map/>
               </Route>
-
               <Route path="/MainPage/Profile">
                 <Profile/>
               </Route>
+
+              <Route path="/MainPage/CreatePlace">
+                  <CreatePlace />
+                </Route>
 
             </Switch>
           </main>
@@ -61,7 +59,6 @@ function MainPage() {
       </div>
     )
   }
-
   function UserUnauthorized() {
     verify_Loggin_status()
     return (
@@ -71,7 +68,6 @@ function MainPage() {
       </>
     )
   }
-
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
@@ -83,5 +79,4 @@ function MainPage() {
     </ColorModeContext.Provider>
   )
 }
-
 export default MainPage

@@ -1,0 +1,68 @@
+.container-CreatePlace {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-radius: 5px;
+    width: 400px;
+    margin: 0 auto;
+  }
+  
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .label {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  .select-department{
+    font-size: 15px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #FFAA4F;
+    border-radius: 5px;
+    appearance: none;
+  }
+  
+  .name,
+  .description-place,
+  .department,
+  .imageUrl,
+  .rating {
+    padding: 10px;
+    border: 2px solid #FFAA4F;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 16px;
+  }
+  
+  .rating {
+    width: 50px;
+    align-self: center;
+  }
+  
+  .submit {
+    padding: 10px 20px;
+    background-color: #FFAA4F;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .submit:hover {
+    background-color: #E59438;
+  }
+  

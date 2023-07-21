@@ -4,9 +4,10 @@ import SignIn from './SignIn'
 import Profile from './Profile'
 import Map from './Map'
 import MainPage from './MainPage'
-import { Switch, Route, BrowserRouter } from 'react-router-dom'
+import CreatePlace from './CreatePlace'
+import { Switch, Route, Redirect} from 'react-router-dom'
 const Page = () => {
-
+    
     return (
         <Switch>
             <Route path="/SignIn">
@@ -25,9 +26,15 @@ const Page = () => {
                 <Map/>
             </Route>
 
+            <Route path="/CreatePlace">
+                <CreatePlace />
+            </Route>
+
             <Route path="/MainPage">
                 <MainPage />
             </Route>
+
+            <Redirect from="/" to="/Login" />
         </Switch>
     )
 }
