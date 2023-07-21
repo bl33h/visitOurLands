@@ -144,8 +144,8 @@ function Map(){
         
         {selectedDepartment && (
             <div className='my-box'>
-                {selectedDepartment.name}:<br /><br />
-                {selectedDepartment.description}<br /><br />
+                <h6>{selectedDepartment.name}</h6>
+                <p>{selectedDepartment.description}</p>
                 <img className='imag' src={selectedDepartment.image} alt={selectedDepartment.name} />
             </div>
   )}

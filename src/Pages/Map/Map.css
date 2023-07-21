@@ -35,14 +35,18 @@
   transform: translate(-120%, -100%); 
   width: 70%; 
   height: 60%;
-  background-color: #F4D6B4; 
-  border: 2px solid #FFAA4F; 
-  padding: 10px; 
+  background-color: #f1f1f1; 
+  padding: 5%; 
   font-size: 100%;
+  box-shadow: 0 2.5% 5% rgba(0, 0, 0, 0.1);
+  border-radius: 5%;
 }
+
 .imag{
-  width: 50%;
-  height: 50%;
+  width: 60%;
+  height: 45%;
+  border-radius: 5%;
+  margin-top: 2%;
 }
 
 .jagui-mapa{
@@ -70,6 +74,10 @@
   font-size: medium;
 }
 
-.card{
+h6{
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
   color: #8C4303;
+  text-align: left;
+  font-size: 20px;
+  display: block;
 }
