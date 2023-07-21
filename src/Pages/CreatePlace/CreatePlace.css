@@ -25,6 +25,15 @@
     font-size: 18px;
     margin-bottom: 10px;
   }
+
+  .select-department{
+    font-size: 15px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #FFAA4F;
+    border-radius: 5px;
+    appearance: none;
+  }
   
   .name,
   .description-place,

@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '../../client';
 import './CreatePlace.css'
 
 function CreatePlace() {
+  const [listDepartments, setDepartments] = useState([])
   const [placeData, setPlaceData] = useState({
     name: '',
     description: '',
@@ -10,6 +11,19 @@ function CreatePlace() {
     department: '',
     imageUrl: ''
   });
+
+  useEffect(() => {
+    fetchPosts()
+}, [])
+
+  async function fetchPosts() {
+    await fetchPost()
+  }
+
+  async function fetchPost() {
+    const { data } = await supabase.from('departments').select()
+    setDepartments(data)
+  }
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -43,6 +57,7 @@ function CreatePlace() {
         <input
           type="text"
           id="name"
+          name="name" 
           className="name"
           value={placeData.name}
           onChange={handleInputChange}
@@ -52,6 +67,7 @@ function CreatePlace() {
         <label htmlFor="description" className="label">Descripción corta:</label>
         <textarea
           id="description"
+          name="description" 
           className="description-place"
           value={placeData.description}
           onChange={handleInputChange}
@@ -62,28 +78,34 @@ function CreatePlace() {
         <input
           type="number"
           id="rating"
+          name="rating" 
           className="rating"
           min="1"
           max="5"
           value={placeData.rating}
-          onChange={handleRatingChange}
-          required
-        />
-
-        <label htmlFor="department" className="label">Departamento:</label>
-        <input
-          type="text"
-          id="department"
-          className="department"
-          value={placeData.department}
           onChange={handleInputChange}
           required
         />
+
+        <label htmlFor="departments" className="label">Departamento:</label>
+          <select id="departments" className="select-department" >
+            <>
+            <option className="label" value="department-option" >Seleccione una opción </option>
+            {listDepartments&&(
+            <>
+            {listDepartments.map(e=> (
+            <>
+            <option value ={e.name}>{e.name}</option>
+            </>))}
+            </>)}
+            </>
+          </select>
 
         <label htmlFor="imageUrl" className="label">Link de la imagen:</label>
         <input
           type="text"
           id="imageUrl"
+          name="imageUrl" 
           className="imageUrl"
           value={placeData.imageUrl}
           onChange={handleInputChange}

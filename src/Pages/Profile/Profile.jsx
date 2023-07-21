@@ -2,6 +2,7 @@ import { useState, useEffect} from 'react'
 import './Profile.css'
 import '/src/Components/texts.css'
 import '/src/Components/display.css'
+import profileImage from '../../assets/profile.png'
 
 function Profile(){
     const [user, setUser] = useState({})
@@ -15,7 +16,7 @@ function Profile(){
         <div className="root">
             <div className="container">
                 <div className="info">
-                    <img id="profile-picture" src="/src/assets/profile.png" />
+                    <img id="profile-picture" src={profileImage} />
                     <div className="column">
                         <h1 className="username">{user.username}</h1>
                         <p className="description">{user.role}</p>
