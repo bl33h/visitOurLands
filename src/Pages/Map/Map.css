@@ -34,22 +34,25 @@
   left: 10%;
   transform: translate(-120%, -100%); 
   width: 70%; 
-  height: 60%;
-  background-color: #F4D6B4; 
-  border: 2px solid #FFAA4F; 
-  padding: 10px; 
+  height: 68%;
+  background-color: #f1f1f1; 
+  padding: 5%; 
   font-size: 100%;
+  box-shadow: 0 2.5% 5% rgba(0, 0, 0, 0.1);
+  border-radius: 5%;
 }
+
 .imag{
-  width: 50%;
-  height: 50%;
+  width: 250px;
+  height: 150px;
+  border-radius: 5%;
+  margin-top: 2%;
 }
 
 .jagui-mapa{
   position: absolute;
   width: 250px;
   top: 60%;
-  margin-left: 180px;
 }
 
 .see-more-button {
@@ -71,6 +74,18 @@
   font-size: medium;
 }
 
-.card{
+h6{
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+  color: #8C4303;
+  text-align: left;
+  font-size: 20px;
+  display: block;
+  margin-top: 0;
+}
+
+.my-box p {
+  margin-top: -10%;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+  font-size:medium;
   color: #8C4303;
 }

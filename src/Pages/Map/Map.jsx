@@ -67,7 +67,7 @@ function Map(){
   return (
     <div>
     <div className="root">
-      <h4>¡Bienvenido a Visita Nuestras Tierras!</h4>
+      <h5>¡Bienvenido a Visita Nuestras Tierras!</h5>
         <div className="mapadiv">
         <svg version="1.2" viewBox="0 0 1000 1056" xmlns="http://www.w3.org/2000/svg">
           <a xlinkTitle="Baja Verapaz" className="card">
@@ -144,8 +144,8 @@ function Map(){
         
         {selectedDepartment && (
             <div className='my-box'>
-                {selectedDepartment.name}:<br /><br />
-                {selectedDepartment.description}<br /><br />
+                <h6>{selectedDepartment.name}</h6>
+                <p>{selectedDepartment.description}</p>
                 <img className='imag' src={selectedDepartment.image} alt={selectedDepartment.name} />
             </div>
   )}
