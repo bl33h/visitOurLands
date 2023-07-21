@@ -21,147 +21,25 @@ function Map(){
       console.error('Error al obtener los datos de departamentos:', error.message);
       }
     };
-  })
 
-  const petenhandleClick = () => {
-    petensetShowBox(true);
-    setTimeout(() => {
-      petensetShowBox(false);
-    }, 3000); // box will disappear after 5 seconds
+    // Función para obtener los datos de la tabla 'places'
+    const fetchPlacesData = async () => {
+      try {
+      const { data, error } = await supabase.from('places').select('*');
+      if (error) throw error;
+      setPlacesData(data);
+      } catch (error) {
+      console.error('Error al obtener los datos de lugares:', error.message);
+      }
     };
-    const guhandleClick = () => {
-    gusetShowBox(true);
-    setTimeout(() => {
-      gusetShowBox(false);
-    }, 3000); // box will disappear after 5 seconds
-    };
-    const avhandleClick = () => {
-    avsetShowBox(true);
-    setTimeout(() => {
-      avsetShowBox(false);
-    }, 3000); // box will disappear after 5 seconds
-    };
-    const bvhandleClick = () => {
-    bvsetShowBox(true);
-    setTimeout(() => {
-      bvsetShowBox(false);
-    }, 3000); // box will disappear after 5 seconds
-    };
-    const ephandleClick = () => {
-    epsetShowBox(true);
-    setTimeout(() => {
-      epsetShowBox(false);
-    }, 3000); // box will disappear after 5 seconds
-    };
-    const srhandleClick = () => {
-    srsetShowBox(true);
-    setTimeout(() => {
-      srsetShowBox(false);
-    }, 3000); // box will disappear after 5 seconds
-    };
-    const cmhandleClick = () => {
-    cmsetShowBox(true);
-    setTimeout(() => {
-      cmsetShowBox(false);
-    }, 3000); // box will disappear after 5 seconds
-    };
-    const zphandleClick = () => {
-    zpsetShowBox(true);
-    setTimeout(() => {
-      zpsetShowBox(false);
-    }, 3000); // box will disappear after 5 seconds
-    };
-    const smhandleClick = () => {
-    smsetShowBox(true);
-    setTimeout(() => {
-      smsetShowBox(false);
-    }, 3000); // box will disappear after 5 seconds
-    };
-    const tthandleClick = () => {
-    ttsetShowBox(true);
-    setTimeout(() => {
-      ttsetShowBox(false);
-    }, 3000); // box will disappear after 5 seconds
-    };
-    const shhandleClick = () => {
-    shsetShowBox(true);
-    setTimeout(() => {
-      shsetShowBox(false);
-    }, 3000); // box will disappear after 5 seconds
-    };
-    const schandleClick = () => {
-    scsetShowBox(true);
-    setTimeout(() => {
-      scsetShowBox(false);
-    }, 3000); // box will disappear after 5 seconds
-    };
-    const qchandleClick = () => {
-    qcsetShowBox(true);
-    setTimeout(() => {
-      qcsetShowBox(false);
-    }, 3000); // box will disappear after 5 seconds
-    };
-    const hhhandleClick = () => {
-    hhsetShowBox(true);
-    setTimeout(() => {
-      hhsetShowBox(false);
-    }, 3000); // box will disappear after 5 seconds
-    };
-    const izhandleClick = () => {
-    izsetShowBox(true);
-    setTimeout(() => {
-      izsetShowBox(false);
-    }, 3000); // box will disappear after 5 seconds
-    };
-    const sahandleClick = () => {
-    sasetShowBox(true);
-    setTimeout(() => {
-      sasetShowBox(false);
-    }, 3000); // box will disappear after 5 seconds
-    };
-    const eahandleClick = () => {
-    easetShowBox(true);
-    setTimeout(() => {
-      easetShowBox(false);
-    }, 3000); // box will disappear after 5 seconds
-    };
-    const rhhandleClick = () => {
-    rhsetShowBox(true);
-    setTimeout(() => {
-      rhsetShowBox(false);
-    }, 3000); // box will disappear after 5 seconds
-    };
-    const jphandleClick = () => {
-    jpsetShowBox(true);
-    setTimeout(() => {
-      jpsetShowBox(false);
-    }, 3000); // box will disappear after 5 seconds
-    };
-    const jahandleClick = () => {
-    jasetShowBox(true);
-    setTimeout(() => {
-      jasetShowBox(false);
-    }, 3000); // box will disappear after 5 seconds
-    };
-    const qahandleClick = () => {
-    qasetShowBox(true);
-    setTimeout(() => {
-      qasetShowBox(false);
-    }, 3000); // box will disappear after 5 seconds
-    };
-    const chhandleClick = () => {
-    chsetShowBox(true);
-    setTimeout(() => {
-      chsetShowBox(false);
-    }, 3000); // box will disappear after 5 seconds
-    };
-    const handleSeeMore = () => {
-    if (!petenshowBox || !gushowBox || !avshowBox || !bvshowBox || !epshowBox || !srshowBox || !cmshowBox || !zpshowBox || !smshowBox || !ttshowBox || !shshowBox || !scshowBox || !qcshowBox || !hhshowBox || !izshowBox || !sashowBox || !eashowBox || !rhshowBox || !jpshowBox || !jashowBox || !qashowBox || !chshowBox) {
-      setTimeout(() => {
-      history.push('/Login');
-      }, 1500);
-    }
-    };
+
+    // Llama a ambas funciones para obtener los datos cuando el componente se monta
+    fetchDepartmentsData();
+    fetchPlacesData();
+    }, []); 
+
+    
+
     
   return (
     <div>
@@ -270,6 +148,5 @@ function Map(){
     </div>
   )
 }
-
 
 export default Map
