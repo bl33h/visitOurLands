@@ -38,9 +38,23 @@ function Map(){
     fetchPlacesData();
     }, []); 
 
-    
+    useEffect(() => {
+      // Merge department and place data
+      const mergedData = {};
+      
+      departmentsData.forEach((department) => {
+        const placeInfo = placesData.find((place) => place.id_departments === department.id_departments);
+        if (placeInfo) {
+        mergedData[department.id_departments] = { ...department, ...placeInfo };
+        } else {
+        mergedData[department.id_departments] = { ...department };
+        }
+      });
 
-    
+      setDepartmentInfo(mergedData);
+      }, [departmentsData, placesData]);
+
+      
   return (
     <div>
     <div className="root">
