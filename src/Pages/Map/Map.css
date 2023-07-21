@@ -34,7 +34,7 @@
   left: 10%;
   transform: translate(-120%, -100%); 
   width: 70%; 
-  height: 60%;
+  height: 68%;
   background-color: #f1f1f1; 
   padding: 5%; 
   font-size: 100%;
@@ -43,8 +43,8 @@
 }
 
 .imag{
-  width: 60%;
-  height: 45%;
+  width: 250px;
+  height: 150px;
   border-radius: 5%;
   margin-top: 2%;
 }
@@ -80,4 +80,12 @@ h6{
   text-align: left;
   font-size: 20px;
   display: block;
+  margin-top: 0;
+}
+
+.my-box p {
+  margin-top: -10%;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+  font-size:medium;
+  color: #8C4303;
 }
