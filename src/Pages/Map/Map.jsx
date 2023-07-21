@@ -9,28 +9,19 @@ import { supabase } from '../../client';
 function Map(){
   const history = useHistory();
 
-  const [petenshowBox,petensetShowBox] = useState(false);
-  const [gushowBox,gusetShowBox] = useState(false);
-  const [avshowBox,avsetShowBox] = useState(false);
-  const [bvshowBox,bvsetShowBox] = useState(false);
-  const [epshowBox,epsetShowBox] = useState(false);
-  const [srshowBox,srsetShowBox] = useState(false);
-  const [cmshowBox,cmsetShowBox] = useState(false);
-  const [zpshowBox,zpsetShowBox] = useState(false);
-  const [smshowBox,smsetShowBox] = useState(false);
-  const [ttshowBox,ttsetShowBox] = useState(false);
-  const [shshowBox,shsetShowBox] = useState(false);
-  const [scshowBox,scsetShowBox] = useState(false);
-  const [qcshowBox,qcsetShowBox] = useState(false);
-  const [hhshowBox,hhsetShowBox] = useState(false);
-  const [izshowBox,izsetShowBox] = useState(false);
-  const [sashowBox,sasetShowBox] = useState(false);
-  const [eashowBox,easetShowBox] = useState(false);
-  const [rhshowBox,rhsetShowBox] = useState(false);
-  const [jpshowBox,jpsetShowBox] = useState(false);
-  const [jashowBox,jasetShowBox] = useState(false);
-  const [qashowBox,qasetShowBox] = useState(false);
-  const [chshowBox,chsetShowBox] = useState(false);
+
+  useEffect(() => {
+  // Función para obtener los datos de la tabla 'departments'
+    const fetchDepartmentsData = async () => {
+      try {
+      const { data, error } = await supabase.from('departments').select('*');
+      if (error) throw error;
+      setDepartmentsData(data);
+      } catch (error) {
+      console.error('Error al obtener los datos de departamentos:', error.message);
+      }
+    };
+  })
 
   const petenhandleClick = () => {
     petensetShowBox(true);
@@ -279,5 +270,6 @@ function Map(){
     </div>
   )
 }
+
 
 export default Map
