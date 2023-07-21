@@ -54,7 +54,13 @@ function Map(){
       setDepartmentInfo(mergedData);
       }, [departmentsData, placesData]);
 
-      
+      const [selectedDepartment, setSelectedDepartment] = useState(null);
+  
+  const handleDepartmentClick = (departmentId) => {
+    const selectedDept = departmentInfo[departmentId];
+    setSelectedDepartment(selectedDept);
+    };
+    
   return (
     <div>
     <div className="root">
