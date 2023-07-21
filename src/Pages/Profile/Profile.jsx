@@ -3,6 +3,9 @@ import './Profile.css'
 import '/src/Components/texts.css'
 import '/src/Components/display.css'
 import profileImage from '../../assets/profile.png'
+import edit from '../../assets/1.png'
+import save from '../../assets/2.png'
+import like from '../../assets/3.png'
 
 function Profile(){
     const [user, setUser] = useState({})
@@ -26,7 +29,7 @@ function Profile(){
                 <div id="edit" className="buttons">
                     <button className="each-button" 
                         style={{
-                            backgroundImage: "url('/src/assets/1.png')",
+                            backgroundImage: `url(${edit})`,
                             backgroundSize: "cover",
                             backgroundPosition: "center"
                         }}
@@ -37,7 +40,7 @@ function Profile(){
 
                     <button id="save" className="each-button" 
                         style={{
-                            backgroundImage: "url('/src/assets/2.png')",
+                            backgroundImage: `url(${save})`,
                             backgroundSize: "cover",
                             backgroundPosition: "center"
                         }}
@@ -48,7 +51,7 @@ function Profile(){
 
                     <button id="like" className="each-button" 
                         style={{
-                            backgroundImage: "url('/src/assets/3.png')",
+                            backgroundImage: `url(${like})`,
                             backgroundSize: "cover",
                             backgroundPosition: "center"
                         }}
