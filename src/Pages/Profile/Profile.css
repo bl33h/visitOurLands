@@ -1,7 +1,7 @@
 .info {
     display: flex;
     align-items: center;
-    padding: 20px;
+    padding: 12px;
     border: 4px solid #FFAA4F;
     border-radius: 5px;
     width: 100%;
@@ -32,7 +32,7 @@
 
 .each-button {
   display: inline-block;
-  margin: 10px;
+  margin: 5%;
   border-color: #FFAA4F;
   border-radius: 50px;
   background-color: #FFFF;
@@ -40,6 +40,7 @@
   height: 90px;
   outline: "none";
   border-style: hidden;
+  margin-top: 10%;
 }
 
 .each-button:hover{
