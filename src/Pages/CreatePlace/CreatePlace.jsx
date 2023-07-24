@@ -51,15 +51,21 @@ function CreatePlace() {
     event.preventDefault();
     // Obtener el valor seleccionado del elemento <select> a través de la referencia
     const departmentValue = selectRef.current.value;
-    console.log(departmentValue)
+    console.log(departmentValue);
+  
+    // Obtener el nombre de usuario del estado user
+    const username = user.username;
+  
     const place = {
       id_places: placesData.length + 1,
       name: document.getElementById('name-id').value,
       description: document.getElementById('description-id').value,
       rating: document.getElementById('rating-id').value,
       department: departmentValue,
-      imageUrl: document.getElementById('imageUrl-id').value
+      imageUrl: document.getElementById('imageUrl-id').value,
+      author: username, // Agregar el nombre de usuario como 'author' en el objeto place
     };
+  
     // Realizar la inserción del lugar en la base de datos (usando supabase)
     const { data, error } = await supabase.from('places').insert([
       {
@@ -68,10 +74,11 @@ function CreatePlace() {
         description: place.description,
         rating: place.rating,
         id_departments: departmentValue,
-        image: place.imageUrl
-      }
+        image: place.imageUrl,
+        author: place.author, // Insertar el nombre de usuario en la columna 'author'
+      },
     ]);
-
+  
     if (error) {
       console.error('Error al insertar el lugar:', error);
     } else {
@@ -82,7 +89,7 @@ function CreatePlace() {
         description: '',
         rating: 0,
         department: 0,
-        imageUrl: ''
+        imageUrl: '',
       });
     }
   };
@@ -130,15 +137,13 @@ function CreatePlace() {
             <select id="departments-id" className="select-department" ref={selectRef}>
               <>
               <option className="label" value="" >Seleccione una opción </option>
-                {listDepartments&&(
-                <>
-                {listDepartments.map(e=> (
-                  <>
-                    <option value ={e.id_departments}>{e.name}</option>
-                  </>
+              {listDepartments &&
+              <>
+                {listDepartments.map(e => (
+                  <option key={e.id_departments} value={e.id_departments}>{e.name}</option>
                 ))}
-                </>
-                )}
+              </>
+            }
               </>
             </select>
 
