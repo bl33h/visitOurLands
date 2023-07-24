@@ -41,6 +41,7 @@
   outline: "none";
   border-style: hidden;
   margin-top: 10%;
+  margin-bottom: -7%;
 }
 
 .each-button:hover{
@@ -51,7 +52,8 @@
     border-radius: 5px;
     padding: 10px;
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 5%;
+    margin-top: 7%;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
   
