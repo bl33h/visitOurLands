@@ -7,6 +7,8 @@ function CreatePlace() {
   const [listDepartments, setDepartments] = useState([])
   const [placesData, setPlacesData] = useState([])
   const [user, setUser] = useState({})
+  const [selectedStars, setSelectedStars] = useState(0);
+  const [hoveredStars, setHoveredStars] = useState(0);
   const [placeData, setPlaceData] = useState({
     id_places: 0,
     name: '',
@@ -42,9 +44,18 @@ function CreatePlace() {
     setPlaceData({ ...placeData, [name]: value });
   };
 
-  const handleRatingChange = (event) => {
-    const rating = parseInt(event.target.value);
-    setPlaceData({ ...placeData, rating });
+  const handleRatingClick = (event) => {
+    const value = parseInt(event.target.getAttribute("data-value"), 10);
+    setSelectedStars(value);
+  };
+
+  const handleRatingHover = (event) => {
+    const value = parseInt(event.target.getAttribute("data-value"), 10);
+    setHoveredStars(value);
+  };
+
+  const handleRatingLeave = () => {
+    setHoveredStars(0);
   };
 
   const handleFormSubmit = async (event) => {
@@ -60,7 +71,7 @@ function CreatePlace() {
       id_places: placesData.length + 1,
       name: document.getElementById('name-id').value,
       description: document.getElementById('description-id').value,
-      rating: document.getElementById('rating-id').value,
+      rating: selectedStars,
       department: departmentValue,
       imageUrl: document.getElementById('imageUrl-id').value,
       author: username, // Agregar el nombre de usuario como 'author' en el objeto place
@@ -91,6 +102,9 @@ function CreatePlace() {
         department: 0,
         imageUrl: '',
       });
+      setSelectedStars(0);
+      setHoveredStars(0);
+      selectRef.current.value = "";
     }
   };
 
@@ -121,17 +135,65 @@ function CreatePlace() {
         ></textarea>
 
         <label htmlFor="rating" className="label">Rating:</label>
-        <input
-          type="number"
-          id="rating-id"
-          name="rating"
-          className="rating"
-          min="1"
-          max="5"
-          value={placeData.rating}
-          onChange={handleInputChange}
-          required
-        />
+        <div className="cont-rating">
+          <div className="ec-stars-wrapper">
+            <a
+              href="#"
+              data-value="1"
+              title="Votar con 1 estrellas"
+              onClick={handleRatingClick}
+              onMouseEnter={handleRatingHover}
+              onMouseLeave={handleRatingLeave}
+              className={hoveredStars >= 1 || selectedStars >= 1 ? "filled" : ""}
+            >
+              &#9733;
+            </a>
+            <a
+              href="#"
+              data-value="2"
+              title="Votar con 2 estrellas"
+              onClick={handleRatingClick}
+              onMouseEnter={handleRatingHover}
+              onMouseLeave={handleRatingLeave}
+              className={hoveredStars >= 2 || selectedStars >= 2 ? "filled" : ""}
+            >
+              &#9733;
+            </a>
+            <a
+              href="#"
+              data-value="3"
+              title="Votar con 3 estrellas"
+              onClick={handleRatingClick}
+              onMouseEnter={handleRatingHover}
+              onMouseLeave={handleRatingLeave}
+              className={hoveredStars >= 3 || selectedStars >= 3 ? "filled" : ""}
+            >
+              &#9733;
+            </a>
+            <a
+              href="#"
+              data-value="4"
+              title="Votar con 4 estrellas"
+              onClick={handleRatingClick}
+              onMouseEnter={handleRatingHover}
+              onMouseLeave={handleRatingLeave}
+              className={hoveredStars >= 4 || selectedStars >= 4 ? "filled" : ""}
+            >
+              &#9733;
+            </a>
+            <a
+              href="#"
+              data-value="5"
+              title="Votar con 5 estrellas"
+              onClick={handleRatingClick}
+              onMouseEnter={handleRatingHover}
+              onMouseLeave={handleRatingLeave}
+              className={hoveredStars >= 5 || selectedStars >= 5 ? "filled" : ""}
+            >
+              &#9733;
+            </a>
+          </div>
+        </div>
 
         <label htmlFor="departments" className="label">Departamento:</label>
             <select id="departments-id" className="select-department" ref={selectRef}>
