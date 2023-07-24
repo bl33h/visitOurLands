@@ -39,18 +39,18 @@ function Profile() {
   function renderRatingStars(rating) {
     const stars = [];
     const totalStars = 5;
-
+  
     for (let i = 1; i <= totalStars; i++) {
       if (i <= rating) {
-        stars.push(<i key={i} className="fas fa-star"></i>);
+        stars.push(<i key={i} className="fas fa-star filled-star"></i>);
       } else {
-        stars.push(<i key={i} className="far fa-star"></i>);
+        stars.push(<i key={i} className="far fa-star empty-star"></i>);
       }
     }
-
-    return stars;
-  }
   
+    return stars;
+  }  
+
   return (
     <div className="root">
       <div className="container">
@@ -110,7 +110,7 @@ function Profile() {
               <div key={recommendation.id_places} className="recommendation-card">
                 <h3>{recommendation.name}</h3>
                 <p>{recommendation.description}</p>
-                <div className="rating">{renderRatingStars(recommendation.rating)}</div>
+                <div className="rating-stars">{renderRatingStars(recommendation.rating)}</div>
                 <img src={recommendation.image} alt={recommendation.name} />
               </div>
             ))}

@@ -46,7 +46,6 @@
 }
 
 .recommendation-card {
-    border: 1px solid #ccc;
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 20px;
@@ -56,7 +55,7 @@
   .recommendation-card h3 {
     font-size: 18px;
     color: #04738c;
-    margin-bottom: 5px;
+    margin-top: -3%;
   }
   
   .recommendation-card p {
@@ -69,4 +68,24 @@
     height: 300px;
     border-radius: 5px;
     object-fit: cover;
+  }
+
+  .rating-stars {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+  }
+  
+  .rating-stars i {
+    font-size: 20px;
+    margin-top: -45%;
+    margin-right: 5px;
+  }
+  
+  .rating-stars i.filled-star {
+    color: #FFAA4F; 
+  }
+  
+  .rating-stars i.empty-star {
+    color: #FFAA4F;
   }
