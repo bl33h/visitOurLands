@@ -44,3 +44,29 @@
 .each-button:hover{
     background-color: #FFAA4F;
 }
+
+.recommendation-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .recommendation-card h3 {
+    font-size: 18px;
+    color: #04738c;
+    margin-bottom: 5px;
+  }
+  
+  .recommendation-card p {
+    font-size: 14px;
+    color: #8c4303;
+  }
+  
+  .recommendation-card img {
+    width: 400px;
+    height: 300px;
+    border-radius: 5px;
+    object-fit: cover;
+  }
