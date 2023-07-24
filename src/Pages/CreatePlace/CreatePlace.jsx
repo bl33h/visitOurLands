@@ -3,6 +3,7 @@ import { supabase } from '../../client';
 import './CreatePlace.css'
 
 function CreatePlace() {
+  const MAX_DESCRIPTION_LENGTH = 280;
   const selectRef = useRef(null);
   const [listDepartments, setDepartments] = useState([])
   const [placesData, setPlacesData] = useState([])
@@ -131,9 +132,15 @@ function CreatePlace() {
           className="description-place"
           value={placeData.description}
           onChange={handleInputChange}
+          maxLength={MAX_DESCRIPTION_LENGTH} // Limitar la descripción a 280 caracteres
           required
         ></textarea>
 
+        {placeData.description.length >= MAX_DESCRIPTION_LENGTH && (
+                  <p className="description-warning">
+                    Ha alcanzado el máximo de caracteres permitidos (280).
+                  </p>
+                )}
         <label htmlFor="rating" className="label">Rating:</label>
         <div className="cont-rating">
           <div className="ec-stars-wrapper">

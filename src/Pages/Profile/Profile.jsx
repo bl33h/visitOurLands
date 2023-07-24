@@ -11,6 +11,7 @@ import { supabase } from '../../client';
 function Profile() {
   const [user, setUser] = useState({});
   const [userRecommendations, setUserRecommendations] = useState([]);
+  const [loadingRecommendations, setLoadingRecommendations] = useState(true);
 
   useEffect(() => {
     // Obtener el usuario desde el localStorage
@@ -18,9 +19,12 @@ function Profile() {
     if (browser_data !== null) {
       setUser(JSON.parse(browser_data));
     }
+  }, []);
 
-    // Consultar las recomendaciones del usuario actual
+  useEffect(() => {
+    // Consultar las recomendaciones del usuario actual después de obtener la información del usuario
     async function fetchUserRecommendations() {
+      setLoadingRecommendations(true);
       const { data, error } = await supabase
         .from('places')
         .select('*')
@@ -31,15 +35,17 @@ function Profile() {
       } else {
         setUserRecommendations(data);
       }
+      setLoadingRecommendations(false);
     }
 
+    // Llamar a la función para obtener las recomendaciones
     fetchUserRecommendations();
   }, [user.username]); // Agregar user.username como dependencia del useEffect
 
   function renderRatingStars(rating) {
     const stars = [];
     const totalStars = 5;
-  
+
     for (let i = 1; i <= totalStars; i++) {
       if (i <= rating) {
         stars.push(<i key={i} className="fas fa-star filled-star"></i>);
@@ -47,9 +53,9 @@ function Profile() {
         stars.push(<i key={i} className="far fa-star empty-star"></i>);
       }
     }
-  
+
     return stars;
-  }  
+  }
 
   return (
     <div className="root">
@@ -62,7 +68,7 @@ function Profile() {
           </div>
         </div>
 
-        <div id="edit" className="buttons">
+        <div className="buttons-container">
           <button
             className="each-button"
             style={{
@@ -105,16 +111,20 @@ function Profile() {
         {/* Mostrar las recomendaciones del usuario */}
         <div className="user-recommendations">
           <h2>Tus recomendaciones</h2>
-          <div className="recommendations-container">
-            {userRecommendations.map((recommendation) => (
-              <div key={recommendation.id_places} className="recommendation-card">
-                <h3>{recommendation.name}</h3>
-                <p>{recommendation.description}</p>
-                <div className="rating-stars">{renderRatingStars(recommendation.rating)}</div>
-                <img src={recommendation.image} alt={recommendation.name} />
-              </div>
-            ))}
-          </div>
+          {loadingRecommendations ? (
+            <p>Cargando recomendaciones...</p>
+          ) : (
+            <div className="recommendations-container">
+              {userRecommendations.map((recommendation) => (
+                <div key={recommendation.id_places} className="recommendation-card">
+                  <h3>{recommendation.name}</h3>
+                  <p>{recommendation.description}</p>
+                  <div className="rating-stars">{renderRatingStars(recommendation.rating)}</div>
+                  <img src={recommendation.image} alt={recommendation.name} />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
