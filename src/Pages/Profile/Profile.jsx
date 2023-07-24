@@ -104,7 +104,7 @@ function Profile() {
 
         {/* Mostrar las recomendaciones del usuario */}
         <div className="user-recommendations">
-          <h2>Tus Recomendaciones:</h2>
+          <h2>Tus recomendaciones</h2>
           <div className="recommendations-container">
             {userRecommendations.map((recommendation) => (
               <div key={recommendation.id_places} className="recommendation-card">
