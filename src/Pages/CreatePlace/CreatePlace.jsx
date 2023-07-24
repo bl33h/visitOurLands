@@ -137,15 +137,13 @@ function CreatePlace() {
             <select id="departments-id" className="select-department" ref={selectRef}>
               <>
               <option className="label" value="" >Seleccione una opción </option>
-                {listDepartments&&(
-                <>
-                {listDepartments.map(e=> (
-                  <>
-                    <option value ={e.id_departments}>{e.name}</option>
-                  </>
+              {listDepartments &&
+              <>
+                {listDepartments.map(e => (
+                  <option key={e.id_departments} value={e.id_departments}>{e.name}</option>
                 ))}
-                </>
-                )}
+              </>
+            }
               </>
             </select>
 
