@@ -11,35 +11,55 @@ import { supabase } from '../../client';
 function Profile() {
   const [user, setUser] = useState({});
   const [userRecommendations, setUserRecommendations] = useState([]);
+  const [loadingRecommendations, setLoadingRecommendations] = useState(true);
 
   useEffect(() => {
-    // Obtener el usuario desde el localStorage
+    // Local storage
     const browser_data = window.localStorage.getItem('LOGIN_STATUS');
     if (browser_data !== null) {
       setUser(JSON.parse(browser_data));
     }
+  }, []);
 
-    // Consultar las recomendaciones del usuario actual
+  useEffect(() => {
     async function fetchUserRecommendations() {
+      setLoadingRecommendations(true);
       const { data, error } = await supabase
         .from('places')
         .select('*')
-        .eq('author', user.username); // Filtrar las recomendaciones por el 'username' del usuario
+        .eq('author', user.username);
 
       if (error) {
         console.error('Error al obtener las recomendaciones:', error);
       } else {
         setUserRecommendations(data);
       }
+      setLoadingRecommendations(false);
     }
 
-    fetchUserRecommendations();
-  }, [user.username]); // Agregar user.username como dependencia del useEffect
+    if (user.username) {
+      fetchUserRecommendations();
+    }
+  }, [user.username]);
+
+  useEffect(() => {
+    const storedRecommendations = window.localStorage.getItem('USER_RECOMMENDATIONS');
+    if (storedRecommendations && user.username === JSON.parse(storedRecommendations)[0]?.author) {
+      setUserRecommendations(JSON.parse(storedRecommendations));
+      setLoadingRecommendations(false);
+    }
+  }, [user.username]); 
+
+  useEffect(() => {
+    if (userRecommendations.length > 0) {
+      window.localStorage.setItem('USER_RECOMMENDATIONS', JSON.stringify(userRecommendations));
+    }
+  }, [userRecommendations]);
 
   function renderRatingStars(rating) {
     const stars = [];
     const totalStars = 5;
-  
+
     for (let i = 1; i <= totalStars; i++) {
       if (i <= rating) {
         stars.push(<i key={i} className="fas fa-star filled-star"></i>);
@@ -47,9 +67,9 @@ function Profile() {
         stars.push(<i key={i} className="far fa-star empty-star"></i>);
       }
     }
-  
+
     return stars;
-  }  
+  }
 
   return (
     <div className="root">
@@ -62,7 +82,7 @@ function Profile() {
           </div>
         </div>
 
-        <div id="edit" className="buttons">
+        <div className="buttons-container">
           <button
             className="each-button"
             style={{
@@ -102,19 +122,25 @@ function Profile() {
           ></button>
         </div>
 
-        {/* Mostrar las recomendaciones del usuario */}
+        {/* Show the user reviews */}
         <div className="user-recommendations">
-          <h2>Tus recomendaciones</h2>
+        <h2>Tus recomendaciones</h2>
+        {loadingRecommendations ? (
+          <p>Cargando recomendaciones...</p>
+        ) : userRecommendations.length === 0 ? (
+          <p>Aún no has hecho tu primera recomendación.</p>
+        ) : (
           <div className="recommendations-container">
             {userRecommendations.map((recommendation) => (
               <div key={recommendation.id_places} className="recommendation-card">
-                <h3>{recommendation.name}</h3>
-                <p>{recommendation.description}</p>
-                <div className="rating-stars">{renderRatingStars(recommendation.rating)}</div>
-                <img src={recommendation.image} alt={recommendation.name} />
-              </div>
-            ))}
-          </div>
+                  <h3>{recommendation.name}</h3>
+                  <p>{recommendation.description}</p>
+                  <div className="rating-stars">{renderRatingStars(recommendation.rating)}</div>
+                  <img src={recommendation.image} alt={recommendation.name} />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
