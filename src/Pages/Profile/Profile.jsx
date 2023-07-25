@@ -14,7 +14,7 @@ function Profile() {
   const [loadingRecommendations, setLoadingRecommendations] = useState(true);
 
   useEffect(() => {
-    // Obtener el usuario desde el localStorage
+    // Local storage
     const browser_data = window.localStorage.getItem('LOGIN_STATUS');
     if (browser_data !== null) {
       setUser(JSON.parse(browser_data));
@@ -22,13 +22,12 @@ function Profile() {
   }, []);
 
   useEffect(() => {
-    // Consultar las recomendaciones del usuario actual después de obtener la información del usuario
     async function fetchUserRecommendations() {
       setLoadingRecommendations(true);
       const { data, error } = await supabase
         .from('places')
         .select('*')
-        .eq('author', user.username); // Filtrar las recomendaciones por el 'username' del usuario
+        .eq('author', user.username);
 
       if (error) {
         console.error('Error al obtener las recomendaciones:', error);
@@ -38,9 +37,24 @@ function Profile() {
       setLoadingRecommendations(false);
     }
 
-    // Llamar a la función para obtener las recomendaciones
-    fetchUserRecommendations();
-  }, [user.username]); // Agregar user.username como dependencia del useEffect
+    if (user.username) {
+      fetchUserRecommendations();
+    }
+  }, [user.username]);
+
+  useEffect(() => {
+    const storedRecommendations = window.localStorage.getItem('USER_RECOMMENDATIONS');
+    if (storedRecommendations && user.username === JSON.parse(storedRecommendations)[0]?.author) {
+      setUserRecommendations(JSON.parse(storedRecommendations));
+      setLoadingRecommendations(false);
+    }
+  }, [user.username]); 
+
+  useEffect(() => {
+    if (userRecommendations.length > 0) {
+      window.localStorage.setItem('USER_RECOMMENDATIONS', JSON.stringify(userRecommendations));
+    }
+  }, [userRecommendations]);
 
   function renderRatingStars(rating) {
     const stars = [];
@@ -108,15 +122,17 @@ function Profile() {
           ></button>
         </div>
 
-        {/* Mostrar las recomendaciones del usuario */}
+        {/* Show the user reviews */}
         <div className="user-recommendations">
-          <h2>Tus recomendaciones</h2>
-          {loadingRecommendations ? (
-            <p>Cargando recomendaciones...</p>
-          ) : (
-            <div className="recommendations-container">
-              {userRecommendations.map((recommendation) => (
-                <div key={recommendation.id_places} className="recommendation-card">
+        <h2>Tus recomendaciones</h2>
+        {loadingRecommendations ? (
+          <p>Cargando recomendaciones...</p>
+        ) : userRecommendations.length === 0 ? (
+          <p>Aún no has hecho tu primera recomendación.</p>
+        ) : (
+          <div className="recommendations-container">
+            {userRecommendations.map((recommendation) => (
+              <div key={recommendation.id_places} className="recommendation-card">
                   <h3>{recommendation.name}</h3>
                   <p>{recommendation.description}</p>
                   <div className="rating-stars">{renderRatingStars(recommendation.rating)}</div>

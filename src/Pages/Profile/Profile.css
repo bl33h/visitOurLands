@@ -4,7 +4,8 @@
     padding: 12px;
     border: 4px solid #FFAA4F;
     border-radius: 5px;
-    width: 500px;
+    width: 800px;
+    margin-bottom: -5%;
 }
   
 #profile-picture {
@@ -49,49 +50,55 @@
 }
 
 .recommendation-card {
-    border-radius: 5px;
-    padding: 10px;
-    width: 500px;
-    margin-bottom: 5%;
-    margin-top: 40px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .recommendation-card h3 {
-    font-size: 18px;
-    color: #04738c;
-    margin-top: -3%;
-  }
-  
-  .recommendation-card p {
-    font-size: 14px;
-    color: #8c4303;
-  }
-  
-  .recommendation-card img {
-    width: 400px;
-    height: 300px;
-    border-radius: 5px;
-    object-fit: cover;
-  }
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 20px;
+  margin-top: 40px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%; /* El ancho de la card se ajustará automáticamente */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 
-  .rating-stars {
-    display: flex;
-    justify-content: right;
-    align-items: center;
-  }
-  
-  .rating-stars i {
-    font-size: 20px;
-    margin-top: -25%;
-    margin-bottom: 12%;
-    margin-right: 5px;
-  }
-  
-  .rating-stars i.filled-star {
-    color: #FFAA4F; 
-  }
-  
-  .rating-stars i.empty-star {
-    color: #FFAA4F;
-  }
+.recommendation-card h3 {
+  font-size: 18px;
+  color: #04738c;
+  margin-top: 0;
+}
+
+.recommendation-card p {
+  font-size: 14px;
+  color: #8c4303;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 100%; 
+}
+
+.recommendation-card img {
+  width: 100%;
+  height: 200px; 
+  border-radius: 5px;
+  object-fit: cover;
+  margin-top: 10px;
+}
+
+.rating-stars {
+  display: flex;
+  align-items: center;
+}
+
+.rating-stars i {
+  font-size: 20px;
+  margin-right: 5px;
+  color: #FFAA4F;
+}
+
+.rating-stars i.filled-star {
+  color: #FFAA4F;
+}
+
+.rating-stars i.empty-star {
+  color: #FFAA4F;
+}
