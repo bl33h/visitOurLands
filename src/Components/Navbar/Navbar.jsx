@@ -190,7 +190,7 @@ const Sidebar = () => {
             />
 
             <Item
-              title="Crear un Lugar"
+              title="Nueva recomendación"
               to="/MainPage/CreatePlace"
               icon={<CreatePlaceIcon />}
               selected={selected.page_selected}
