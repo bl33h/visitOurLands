@@ -2,6 +2,7 @@ import { useState } from 'react';
 import '/src/Components/texts.css';
 import '/src/Components/display.css';
 import { supabase } from '/src/client';
+import "./edit.css";
 import { useHistory } from 'react-router-dom'; // Import useHistory hook
 
 function EditRecommendations({ recommendation, onSave, onCancelEdit }) {
@@ -48,39 +49,45 @@ function EditRecommendations({ recommendation, onSave, onCancelEdit }) {
 
   return (
     <div className="edit-recommendations-container">
-      <h2>Editar Recomendación</h2>
-      <form>
-        <label>
-          Nombre: {editedRecommendation.name}
+      <h2 className="title">Editar Recomendación</h2>
+      <form className="editing">
+        <label className="Placename">
+          Nombre del lugar: {editedRecommendation.name}
         </label>
-        <label>
+        <label className="other">
           Descripción:
           <textarea
+            className="descriptionPlace"
             name="description"
             value={editedRecommendation.description}
             onChange={handleInputChange}
           />
         </label>
-        <label>
+        <label className="other">
           Rating:
           <input
+            className="input-edit"
             type="number"
             name="rating"
             value={editedRecommendation.rating}
             onChange={handleInputChange}
           />
         </label>
-        <label>
+        <label className="other">
           Imagen:
           <input
+            className="input-edit"
             type="text"
             name="image"
             value={editedRecommendation.image}
             onChange={handleInputChange}
           />
         </label>
-        <button type="button" onClick={handleSaveClick}>Guardar</button>
-        <button type="button" onClick={handleCancelClick}>Cancelar</button>
+
+        <div className="action-buttons">
+          <button type="button" className="save-button" onClick={handleSaveClick}>Guardar</button>
+          <button type="button" className="cancel-button" onClick={handleCancelClick}>Cancelar</button>
+        </div>
       </form>
     </div>
   );
