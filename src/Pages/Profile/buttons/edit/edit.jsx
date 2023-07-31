@@ -3,7 +3,6 @@ import '/src/Components/texts.css';
 import '/src/Components/display.css';
 import { supabase } from '/src/client';
 import "./edit.css";
-import { useHistory } from 'react-router-dom'; // Import useHistory hook
 
 function EditRecommendations({ recommendation, onSave, onCancelEdit }) {
   const [editedRecommendation, setEditedRecommendation] = useState({
@@ -12,8 +11,7 @@ function EditRecommendations({ recommendation, onSave, onCancelEdit }) {
     rating: recommendation.rating,
     image: recommendation.image,
   });
-
-  const history = useHistory(); // Initialize useHistory
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false); // New state for showing success message
 
   function handleInputChange(event) {
     const { name, value } = event.target;
@@ -33,10 +31,8 @@ function EditRecommendations({ recommendation, onSave, onCancelEdit }) {
       if (error) {
         console.error('Error al actualizar la recomendación:', error);
       } else {
-        onSave(data[0]); // Updated recommendation data returned from Supabase
-
-        // Redirect to recommendations page after saving
-        history.push('./Profile'); // Replace '/recommendations' with the actual path to your recommendations page
+        onSave(); // Hide the form after saving
+        setShowSuccessMessage(true); // Show success message
       }
     } catch (error) {
       console.error('Error al actualizar la recomendación:', error);
@@ -50,6 +46,7 @@ function EditRecommendations({ recommendation, onSave, onCancelEdit }) {
   return (
     <div className="edit-recommendations-container">
       <h2 className="title">Editar Recomendación</h2>
+      {showSuccessMessage && <p>¡Recomendación editada correctamente!</p>}
       <form className="editing">
         <label className="Placename">
           Nombre del lugar: {editedRecommendation.name}

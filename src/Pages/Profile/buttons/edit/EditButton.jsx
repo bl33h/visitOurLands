@@ -8,8 +8,8 @@ function EditButton() {
   const [userRecommendations, setUserRecommendations] = useState([]);
   const [loadingRecommendations, setLoadingRecommendations] = useState(true);
   const [editRecom, setEditRecom] = useState(true);
-  const [showEditForm, setShowEditForm] = useState(false); // New state for showing the edit form
-  const [currentRecommendation, setCurrentRecommendation] = useState(null); // New state to store the recommendation being edited
+  const [showEditForm, setShowEditForm] = useState(false); 
+  const [currentRecommendation, setCurrentRecommendation] = useState(null); 
 
   useEffect(() => {
     const browser_data = window.localStorage.getItem('LOGIN_STATUS');
@@ -54,7 +54,6 @@ function EditButton() {
     return stars;
   }
 
-  // Function to handle the "Editar" button click and show the edit form
   function handleEditRecommendationClick(recommendationId) {
     const recommendationToEdit = userRecommendations.find(
       (recommendation) => recommendation.id_places === recommendationId
@@ -68,11 +67,10 @@ function EditButton() {
     <div className="root">
       <div className="container">
         {showEditForm ? (
-          // Show the EditRecommendations component if showEditForm is true
           <EditRecommendations
             recommendation={currentRecommendation}
-            onSave={() => setShowEditForm(false)} // Function to hide the form after saving
-            onCancelEdit={() => setShowEditForm(false)} // Function to hide the form on cancel
+            onSave={() => setShowEditForm(false)}
+            onCancelEdit={() => setShowEditForm(false)}
           />
         ) : (
           editRecom && (
@@ -85,10 +83,10 @@ function EditButton() {
                     <p>{recommendation.description}</p>
                     <div className="rating-stars">{renderRatingStars(recommendation.rating)}</div>
                     <img src={recommendation.image} alt={recommendation.name} />
-                    {/* Pass the recommendation ID to handleEditRecommendationClick */}
                     <button className="edit-button-each" 
                       onClick={() => handleEditRecommendationClick(recommendation.id_places)}
-                      >Editar
+                    >
+                      Editar
                     </button>
                   </div>
                 ))}

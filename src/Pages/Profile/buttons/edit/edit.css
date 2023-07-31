@@ -20,7 +20,7 @@
 }
 
 .other{
-    font-size: 18px;
+    font-size: 16px;
     margin: 10px;
     color: #04738C;
     padding-right: 100px;
@@ -87,4 +87,19 @@
 .cancel-button:hover{
     background-color: #8C4303;
     color: white
+}
+
+.edit-button-each{
+    width: 100px;
+    height: 30px;
+    margin: 10px;
+    border-color: #8C4303;
+    border-radius: 5px;
+    color: #8C4303;
+}
+
+.edit-button-each:hover{
+    border-color: #8C4303;
+    background-color: #8C4303;
+    color: white;
 }
