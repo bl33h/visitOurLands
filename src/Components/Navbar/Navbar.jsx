@@ -183,7 +183,7 @@ const Sidebar = () => {
 
             <Item
               title="Top recomendaciones"
-              to="/"
+              to="/MainPage/TopRec"
               icon={<AirlineStopsIcon />}
               selected={selected.page_selected}
               setSelected={setSelected}

@@ -6,6 +6,7 @@ import  Sidebar  from '/src/Components/Navbar/Navbar'
 import Map from '/src/Pages/Map/Map'
 import Profile from '/src/Pages/Profile/Profile'
 import CreatePlace from '/src/Pages/CreatePlace/CreatePlace';
+import TopRec from '/src/Pages/TopRec/TopRec';
 import "./MainPage.css"
 
 function MainPage() {
@@ -51,6 +52,10 @@ function MainPage() {
               <Route path="/MainPage/CreatePlace">
                   <CreatePlace />
                 </Route>
+              
+              <Route path="/MainPage/TopRec">
+                <TopRec/>
+              </Route>
 
             </Switch>
           </main>
