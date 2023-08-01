@@ -63,6 +63,23 @@ function EditButton() {
     setShowEditForm(true);
   }
 
+  async function handleSaveRecommendation(updatedRecommendation) {
+    try {
+      const { data, error } = await supabase
+        .from('places')
+        .select('*')
+        .eq('author', user.username);
+  
+      if (error) {
+        console.error('Error al obtener las recomendaciones:', error);
+      } else {
+        setUserRecommendations(data);
+      }
+    } catch (error) {
+      console.error('Error al obtener las recomendaciones:', error);
+    }
+  }
+
   return (
     <div className="root">
       <div className="container">
@@ -71,6 +88,7 @@ function EditButton() {
             recommendation={currentRecommendation}
             onSave={() => setShowEditForm(false)}
             onCancelEdit={() => setShowEditForm(false)}
+            handleSaveRecommendation={handleSaveRecommendation}
           />
         ) : (
           editRecom && (

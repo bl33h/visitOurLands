@@ -31,8 +31,8 @@ function EditRecommendations({ recommendation, onSave, onCancelEdit }) {
       if (error) {
         console.error('Error al actualizar la recomendación:', error);
       } else {
-        onSave(); // Hide the form after saving
-        setShowSuccessMessage(true); // Show success message
+        onSave(); 
+        setShowSuccessMessage(true); 
       }
     } catch (error) {
       console.error('Error al actualizar la recomendación:', error);
