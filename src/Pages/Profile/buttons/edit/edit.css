@@ -1,0 +1,105 @@
+.edit-recommendations-container{
+    text-align: justify;
+}
+
+.title{
+    font-size: 20px;
+    text-align: center;
+}
+
+.editing{
+    padding-left: 100px;
+}
+
+.Placename {
+    font-size: 18px;
+    margin: 10px;
+    text-align: justify;
+    font-weight: bold;
+    color: #04738C;
+}
+
+.other{
+    font-size: 16px;
+    margin: 10px;
+    color: #04738C;
+    padding-right: 100px;
+}
+
+.descriptionPlace{
+    font-size: 15px;
+    outline: none;
+    size: 10px;
+    padding: 5px;
+    margin-left: 5px;
+    min-height: 10px;
+    min-width: 650px;
+    font-family: "Lucida Grande";
+    border-color: #FFAA4F;
+    border-radius: 5px;
+}
+
+.input-edit{
+    font-size: 15px;
+    outline: none;
+    size: 10px;
+    padding: 5px;
+    margin-left: 5px;
+    min-height: 10px;
+    min-width: 650px;
+    font-family: "Lucida Grande";
+    border-color: #FFAA4F;
+    border-radius: 5px;
+}
+
+.action-buttons{
+    padding-top: 10px;
+    padding-right: 100px;
+    display: flex;
+    justify-content: right;
+}
+
+.save-button{
+    margin: 10px;
+    width: 100px;
+    height: 50px;
+    border-color: #04738C;
+    color: #04738C;
+    font-weight: 800;
+    border-radius: 5px;
+}
+
+.cancel-button{
+    margin: 10px;
+    width: 100px;
+    height: 50px;
+    border-color: #8C4303;
+    color: #8C4303;
+    font-weight: 800;
+    border-radius: 5px;
+}
+
+.save-button:hover{
+    background-color: #04738C;
+    color: white
+}
+
+.cancel-button:hover{
+    background-color: #8C4303;
+    color: white
+}
+
+.edit-button-each{
+    width: 100px;
+    height: 30px;
+    margin: 10px;
+    border-color: #8C4303;
+    border-radius: 5px;
+    color: #8C4303;
+}
+
+.edit-button-each:hover{
+    border-color: #8C4303;
+    background-color: #8C4303;
+    color: white;
+}

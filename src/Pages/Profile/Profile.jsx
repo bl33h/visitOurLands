@@ -3,15 +3,18 @@ import './Profile.css';
 import '/src/Components/texts.css';
 import '/src/Components/display.css';
 import profileImage from '../../assets/profile.png';
+import { supabase } from '../../client';
 import edit from '../../assets/1.png';
 import save from '../../assets/2.png';
 import like from '../../assets/3.png';
-import { supabase } from '../../client';
+import EditButton from './buttons/edit/EditButton';
 
 function Profile() {
   const [user, setUser] = useState({});
   const [userRecommendations, setUserRecommendations] = useState([]);
   const [loadingRecommendations, setLoadingRecommendations] = useState(true);
+  const [showInitialInfo, setShowInitialInfo] = useState(true); // Estado para mostrar/ocultar recomendaciones iniciales
+  const [showEditButton, setShowEditButton] = useState(false);
 
   useEffect(() => {
     // Local storage
@@ -42,20 +45,6 @@ function Profile() {
     }
   }, [user.username]);
 
-  useEffect(() => {
-    const storedRecommendations = window.localStorage.getItem('USER_RECOMMENDATIONS');
-    if (storedRecommendations && user.username === JSON.parse(storedRecommendations)[0]?.author) {
-      setUserRecommendations(JSON.parse(storedRecommendations));
-      setLoadingRecommendations(false);
-    }
-  }, [user.username]); 
-
-  useEffect(() => {
-    if (userRecommendations.length > 0) {
-      window.localStorage.setItem('USER_RECOMMENDATIONS', JSON.stringify(userRecommendations));
-    }
-  }, [userRecommendations]);
-
   function renderRatingStars(rating) {
     const stars = [];
     const totalStars = 5;
@@ -71,6 +60,11 @@ function Profile() {
     return stars;
   }
 
+  function handleEditRecommendationClick(recommendationId) {
+    setShowEditButton(true);
+    setShowInitialInfo(false); // Ocultar recomendaciones iniciales al presionar editar
+  }
+
   return (
     <div className="root">
       <div className="container">
@@ -83,6 +77,7 @@ function Profile() {
         </div>
 
         <div className="buttons-container">
+          {/* Botón Editar */}
           <button
             className="each-button"
             style={{
@@ -90,11 +85,8 @@ function Profile() {
               backgroundSize: "cover",
               backgroundPosition: "center"
             }}
-            onClick={() => {
-              // Colocar la acción para editar el perfil
-            }}
+            onClick={() => handleEditRecommendationClick(null)}
           ></button>
-
           <button
             id="save"
             className="each-button"
@@ -122,17 +114,18 @@ function Profile() {
           ></button>
         </div>
 
-        {/* Show the user reviews */}
-        <div className="user-recommendations">
-        <h2>Tus recomendaciones</h2>
-        {loadingRecommendations ? (
-          <p>Cargando recomendaciones...</p>
-        ) : userRecommendations.length === 0 ? (
-          <p>Aún no has hecho tu primera recomendación.</p>
-        ) : (
-          <div className="recommendations-container">
-            {userRecommendations.map((recommendation) => (
-              <div key={recommendation.id_places} className="recommendation-card">
+        {/* Mostrar EditButton si showEditButton es true */}
+        {showEditButton && (
+          <EditButton recommendations={userRecommendations} onEditRecommendationClick={handleEditRecommendationClick} />
+        )}
+
+        {/* Mostrar recomendaciones iniciales si showInitialInfo es true */}
+        {showInitialInfo && !loadingRecommendations && userRecommendations.length > 0 && (
+          <div className="user-recommendations">
+            <h2>Tus recomendaciones</h2>
+            <div className="recommendations-container">
+              {userRecommendations.map((recommendation) => (
+                <div key={recommendation.id_places} className="recommendation-card">
                   <h3>{recommendation.name}</h3>
                   <p>{recommendation.description}</p>
                   <div className="rating-stars">{renderRatingStars(recommendation.rating)}</div>
@@ -140,8 +133,8 @@ function Profile() {
                 </div>
               ))}
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );
