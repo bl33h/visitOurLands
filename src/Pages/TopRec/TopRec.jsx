@@ -100,7 +100,7 @@ function TopRec(){
             ) : userRecommendations.length === 0 ? (
             <p>Aún no hay recomendaciones para mostrar</p>
             ) : (
-            <div className="recommendations-container">
+            <div className="recommendations-container2">
                 {userRecommendations.map((recommendation) => (
                 <div key={recommendation.id_places} className="recommendation-card2">
                     <h3>{recommendation.name}</h3>
