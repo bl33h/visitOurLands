@@ -33,11 +33,14 @@ function EditRecommendations({ recommendation, onSave, onCancelEdit }) {
       } else {
         onSave(); 
         setShowSuccessMessage(true); 
+        // Reload the page after saving
+        window.location.reload();
       }
     } catch (error) {
       console.error('Error al actualizar la recomendación:', error);
     }
   }
+
 
   function handleCancelClick() {
     onCancelEdit();
