@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import Login from './Login';
 
-/* Credentials error management in the Login page*/
+/* Credentials error management in the Login page only when it's necessary*/
 test('negate function test', () => {
   const { getByText, container } = render(<Login />);
 
