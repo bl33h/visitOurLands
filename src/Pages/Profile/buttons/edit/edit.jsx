@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import '/src/Components/texts.css';
 import '/src/Components/display.css';
-import { supabase } from '/src/client';
+import { supabase } from '../../../../client';
 import "./edit.css";
 
 function EditRecommendations({ recommendation, onSave, onCancelEdit }) {
@@ -15,13 +15,16 @@ function EditRecommendations({ recommendation, onSave, onCancelEdit }) {
 
   function handleInputChange(event) {
     const { name, value } = event.target;
+    // Si el campo es 'rating', convierte el valor a un número
+    const parsedValue = name === 'rating' ? parseInt(value, 10) : value;
     setEditedRecommendation((prevRecommendation) => ({
       ...prevRecommendation,
-      [name]: value,
+      [name]: parsedValue,
     }));
   }
 
   async function handleSaveClick() {
+    console.log('edit:', editedRecommendation)
     try {
       const { data, error } = await supabase
         .from('places')
@@ -57,6 +60,7 @@ function EditRecommendations({ recommendation, onSave, onCancelEdit }) {
         <label className="other">
           Descripción:
           <textarea
+            data-testid="input-description"
             className="descriptionPlace"
             name="description"
             value={editedRecommendation.description}
@@ -66,6 +70,7 @@ function EditRecommendations({ recommendation, onSave, onCancelEdit }) {
         <label className="other">
           Rating:
           <input
+            data-testid="input-rating"
             className="input-edit"
             type="number"
             name="rating"
@@ -76,6 +81,7 @@ function EditRecommendations({ recommendation, onSave, onCancelEdit }) {
         <label className="other">
           Imagen:
           <input
+            data-testid="input-image"
             className="input-edit"
             type="text"
             name="image"
