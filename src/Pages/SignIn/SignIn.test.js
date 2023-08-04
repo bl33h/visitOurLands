@@ -31,7 +31,3 @@ describe('Test de check_signIn en el que el usuario aun no existe y se ingresa e
     await waitFor(() => expect(screen.getByText('El usuario ya existe.')).toBeInTheDocument());
   });
 });
-
-
-
-
