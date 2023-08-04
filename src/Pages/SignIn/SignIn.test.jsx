@@ -30,7 +30,6 @@ test('updates confirm password input correctly', () => {
 /* Password error management in the Sign In page only when it's necessary */
 test('does not show error message when passwords match', () => {
     const { container } = render(<SignIn />);
-    console.log(container.innerHTML);
   
     const usernameInput = container.querySelector('#input-username');
     const passwordInput = container.querySelector('#input-password');
