@@ -108,7 +108,7 @@ function SignIn() {
         <h3>¡Únete a Visita Nuestras Tierras!</h3>
       </div>
       <div className="container">
-        {error && <p>{error}</p>}
+        {error && <p >{error}</p>}
         <br></br>
         {!passwordMatch && <p style={{ color: 'red' }}>Las contraseñas no coinciden.</p>}
 
