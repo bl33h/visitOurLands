@@ -31,6 +31,24 @@ function CreatePlace() {
     if (browser_data !== null) setUser(JSON.parse(browser_data))
 }, [])
 
+  //Funcion para obtener la imagen
+  async function getImage() {
+    const { data, error } = await supabase
+      .storage
+      .from('PlacesImages')
+      .list(placeData?.id_places + "/", {
+        limit: 100,
+        offset: 0,
+        sortBy: { column: "name", order: "asc" }
+      });
+    if (data !== null) {
+      setPlacesImages(data); 
+    } else {
+      alert("Error al cargar la imagen");
+      console.log(error);
+    }
+  } 
+  
   async function fetchPosts() {
     await fetchPost()
     await fetchPost2()
