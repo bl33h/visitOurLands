@@ -1,15 +1,21 @@
-import React, { useState, useEffect, useRef} from 'react';
+import { useState, useEffect, useRef} from 'react';
 import { supabase } from '../../client';
 import './CreatePlace.css'
+import { Print, Upload } from '@mui/icons-material';
+import { v4 as uuidv4 } from "uuid";
+
 
 function CreatePlace() {
   const MAX_DESCRIPTION_LENGTH = 280;
   const selectRef = useRef(null);
-  const [listDepartments, setDepartments] = useState([])
-  const [placesData, setPlacesData] = useState([])
-  const [user, setUser] = useState({})
+  const [urlimage, setImageUrl] = useState('');
+  const[ PlacesImages, setPlacesImages] = useState([]);
+  const [listDepartments, setDepartments] = useState([]);
+  const [placesData, setPlacesData] = useState([]);
+  const [user, setUser] = useState({});
   const [selectedStars, setSelectedStars] = useState(0);
   const [hoveredStars, setHoveredStars] = useState(0);
+  const [image, setImage] = useState(); 
   const [placeData, setPlaceData] = useState({
     id_places: 0,
     name: '',
@@ -77,6 +83,14 @@ function CreatePlace() {
       imageUrl: document.getElementById('imageUrl-id').value,
       author: username, // Agregar el nombre de usuario como 'author' en el objeto place
     };
+
+    //Funcion para subir la imagen y colocarle una ruta
+  async function uploadImage(e){
+    let file = e.target.files[0];
+    console.log(file);
+    setImage(file);
+  }
+
   
     // Realizar la inserción del lugar en la base de datos (usando supabase)
     const { data, error } = await supabase.from('places').insert([
@@ -216,17 +230,12 @@ function CreatePlace() {
               </>
             </select>
 
-        <label htmlFor="imageUrl" className="label">Link de la imagen:</label>
-        <input
-          type="text"
-          id="imageUrl-id"
-          name="imageUrl"
-          className="imageUrl"
-          value={placeData.imageUrl}
-          onChange={handleInputChange}
-          required
-        />
-
+        <label htmlFor="imageUrl" className="label">Selecciona tu imagen</label>
+        <br></br>
+        <div className="label" >
+          <input id="id_ImageUrl" name="ImageUrl" type="file" accept="image/png, image/jpg, image/jpeg" onChange={(e) => uploadImage(e)}/>
+        </div>
+        <br></br>
         <button type="submit" className="submit">Crear lugar</button>
       </form>
     </div>
