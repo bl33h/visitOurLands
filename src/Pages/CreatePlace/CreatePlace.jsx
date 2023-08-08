@@ -29,7 +29,7 @@ function CreatePlace() {
     fetchPosts()
     const browser_data = window.localStorage.getItem('LOGIN_STATUS')
     if (browser_data !== null) setUser(JSON.parse(browser_data))
-}, [])
+  }, [])
 
   //Funcion para obtener la imagen
   async function getImage() {
@@ -48,7 +48,7 @@ function CreatePlace() {
       console.log(error);
     }
   } 
-  
+
   async function fetchPosts() {
     await fetchPost()
     await fetchPost2()
@@ -87,22 +87,14 @@ function CreatePlace() {
     event.preventDefault();
     // Obtener el valor seleccionado del elemento <select> a través de la referencia
     const departmentValue = selectRef.current.value;
-    console.log(departmentValue);
-  
+    //console.log(departmentValue);
     // Obtener el nombre de usuario del estado user
     const username = user.username;
-  
-    const place = {
-      id_places: placesData.length + 1,
-      name: document.getElementById('name-id').value,
-      description: document.getElementById('description-id').value,
-      rating: selectedStars,
-      department: departmentValue,
-      imageUrl: document.getElementById('imageUrl-id').value,
-      author: username, // Agregar el nombre de usuario como 'author' en el objeto place
-    };
+    // Sube la imagen
+    onPressButton()
+    }
 
-    //Funcion para subir la imagen y colocarle una ruta
+  //Funcion para subir la imagen y colocarle una ruta
   async function uploadImage(e){
     let file = e.target.files[0];
     console.log(file);
@@ -133,39 +125,55 @@ function CreatePlace() {
       console.log(error);
     }
   }
-  
-    // Realizar la inserción del lugar en la base de datos (usando supabase)
-    const { data, error } = await supabase.from('places').insert([
-      {
-        id_places: place.id_places,
-        name: place.name,
-        description: place.description,
-        rating: place.rating,
-        id_departments: departmentValue,
-        image: place.imageUrl,
-        author: place.author, // Insertar el nombre de usuario en la columna 'author'
-      },
-    ]);
-  
-    if (error) {
-      console.error('Error al insertar el lugar:', error);
-    } else {
-      console.log('Lugar insertado exitosamente:', place);
-      // Limpiar los campos después de la inserción exitosa
-      setPlaceData({
-        name: '',
-        description: '',
-        rating: 0,
-        department: 0,
-        imageUrl: '',
-      });
-      setSelectedStars(0);
-      setHoveredStars(0);
-      selectRef.current.value = "";
-    }
-  };
 
+  //Funcion para volverlo sincrono, esperar a que cargue setImageUrl
+  useEffect(() =>{
+    console.log(urlimage);
+    const place = {
+      id_places: placesData.length + 1,
+      name: document.getElementById('name-id').value,
+      description: document.getElementById('description-id').value,
+      rating: selectedStars,
+      department: selectRef.current.value,
+      imageUrl: urlimage, 
+      author: user.username, // Agregar el nombre de usuario como 'author' en el objeto place
+    };
+    const waitInsert = async() => {
+      if (urlimage !== '') {
+        // Realizar la inserción del lugar en la base de datos (usando supabase)
+        const { ImageUrl, error } = await supabase.from('places').insert([
+          {
+            id_places: place.id_places,
+            name: place.name,
+            description: place.description,
+            rating: place.rating,
+            id_departments: selectRef.current.value,
+            image: place.imageUrl,
+            author: place.author, // Insertar el nombre de usuario en la columna 'author'
+          },
+        ]);
+        if (error) {
+          console.error('Error al insertar el lugar:', error);
+        } else {
+          console.log('Lugar insertado exitosamente:', place);
+          // Limpiar los campos después de la inserción exitosa
+          setPlaceData({
+            name: '',
+            description: '',
+            rating: 0,
+            department: 0,
+            imageUrl: '',
+          });
+          setSelectedStars(0);
+          setHoveredStars(0);
+          selectRef.current.value = "";
+        };
+      };
+    };
 
+    waitInsert();
+  }, [urlimage]);
+    
   return (
     <div className="container-CreatePlace">
       <h1>Crear un nuevo lugar</h1>
