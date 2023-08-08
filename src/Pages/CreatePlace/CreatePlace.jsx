@@ -91,6 +91,30 @@ function CreatePlace() {
     setImage(file);
   }
 
+  async function onPressButton(){
+    console.log(image);
+    if (!image) {
+      console.log("Debes seleccionar una imagen primero.");
+      setImageLoaded(false)
+    }
+    //Subir la imagen al bucket
+    var temp = placesData.length + 1 + uuidv4();
+    const { data, error } = await supabase
+      .storage
+      .from('PlacesImages')
+      .upload(temp, image)
+
+    console.log(placesData.length + 1);
+    console.log(temp);
+    setImageUrl(temp)
+    
+    if(data){
+      getImage();
+      
+    } else {
+      console.log(error);
+    }
+  }
   
     // Realizar la inserción del lugar en la base de datos (usando supabase)
     const { data, error } = await supabase.from('places').insert([
