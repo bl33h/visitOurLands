@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import { supabase } from '../../client';
 import './CreatePlace.css'
 
