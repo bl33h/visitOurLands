@@ -63,8 +63,20 @@
   
   .rating-stars i.filled-star {
     color: #FFAA4F;
+    margin-top: 5%;
+    margin-bottom: 5%;
   }
   
   .rating-stars i.empty-star {
     color: #FFAA4F;
   }
+
+  .interaction-icons {
+    display: flex;
+    gap: 90px;
+    margin-top: 5%;
+    margin-bottom: 3%;
+    font-size: 22px;
+    color: #8c4303; 
+  }  
+  
