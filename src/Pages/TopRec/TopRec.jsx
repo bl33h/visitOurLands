@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { supabase } from '../../client.js';
 import './TopRec.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart, faSave, faComment, faShare } from "@fortawesome/free-solid-svg-icons";
 
 function TopRec(){
     const [user, setUser] = useState({});
@@ -91,31 +93,37 @@ function TopRec(){
         return stars;
       }
 
-    return(
+      return (
         <div className="RecDiv">
-            <h1 className="Header">¡Estos son los lugares mejor valorados!</h1>
-            <div className="user-recommendations">
+          <h1 className="Header">¡Estos son los lugares mejor valorados!</h1>
+          <div className="user-recommendations">
             {loadingRecommendations ? (
-            <p>Cargando recomendaciones...</p>
+              <p>Cargando recomendaciones...</p>
             ) : userRecommendations.length === 0 ? (
-            <p>Aún no hay recomendaciones para mostrar</p>
+              <p>Aún no hay recomendaciones para mostrar</p>
             ) : (
-            <div className="recommendations-container2">
+              <div className="recommendations-container2">
                 {userRecommendations.map((recommendation) => (
-                <div key={recommendation.id_places} className="recommendation-card2">
+                  <div key={recommendation.id_places} className="recommendation-card2">
                     <h3>{recommendation.name}</h3>
                     <h3>{recommendation.departmentName}</h3>
                     <p>{recommendation.description}</p>
                     <div className="rating-stars">{renderRatingStars(recommendation.rating)}</div>
                     <img src={recommendation.image} alt={recommendation.name} />
+                    
+                    {/* Icons */}
+                    <div className="interaction-icons">
+                      <FontAwesomeIcon icon={faHeart} />
+                      <FontAwesomeIcon icon={faSave} />
+                      <FontAwesomeIcon icon={faComment} />
+                      <FontAwesomeIcon icon={faShare} />
                     </div>
+                  </div>
                 ))}
-                </div>
+              </div>
             )}
-            </div>
+          </div>
         </div>
-        
-    );
-}
+      );}
 
-export default TopRec;
+    export default TopRec;
