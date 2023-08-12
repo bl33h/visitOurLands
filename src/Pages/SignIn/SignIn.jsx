@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import './SignIn.css';
 import '/src/Components/texts.css';
 import '/src/Components/display.css';
-import jagui from '/src/assets/jagui.png'
+import jagui from '../../assets/jagui.png'
 
 function SignIn() {
   const [mostrarContrasena1, setMostrarContrasena1] = useState(false);
