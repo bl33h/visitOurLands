@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import './SignIn.css';
 import '/src/Components/texts.css';
 import '/src/Components/display.css';
+import jagui from '../../assets/jagui.png'
 
 function SignIn() {
   const [mostrarContrasena1, setMostrarContrasena1] = useState(false);
@@ -104,7 +105,7 @@ function SignIn() {
   return (
     <div className="root">
       <div style={{ display: 'inline-flex', alignItems: 'center' }}>
-        <img className="jagui" src="/src/assets/jagui.png" alt="Logo" />
+      <img className="jagui" src={jagui} alt="logo" /> 
         <h3>¡Únete a Visita Nuestras Tierras!</h3>
       </div>
       <div className="container">
