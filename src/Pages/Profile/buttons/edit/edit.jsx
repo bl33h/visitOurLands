@@ -39,6 +39,7 @@ function EditRecommendations({ recommendation, onSave, onCancelEdit }) {
   };
 
   async function handleSaveClick() {
+    editedRecommendation.rating = selectedStars;
     console.log('edit:', editedRecommendation)
     try {
       const { data, error } = await supabase
