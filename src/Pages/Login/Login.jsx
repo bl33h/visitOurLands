@@ -72,13 +72,13 @@ function Login() {
       <div className="container">
        <img className="welcome-jagui" src={welcomeJagui} alt="welcome Jagui" /> 
         <h1>Username:</h1>
-        <input id="input-username"  className="input-login" onClick={fetchPosts} onKeyDown={handleKeyDown}></input>
+        <input id="input-username" data-testid="input-usernam" className="input-login" onClick={fetchPosts} onKeyDown={handleKeyDown}></input>
           
         <h1>Password:</h1>
-        <input type={mostrarContrasena ? 'text' : 'password'}  id="input-password" className="input-login" onClick={fetchPosts} onKeyDown={handleKeyDown}></input>
+        <input type={mostrarContrasena ? 'text' : 'password'}  id="input-password" data-testid="input-p" className="input-login" onClick={fetchPosts} onKeyDown={handleKeyDown}></input>
         <div style={{ display: 'inline-flex', alignItems: 'center' }}>
           <p>Mostrar contraseña</p>
-          <input type="checkbox" id="mostrar-contrasena" onChange={handleCheckboxChange} />
+          <input type="checkbox" id="mostrar-contrasena"  onChange={handleCheckboxChange} />
         </div>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <button className="login-button" onClick={check_login}>INICIAR SESION</button>
