@@ -1,8 +1,10 @@
-import { useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import { supabase } from '../../client';
 import './CreatePlace.css'
 
 function CreatePlace() {
+  let newIdValue = 0;
+  let maxId = 0;
   const MAX_DESCRIPTION_LENGTH = 280;
   const selectRef = useRef(null);
   const [listDepartments, setDepartments] = useState([])
@@ -37,7 +39,16 @@ function CreatePlace() {
 
   async function fetchPost2() {
     const { data } = await supabase.from('places').select()
+    console.log("places: ", data)
     setPlacesData(data)
+
+    for (const place of data) {
+      if (place.id_places > maxId) {
+        maxId = place.id_places;
+      }
+    }    // Set the newIdValue globally
+    newIdValue = maxId + 1; // Next available id
+    console.log("Global New ID Value:", newIdValue);
   }
 
   const handleInputChange = (event) => {
@@ -69,7 +80,7 @@ function CreatePlace() {
     const username = user.username;
   
     const place = {
-      id_places: placesData.length + 1,
+      id_places: newIdValue + 1,
       name: document.getElementById('name-id').value,
       description: document.getElementById('description-id').value,
       rating: selectedStars,

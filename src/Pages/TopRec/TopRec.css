@@ -1,0 +1,82 @@
+.Header{
+    justify-content: center;
+}
+
+.recommendations-container2 {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    margin: 0 auto;
+    width: 80%;
+    max-width: 90%;
+    justify-items: center;
+    align-items: center; 
+  }
+  
+  .recommendation-card2 {
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+    margin-top: 40px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 100%; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .recommendation-card2 h3 {
+    font-size: 18px;
+    color: #04738c;
+    margin-top: 0;
+  }
+  
+  .recommendation-card2 p {
+    font-size: 14px;
+    color: #8c4303;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: normal;
+    max-width: 100%; 
+  }
+  
+  .recommendation-card2 img {
+    width: 100%;
+    height: 200px; 
+    border-radius: 5px;
+    object-fit: cover;
+    margin-top: 10px;
+  }
+
+  .rating-stars {
+    display: flex;
+    align-items: center;
+  }
+  
+  .rating-stars i {
+    font-size: 20px;
+    margin-right: 5px;
+    color: #FFAA4F;
+  }
+  
+  .rating-stars i.filled-star {
+    color: #FFAA4F;
+    margin-top: 5%;
+    margin-bottom: 5%;
+  }
+  
+  .rating-stars i.empty-star {
+    color: #FFAA4F;
+  }
+
+  .interaction-icons {
+    display: flex;
+    gap: 90px;
+    margin-top: 5%;
+    margin-bottom: 3%;
+    font-size: 22px;
+    color: #8c4303; 
+  }  
+  
