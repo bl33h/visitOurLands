@@ -9,6 +9,7 @@ function TopRec(){
     const [loadingRecommendations, setLoadingRecommendations] = useState(true);
     const [userRecommendations, setUserRecommendations] = useState([]);
     const [departmentName, setDepartmentName] = useState('');
+    const [interactionStates, setInteractionStates] = useState({});
 
     useEffect(() => {
         // Local storage
@@ -20,7 +21,6 @@ function TopRec(){
 
       async function fetchUserRecommendations() {
         setLoadingRecommendations(true);
-      
         // Obtener los datos de las tablas "places" y "departments"
         const { data: placesData, error: placesError } = await supabase.from('places').select('*').eq('rating', 5);
         const { data: departmentsData, error: departmentsError } = await supabase.from('departments').select('*');
@@ -37,13 +37,22 @@ function TopRec(){
               departmentName
             };
           });
-      
-          setUserRecommendations(userRecommendations);
+          
+        setUserRecommendations(userRecommendations);
+          const initialInteractionStates = userRecommendations.reduce((acc, rec) => {
+            acc[rec.id_places] = {
+              like: false,
+              save: false,
+              comment: false,
+              share: false
+            };
+            return acc;
+          }, {});
+          setInteractionStates(initialInteractionStates);
         }
-      
         setLoadingRecommendations(false);
       }
-      
+
       useEffect(() => {
         fetchUserRecommendations();
       }, []);
@@ -78,6 +87,16 @@ function TopRec(){
         }
       }, [userRecommendations]);
 
+      function toggleInteraction(recommendationId, interactionType) {
+        setInteractionStates(prevStates => ({
+          ...prevStates,
+          [recommendationId]: {
+            ...prevStates[recommendationId],
+            [interactionType]: !prevStates[recommendationId][interactionType]
+          }
+        }));
+      }
+
       function renderRatingStars(rating) {
         const stars = [];
         const totalStars = 5;
@@ -110,13 +129,29 @@ function TopRec(){
                     <p>{recommendation.description}</p>
                     <div className="rating-stars">{renderRatingStars(recommendation.rating)}</div>
                     <img src={recommendation.image} alt={recommendation.name} />
-                    
+    
                     {/* Icons */}
                     <div className="interaction-icons">
-                      <FontAwesomeIcon icon={faHeart} />
-                      <FontAwesomeIcon icon={faSave} />
-                      <FontAwesomeIcon icon={faComment} />
-                      <FontAwesomeIcon icon={faShare} />
+                      <FontAwesomeIcon
+                        icon={faHeart}
+                        onClick={() => toggleInteraction(recommendation.id_places, 'like')}
+                        className={interactionStates[recommendation.id_places].like ? "activeIn" : ""}
+                      />
+                      <FontAwesomeIcon
+                        icon={faSave}
+                        onClick={() => toggleInteraction(recommendation.id_places, 'save')}
+                        className={interactionStates[recommendation.id_places].save ? "activeIn" : ""}
+                      />
+                      <FontAwesomeIcon
+                        icon={faComment}
+                        onClick={() => toggleInteraction(recommendation.id_places, 'comment')}
+                        className={interactionStates[recommendation.id_places].comment ? "activeIn" : ""}
+                      />
+                      <FontAwesomeIcon
+                        icon={faShare}
+                        onClick={() => toggleInteraction(recommendation.id_places, 'share')}
+                        className={interactionStates[recommendation.id_places].share ? "activeIn" : ""}
+                      />
                     </div>
                   </div>
                 ))}
@@ -124,6 +159,6 @@ function TopRec(){
             )}
           </div>
         </div>
-      );}
-
+      );
+    }
     export default TopRec;
