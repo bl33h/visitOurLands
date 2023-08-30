@@ -54,7 +54,7 @@ function EditRecommendations({ recommendation, onSave, onCancelEdit }) {
         onSave();
         setShowSuccessMessage(true);
         // Reload the page after saving
-        history.replace('/MainPage/Profile');
+        window.location.reload(false);
       }
     } catch (error) {
       console.error('Error al actualizar la recomendación:', error);
