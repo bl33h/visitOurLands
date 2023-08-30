@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '/src/Components/texts.css';
 import '/src/Components/display.css';
+import { useHistory } from 'react-router-dom'
 import { supabase } from '../../../../client';
 import "./edit.css";
 
@@ -54,6 +55,7 @@ function EditRecommendations({ recommendation, onSave, onCancelEdit }) {
         setShowSuccessMessage(true);
         // Reload the page after saving
         window.location.reload();
+        history.push('/Profile');
       }
     } catch (error) {
       console.error('Error al actualizar la recomendación:', error);
