@@ -42,26 +42,23 @@ function EditRecommendations({ recommendation, onSave, onCancelEdit }) {
 
   async function handleSaveClick() {
     editedRecommendation.rating = selectedStars;
-    console.log('edit:', editedRecommendation)
+    console.log('edit:', editedRecommendation);
     try {
       const { data, error } = await supabase
         .from('places')
         .update(editedRecommendation)
         .eq('id_places', recommendation.id_places);
-
+  
       if (error) {
         console.error('Error al actualizar la recomendación:', error);
       } else {
         onSave();
         setShowSuccessMessage(true);
-        // Reload the page after saving
-        history.push('/MainPage/Profile');
       }
     } catch (error) {
       console.error('Error al actualizar la recomendación:', error);
     }
   }
-
 
   function handleCancelClick() {
     onCancelEdit();
