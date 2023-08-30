@@ -3,7 +3,7 @@ import { supabase } from '../../../../client';
 import EditRecommendations from './edit'; 
 import "./edit.css";
 
-function EditButton() {
+function EditButton({setShowEditButton, setShowInitialInfo}) {
   const [user, setUser] = useState({});
   const [userRecommendations, setUserRecommendations] = useState([]);
   const [loadingRecommendations, setLoadingRecommendations] = useState(true);
@@ -63,6 +63,28 @@ function EditButton() {
     setShowEditForm(true);
   }
 
+  async function handleSaveClick() {
+    editedRecommendation.rating = selectedStars;
+    console.log('edit:', editedRecommendation);
+    try {
+      const { data, error } = await supabase
+        .from('places')
+        .update(editedRecommendation)
+        .eq('id_places', recommendation.id_places);
+
+      if (error) {
+        console.error('Error al actualizar la recomendación:', error);
+      } else {
+        onSave();
+        setShowSuccessMessage(true);
+        setShowEditButton(false);
+        setShowInitialInfo(true);
+      }
+    } catch (error) {
+      console.error('Error al actualizar la recomendación:', error);
+    }
+  }
+
   async function handleSaveRecommendation(updatedRecommendation) {
     try {
       const { data, error } = await supabase
@@ -86,9 +108,13 @@ function EditButton() {
         {showEditForm ? (
           <EditRecommendations
             recommendation={currentRecommendation}
-            onSave={() => setShowEditForm(false)}
+            onSave={() => {
+              setShowEditForm(false);
+              handleSaveRecommendation(); // Llamar a la función handleSaveRecommendation sin argumentos
+            }}
             onCancelEdit={() => setShowEditForm(false)}
-            handleSaveRecommendation={handleSaveRecommendation}
+            setShowEditButton={setShowEditButton}
+            setShowInitialInfo={setShowInitialInfo}
           />
         ) : (
           editRecom && (

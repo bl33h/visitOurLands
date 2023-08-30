@@ -116,9 +116,13 @@ function Profile() {
 
         {/* Mostrar EditButton si showEditButton es true */}
         {showEditButton && (
-          <EditButton recommendations={userRecommendations} onEditRecommendationClick={handleEditRecommendationClick} />
+          <EditButton
+            recommendations={userRecommendations}
+            onEditRecommendationClick={handleEditRecommendationClick}
+            setShowEditButton={setShowEditButton}
+            setShowInitialInfo={setShowInitialInfo}
+          />
         )}
-
         {/* Mostrar recomendaciones iniciales si showInitialInfo es true */}
         {showInitialInfo && !loadingRecommendations && userRecommendations.length > 0 && (
           <div className="user-recommendations">
