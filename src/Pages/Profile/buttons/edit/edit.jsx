@@ -15,6 +15,7 @@ function EditRecommendations({ recommendation, onSave, onCancelEdit }) {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false); // New state for showing success message
   const [selectedStars, setSelectedStars] = useState(editedRecommendation.rating);
   const [hoveredStars, setHoveredStars] = useState(editedRecommendation.rating);
+  const history = useHistory();
 
   function handleInputChange(event) {
     const { name, value } = event.target;
@@ -54,7 +55,7 @@ function EditRecommendations({ recommendation, onSave, onCancelEdit }) {
         onSave();
         setShowSuccessMessage(true);
         // Reload the page after saving
-        window.location.reload(false);
+        history.push('/MainPage/Profile');
       }
     } catch (error) {
       console.error('Error al actualizar la recomendación:', error);
