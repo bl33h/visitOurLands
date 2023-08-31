@@ -3,7 +3,7 @@ import { supabase } from '../../client';
 import './CreatePlace.css'
 
 function CreatePlace() {
-  let newIdValue = 0;
+  const [newIdValue, setNewIdValue] = useState(0);
   let maxId = 0;
   const MAX_DESCRIPTION_LENGTH = 280;
   const selectRef = useRef(null);
@@ -47,7 +47,7 @@ function CreatePlace() {
         maxId = place.id_places;
       }
     }    // Set the newIdValue globally
-    newIdValue = maxId + 1; // Next available id
+    setNewIdValue(maxId + 1); // Next available id
     console.log("Global New ID Value:", newIdValue);
   }
 
@@ -80,7 +80,7 @@ function CreatePlace() {
     const username = user.username;
   
     const place = {
-      id_places: newIdValue + 1,
+      id_places: newIdValue,
       name: document.getElementById('name-id').value,
       description: document.getElementById('description-id').value,
       rating: selectedStars,
@@ -92,7 +92,7 @@ function CreatePlace() {
     // Realizar la inserción del lugar en la base de datos (usando supabase)
     const { data, error } = await supabase.from('places').insert([
       {
-        id_places: place.id_places,
+        id_places: newIdValue,
         name: place.name,
         description: place.description,
         rating: place.rating,
