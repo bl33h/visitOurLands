@@ -81,7 +81,7 @@ function Login() {
           <input type="checkbox" id="mostrar-contrasena"  onChange={handleCheckboxChange} />
         </div>
         {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button className="login-button" onClick={check_login}>INICIAR SESION</button>
+        <button className="login-button" data-testid="login-button" onClick={check_login}>INICIAR SESION</button>
         <br></br><h2>¿Aún no tienes una cuenta?</h2>
         <button className="signin-button" onClick={sign_in}>REGISTRATE</button>
         </div>
