@@ -125,7 +125,7 @@ function CreatePlace() {
     <div className="container-CreatePlace">
       <h1>Crear un nuevo lugar</h1>
       <form onSubmit={handleFormSubmit}>
-        <label htmlFor="name" className="label">Nombre:</label>
+        <label htmlFor="name" data-testid="nombre-label" className="label">Nombre:</label>
         <input
           type="text"
           id="name-id"
@@ -162,6 +162,7 @@ function CreatePlace() {
               onClick={handleRatingClick}
               onMouseEnter={handleRatingHover}
               onMouseLeave={handleRatingLeave}
+              data-testid="rating-stars"
               className={hoveredStars >= 1 || selectedStars >= 1 ? "filled" : ""}
             >
               &#9733;
@@ -173,6 +174,7 @@ function CreatePlace() {
               onClick={handleRatingClick}
               onMouseEnter={handleRatingHover}
               onMouseLeave={handleRatingLeave}
+              data-testid="rating-stars"
               className={hoveredStars >= 2 || selectedStars >= 2 ? "filled" : ""}
             >
               &#9733;
@@ -184,6 +186,7 @@ function CreatePlace() {
               onClick={handleRatingClick}
               onMouseEnter={handleRatingHover}
               onMouseLeave={handleRatingLeave}
+              data-testid="rating-stars"
               className={hoveredStars >= 3 || selectedStars >= 3 ? "filled" : ""}
             >
               &#9733;
@@ -238,7 +241,7 @@ function CreatePlace() {
           required
         />
 
-        <button type="submit" className="submit">Crear lugar</button>
+        <button type="submit" data-testid="submit-button" className="submit">Crear lugar</button>
       </form>
     </div>
   );
