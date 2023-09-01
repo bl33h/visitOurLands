@@ -1,6 +1,5 @@
 import React from 'react'
 import Profile from './Profile'
-import { supabase } from '../../client';
 
 describe('<Profile />', () => {
   it('click on edit button', () => {
