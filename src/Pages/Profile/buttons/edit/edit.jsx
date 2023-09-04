@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '/src/Components/texts.css';
 import '/src/Components/display.css';
+import { useHistory } from 'react-router-dom'
 import { supabase } from '../../../../client';
 import "./edit.css";
 
@@ -14,6 +15,7 @@ function EditRecommendations({ recommendation, onSave, onCancelEdit }) {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false); // New state for showing success message
   const [selectedStars, setSelectedStars] = useState(editedRecommendation.rating);
   const [hoveredStars, setHoveredStars] = useState(editedRecommendation.rating);
+  const history = useHistory();
 
   function handleInputChange(event) {
     const { name, value } = event.target;
@@ -40,26 +42,23 @@ function EditRecommendations({ recommendation, onSave, onCancelEdit }) {
 
   async function handleSaveClick() {
     editedRecommendation.rating = selectedStars;
-    console.log('edit:', editedRecommendation)
+    console.log('edit:', editedRecommendation);
     try {
       const { data, error } = await supabase
         .from('places')
         .update(editedRecommendation)
         .eq('id_places', recommendation.id_places);
-
+  
       if (error) {
         console.error('Error al actualizar la recomendación:', error);
       } else {
         onSave();
         setShowSuccessMessage(true);
-        // Reload the page after saving
-        window.location.reload();
       }
     } catch (error) {
       console.error('Error al actualizar la recomendación:', error);
     }
   }
-
 
   function handleCancelClick() {
     onCancelEdit();

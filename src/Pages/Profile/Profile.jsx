@@ -80,6 +80,7 @@ function Profile() {
           {/* Botón Editar */}
           <button
             className="each-button"
+            data-testid="edit-button"
             style={{
               backgroundImage: `url(${edit})`,
               backgroundSize: "cover",
@@ -90,6 +91,7 @@ function Profile() {
           <button
             id="save"
             className="each-button"
+            data-testid="save-button"
             style={{
               backgroundImage: `url(${save})`,
               backgroundSize: "cover",
@@ -103,6 +105,7 @@ function Profile() {
           <button
             id="like"
             className="each-button"
+            data-testid="like-button"
             style={{
               backgroundImage: `url(${like})`,
               backgroundSize: "cover",
@@ -116,9 +119,13 @@ function Profile() {
 
         {/* Mostrar EditButton si showEditButton es true */}
         {showEditButton && (
-          <EditButton recommendations={userRecommendations} onEditRecommendationClick={handleEditRecommendationClick} />
+          <EditButton
+            recommendations={userRecommendations}
+            onEditRecommendationClick={handleEditRecommendationClick}
+            setShowEditButton={setShowEditButton}
+            setShowInitialInfo={setShowInitialInfo}
+          />
         )}
-
         {/* Mostrar recomendaciones iniciales si showInitialInfo es true */}
         {showInitialInfo && !loadingRecommendations && userRecommendations.length > 0 && (
           <div className="user-recommendations">
