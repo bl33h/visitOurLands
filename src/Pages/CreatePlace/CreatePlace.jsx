@@ -1,9 +1,7 @@
-import { useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import { supabase } from '../../client';
 import './CreatePlace.css'
-import { Print, Upload } from '@mui/icons-material';
 import { v4 as uuidv4 } from "uuid";
-
 
 function CreatePlace() {
   const MAX_DESCRIPTION_LENGTH = 280;
@@ -16,6 +14,7 @@ function CreatePlace() {
   const [selectedStars, setSelectedStars] = useState(0);
   const [hoveredStars, setHoveredStars] = useState(0);
   const [image, setImage] = useState(); 
+
   const [placeData, setPlaceData] = useState({
     id_places: 0,
     name: '',
@@ -178,7 +177,7 @@ function CreatePlace() {
     <div className="container-CreatePlace">
       <h1>Crear un nuevo lugar</h1>
       <form onSubmit={handleFormSubmit}>
-        <label htmlFor="name" className="label">Nombre:</label>
+        <label htmlFor="name" data-testid="nombre-label" className="label">Nombre:</label>
         <input
           type="text"
           id="name-id"
@@ -215,6 +214,7 @@ function CreatePlace() {
               onClick={handleRatingClick}
               onMouseEnter={handleRatingHover}
               onMouseLeave={handleRatingLeave}
+              data-testid="rating-stars"
               className={hoveredStars >= 1 || selectedStars >= 1 ? "filled" : ""}
             >
               &#9733;
@@ -226,6 +226,7 @@ function CreatePlace() {
               onClick={handleRatingClick}
               onMouseEnter={handleRatingHover}
               onMouseLeave={handleRatingLeave}
+              data-testid="rating-stars"
               className={hoveredStars >= 2 || selectedStars >= 2 ? "filled" : ""}
             >
               &#9733;
@@ -237,6 +238,7 @@ function CreatePlace() {
               onClick={handleRatingClick}
               onMouseEnter={handleRatingHover}
               onMouseLeave={handleRatingLeave}
+              data-testid="rating-stars"
               className={hoveredStars >= 3 || selectedStars >= 3 ? "filled" : ""}
             >
               &#9733;
@@ -286,7 +288,7 @@ function CreatePlace() {
           <input id="id_ImageUrl" name="ImageUrl" type="file" accept="image/png, image/jpg, image/jpeg" onChange={(e) => uploadImage(e)}/>
         </div>
         <br></br>
-        <button type="submit" className="submit">Crear lugar</button>
+        <button type="submit" data-testid="submit-button" className="submit">Crear lugar</button>
       </form>
     </div>
   );
