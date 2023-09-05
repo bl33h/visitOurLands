@@ -3,6 +3,7 @@ import { supabase } from '../../client.js';
 import './TopRec.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faBookmark, faComment, faShare } from "@fortawesome/free-solid-svg-icons";
+import Comment from './interactions/comment/comment.jsx'
 
 function TopRec(){
     const [user, setUser] = useState({});
@@ -11,6 +12,8 @@ function TopRec(){
     const [departmentName, setDepartmentName] = useState('');
     const [interactionStates, setInteractionStates] = useState({});
     const [favoriteRecommendations, setFavoriteRecommendations] = useState([]);
+    const [showCommentModal, setShowCommentModal] = useState(false);
+    const [selectedCommentPlaceId, setSelectedCommentPlaceId] = useState(null);
 
 
     useEffect(() => {
@@ -184,9 +187,19 @@ function TopRec(){
                       />
                       <FontAwesomeIcon
                         icon={faComment}
-                        onClick={() => toggleInteraction(recommendation.id_places, 'comment')}
+                        onClick={() => {
+                          setSelectedCommentPlaceId(recommendation.id_places);
+                          setShowCommentModal(true);
+                        }}
                         className={interactionStates[recommendation.id_places].comment ? "activeIn" : ""}
                       />
+                      {showCommentModal && (
+                        <div className="comment-modal">
+                          <Comment selectedPlaceId={selectedCommentPlaceId} /> {/* Pasa el selectedPlaceId */}
+                          <button onClick={() => setShowCommentModal(false)}>Cerrar</button>
+                        </div>
+                      )}
+
                       <FontAwesomeIcon
                         icon={faShare}
                         onClick={() => toggleInteraction(recommendation.id_places, 'share')}
