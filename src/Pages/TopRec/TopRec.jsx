@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../../client.js';
 import './TopRec.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faSave, faComment, faShare } from "@fortawesome/free-solid-svg-icons";
+import { faHeart, faBookmark, faComment, faShare } from "@fortawesome/free-solid-svg-icons";
 
 function TopRec(){
     const [user, setUser] = useState({});
@@ -178,7 +178,7 @@ function TopRec(){
                         className={interactionStates[recommendation.id_places].like ? "activeIn" : ""}
                       />
                       <FontAwesomeIcon
-                        icon={faSave}
+                        icon={faBookmark}
                         onClick={() => toggleInteraction(recommendation.id_places, 'save')}
                         className={interactionStates[recommendation.id_places].save ? "activeIn" : ""}
                       />
