@@ -8,6 +8,7 @@ import edit from '../../assets/1.png';
 import save from '../../assets/2.png';
 import like from '../../assets/3.png';
 import EditButton from './buttons/edit/EditButton';
+import LikeButton from './buttons/like/LikeButton';
 
 function Profile() {
   const [user, setUser] = useState({});
@@ -15,6 +16,8 @@ function Profile() {
   const [loadingRecommendations, setLoadingRecommendations] = useState(true);
   const [showInitialInfo, setShowInitialInfo] = useState(true); // Estado para mostrar/ocultar recomendaciones iniciales
   const [showEditButton, setShowEditButton] = useState(false);
+  const [showLikeButton, setShowLikeButton] = useState(false);
+
 
   useEffect(() => {
     // Local storage
@@ -98,7 +101,7 @@ function Profile() {
               backgroundPosition: "center"
             }}
             onClick={() => {
-              // Colocar la acción para guardar el perfil
+               // Colocar la acción para mostrar las recomendaciones
             }}
           ></button>
 
@@ -112,10 +115,12 @@ function Profile() {
               backgroundPosition: "center"
             }}
             onClick={() => {
-              // Colocar la acción para mostrar las recomendaciones
+              setShowLikeButton(!showLikeButton);
             }}
           ></button>
         </div>
+
+        {showLikeButton && <LikeButton />}
 
         {/* Mostrar EditButton si showEditButton es true */}
         {showEditButton && (

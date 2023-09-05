@@ -10,6 +10,8 @@ function TopRec(){
     const [userRecommendations, setUserRecommendations] = useState([]);
     const [departmentName, setDepartmentName] = useState('');
     const [interactionStates, setInteractionStates] = useState({});
+    const [favoriteRecommendations, setFavoriteRecommendations] = useState([]);
+
 
     useEffect(() => {
         // Local storage
@@ -87,15 +89,53 @@ function TopRec(){
         }
       }, [userRecommendations]);
 
-      function toggleInteraction(recommendationId, interactionType) {
-        setInteractionStates(prevStates => ({
-          ...prevStates,
+      async function toggleInteraction(recommendationId, interactionType) {
+        const updatedInteractionStates = {
+          ...interactionStates,
           [recommendationId]: {
-            ...prevStates[recommendationId],
-            [interactionType]: !prevStates[recommendationId][interactionType]
+            ...interactionStates[recommendationId],
+            [interactionType]: !interactionStates[recommendationId][interactionType],
+          },
+        };
+      
+        setInteractionStates(updatedInteractionStates);
+      
+        if (interactionType === 'like') {
+          if (!favoriteRecommendations.includes(recommendationId)) {
+            // Agregar la recomendación a la lista de favoritos
+            const updatedFavorites = [...favoriteRecommendations, recommendationId];
+            setFavoriteRecommendations(updatedFavorites);
+      
+            // Insertar el "like" en la tabla likedReviews
+            const { data, error } = await supabase.from('likedReviews').upsert([
+              {
+                username: user.username, // El ID del usuario que dio "like"
+                id_places: recommendationId, // El ID de la recomendación que se dio "like"
+              },
+            ]);
+      
+            if (error) {
+              console.error('Error al registrar el "like":', error);
+              
+            }
+          } else {
+            // Si ya está marcado como favorito, quítalo de la lista de favoritos
+            const updatedFavorites = favoriteRecommendations.filter(
+              (fav) => fav !== recommendationId
+            );
+            setFavoriteRecommendations(updatedFavorites);
+      
+            // Eliminar el "like" de la tabla likedReviews
+            const { data, error } = await supabase.from('likedReviews').delete().eq('username', user.username).eq('id_places', recommendationId);
+      
+            if (error) {
+              console.error('Error al eliminar el "like":', error);
+              
+            }
           }
-        }));
+        }
       }
+      
 
       function renderRatingStars(rating) {
         const stars = [];
