@@ -1,7 +1,6 @@
-import { useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../client';
-import './CreatePlace.css'
-import { Print, Upload } from '@mui/icons-material';
+import './CreatePlace.css';
 import { v4 as uuidv4 } from "uuid";
 
 
@@ -105,68 +104,61 @@ function CreatePlace() {
     onPressButton()
     }
 
-  //Funcion para subir la imagen y colocarle una ruta
-  async function uploadImage(e){
-    let file = e.target.files[0];
-    console.log(file);
-    setImage(file);
-  }
-
-  async function onPressButton(){
-    console.log(image);
-    if (!image) {
-      console.log("Debes seleccionar una imagen primero.");
-      setImageLoaded(false)
-    }
-    //Subir la imagen al bucket
-    var temp = placesData.length + 1 + uuidv4();
-    const { data, error } = await supabase
-      .storage
-      .from('PlacesImages')
-      .upload(temp, image)
-
-    console.log(placesData.length + 1);
-    console.log(temp);
-    setImageUrl(temp)
+    async function uploadImage(e) {
+      let file = e.target.files[0];
     
-    if(data){
-      getImage();
-      
-    } else {
-      console.log(error);
+      if (file) {
+        const imageName = uuidv4(); // Generar un nombre único para la imagen
+        const folderName = 'images';
+        const imagePath = `${folderName}/${imageName}`; // Construir la ruta completa
+    
+        const { data, error } = await supabase.storage
+          .from('PlacesImages') // Reemplaza 'tu_bucket_de_imagenes' con el nombre de tu bucket
+          .upload(imagePath, file);
+    
+        if (error) {
+          console.error('Error al cargar la imagen:', error);
+        } else {
+          console.log('Imagen cargada con éxito:', imagePath); // Usar imagePath en lugar de data.Key
+          // Obtener la URL pública de la imagen recién cargada
+          const imageUrlResponse = await supabase.storage
+            .from('PlacesImages')
+            .getPublicUrl(imagePath); // Usar imagePath en lugar de data.Key
+    
+          const imageUrl = imageUrlResponse.data.publicUrl; // Obtener solo la URL
+    
+          setPlaceData({ ...placeData, imageUrl }); // Actualizar el estado con la URL de la imagen
+        }
+      }
     }
-  }
-
-  //Funcion para volverlo sincrono, esperar a que cargue setImageUrl
-  useEffect(() =>{
-    console.log(urlimage);
-    const place = {
-      id_places: newIdValue,
-      name: document.getElementById('name-id').value,
-      description: document.getElementById('description-id').value,
-      rating: selectedStars,
-      department: selectRef.current.value,
-      imageUrl: urlimage, 
-      author: user.username, // Agregar el nombre de usuario como 'author' en el objeto place
-    };
-    const waitInsert = async() => {
-      if (urlimage !== '') {
-        // Realizar la inserción del lugar en la base de datos (usando supabase)
-        const { ImageUrl, error } = await supabase.from('places').insert([
-          {
-            id_places: newIdValue,
-            name: place.name,
-            description: place.description,
-            rating: place.rating,
-            id_departments: selectRef.current.value,
-            image: place.imageUrl,
-            author: place.author, // Insertar el nombre de usuario en la columna 'author'
-          },
-        ]);
+    
+    
+    async function onPressButton() {
+      console.log(image);
+      if (!image) {
+        console.log("Debes seleccionar una imagen primero.");
+      }
+    
+      // Subir la imagen al bucket
+      if (placeData.imageUrl) {
+        const { data, error } = await supabase
+          .from('places')
+          .insert([
+            {
+              id_places: newIdValue,
+              name: placeData.name,
+              description: placeData.description,
+              rating: selectedStars,
+              id_departments: selectRef.current.value,
+              image: placeData.imageUrl, // Usar la URL de la imagen
+              author: user.username,
+            },
+          ]);
+    
         if (error) {
           console.error('Error al insertar el lugar:', error);
         } else {
-          console.log('Lugar insertado exitosamente:', place);
+          console.log('Lugar insertado exitosamente:', placeData);
           // Limpiar los campos después de la inserción exitosa
           setPlaceData({
             name: '',
@@ -177,13 +169,14 @@ function CreatePlace() {
           });
           setSelectedStars(0);
           setHoveredStars(0);
-          selectRef.current.value = "";
-        };
-      };
-    };
-
-    waitInsert();
-  }, [urlimage]);
+          selectRef.current.value = '';
+        }
+      }
+    }
+    
+    
+    
+  
     
   return (
     <div className="container-CreatePlace">
@@ -306,4 +299,4 @@ function CreatePlace() {
   );
 }
 
-export default CreatePlace;
+export default CreatePlace;
