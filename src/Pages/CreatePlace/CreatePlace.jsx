@@ -108,26 +108,31 @@ function CreatePlace() {
       let file = e.target.files[0];
     
       if (file) {
-        const imageName = uuidv4(); // Generar un nombre único para la imagen
+        // Generar un nombre único para la imagen
+        const imageName = uuidv4(); 
         const folderName = 'images';
-        const imagePath = `${folderName}/${imageName}`; // Construir la ruta completa
+        // Construir la ruta completa
+        const imagePath = `${folderName}/${imageName}`; 
     
         const { data, error } = await supabase.storage
-          .from('PlacesImages') // Reemplaza 'tu_bucket_de_imagenes' con el nombre de tu bucket
+          // Reemplaza 'tu_bucket_de_imagenes' con el nombre de tu bucket
+          .from('PlacesImages') 
           .upload(imagePath, file);
     
         if (error) {
           console.error('Error al cargar la imagen:', error);
         } else {
-          console.log('Imagen cargada con éxito:', imagePath); // Usar imagePath en lugar de data.Key
+          // Usar imagePath en lugar de data.Key
+          console.log('Imagen cargada con éxito:', imagePath); 
           // Obtener la URL pública de la imagen recién cargada
           const imageUrlResponse = await supabase.storage
             .from('PlacesImages')
-            .getPublicUrl(imagePath); // Usar imagePath en lugar de data.Key
-    
-          const imageUrl = imageUrlResponse.data.publicUrl; // Obtener solo la URL
-    
-          setPlaceData({ ...placeData, imageUrl }); // Actualizar el estado con la URL de la imagen
+            // Usar imagePath en lugar de data.Key
+            .getPublicUrl(imagePath); 
+          // Obtener solo la URL
+          const imageUrl = imageUrlResponse.data.publicUrl; 
+          // Actualizar el estado con la URL de la imagen
+          setPlaceData({ ...placeData, imageUrl }); 
         }
       }
     }
