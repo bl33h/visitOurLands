@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../../client.js';
 import './TopRec.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faSave, faComment, faShare } from "@fortawesome/free-solid-svg-icons";
+import { faHeart, faBookmark, faComment, faShare } from "@fortawesome/free-solid-svg-icons";
+import Comment from './interactions/comment/comment.jsx'
 
 function TopRec(){
     const [user, setUser] = useState({});
@@ -10,6 +11,10 @@ function TopRec(){
     const [userRecommendations, setUserRecommendations] = useState([]);
     const [departmentName, setDepartmentName] = useState('');
     const [interactionStates, setInteractionStates] = useState({});
+    const [favoriteRecommendations, setFavoriteRecommendations] = useState([]);
+    const [showCommentModal, setShowCommentModal] = useState(false);
+    const [selectedCommentPlaceId, setSelectedCommentPlaceId] = useState(null);
+
 
     useEffect(() => {
         // Local storage
@@ -87,15 +92,53 @@ function TopRec(){
         }
       }, [userRecommendations]);
 
-      function toggleInteraction(recommendationId, interactionType) {
-        setInteractionStates(prevStates => ({
-          ...prevStates,
+      async function toggleInteraction(recommendationId, interactionType) {
+        const updatedInteractionStates = {
+          ...interactionStates,
           [recommendationId]: {
-            ...prevStates[recommendationId],
-            [interactionType]: !prevStates[recommendationId][interactionType]
+            ...interactionStates[recommendationId],
+            [interactionType]: !interactionStates[recommendationId][interactionType],
+          },
+        };
+      
+        setInteractionStates(updatedInteractionStates);
+      
+        if (interactionType === 'like') {
+          if (!favoriteRecommendations.includes(recommendationId)) {
+            // Agregar la recomendación a la lista de favoritos
+            const updatedFavorites = [...favoriteRecommendations, recommendationId];
+            setFavoriteRecommendations(updatedFavorites);
+      
+            // Insertar el "like" en la tabla likedReviews
+            const { data, error } = await supabase.from('likedReviews').upsert([
+              {
+                username: user.username, // El ID del usuario que dio "like"
+                id_places: recommendationId, // El ID de la recomendación que se dio "like"
+              },
+            ]);
+      
+            if (error) {
+              console.error('Error al registrar el "like":', error);
+              
+            }
+          } else {
+            // Si ya está marcado como favorito, quítalo de la lista de favoritos
+            const updatedFavorites = favoriteRecommendations.filter(
+              (fav) => fav !== recommendationId
+            );
+            setFavoriteRecommendations(updatedFavorites);
+      
+            // Eliminar el "like" de la tabla likedReviews
+            const { data, error } = await supabase.from('likedReviews').delete().eq('username', user.username).eq('id_places', recommendationId);
+      
+            if (error) {
+              console.error('Error al eliminar el "like":', error);
+              
+            }
           }
-        }));
+        }
       }
+      
 
       function renderRatingStars(rating) {
         const stars = [];
@@ -138,15 +181,25 @@ function TopRec(){
                         className={interactionStates[recommendation.id_places].like ? "activeIn" : ""}
                       />
                       <FontAwesomeIcon
-                        icon={faSave}
+                        icon={faBookmark}
                         onClick={() => toggleInteraction(recommendation.id_places, 'save')}
                         className={interactionStates[recommendation.id_places].save ? "activeIn" : ""}
                       />
                       <FontAwesomeIcon
                         icon={faComment}
-                        onClick={() => toggleInteraction(recommendation.id_places, 'comment')}
+                        onClick={() => {
+                          setSelectedCommentPlaceId(recommendation.id_places);
+                          setShowCommentModal(true);
+                        }}
                         className={interactionStates[recommendation.id_places].comment ? "activeIn" : ""}
                       />
+                      {showCommentModal && (
+                        <div className="comment-modal">
+                          <Comment selectedPlaceId={selectedCommentPlaceId} /> {/* Pasa el selectedPlaceId */}
+                          <button onClick={() => setShowCommentModal(false)}>Cerrar</button>
+                        </div>
+                      )}
+
                       <FontAwesomeIcon
                         icon={faShare}
                         onClick={() => toggleInteraction(recommendation.id_places, 'share')}

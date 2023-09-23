@@ -1,17 +1,22 @@
-import React, { useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../client';
-import './CreatePlace.css'
+import './CreatePlace.css';
+import { v4 as uuidv4 } from "uuid";
+
 
 function CreatePlace() {
-  let newIdValue = 0;
+  const [newIdValue, setNewIdValue] = useState(0);
   let maxId = 0;
   const MAX_DESCRIPTION_LENGTH = 280;
   const selectRef = useRef(null);
-  const [listDepartments, setDepartments] = useState([])
-  const [placesData, setPlacesData] = useState([])
-  const [user, setUser] = useState({})
+  const [urlimage, setImageUrl] = useState('');
+  const[ PlacesImages, setPlacesImages] = useState([]);
+  const [listDepartments, setDepartments] = useState([]);
+  const [placesData, setPlacesData] = useState([]);
+  const [user, setUser] = useState({});
   const [selectedStars, setSelectedStars] = useState(0);
   const [hoveredStars, setHoveredStars] = useState(0);
+  const [image, setImage] = useState(); 
   const [placeData, setPlaceData] = useState({
     id_places: 0,
     name: '',
@@ -25,7 +30,25 @@ function CreatePlace() {
     fetchPosts()
     const browser_data = window.localStorage.getItem('LOGIN_STATUS')
     if (browser_data !== null) setUser(JSON.parse(browser_data))
-}, [])
+  }, [])
+
+  //Funcion para obtener la imagen
+  async function getImage() {
+    const { data, error } = await supabase
+      .storage
+      .from('PlacesImages')
+      .list(placeData?.id_places + "/", {
+        limit: 100,
+        offset: 0,
+        sortBy: { column: "name", order: "asc" }
+      });
+    if (data !== null) {
+      setPlacesImages(data); 
+    } else {
+      alert("Error al cargar la imagen");
+      console.log(error);
+    }
+  } 
 
   async function fetchPosts() {
     await fetchPost()
@@ -47,7 +70,7 @@ function CreatePlace() {
         maxId = place.id_places;
       }
     }    // Set the newIdValue globally
-    newIdValue = maxId + 1; // Next available id
+    setNewIdValue(maxId + 1); // Next available id
     console.log("Global New ID Value:", newIdValue);
   }
 
@@ -74,58 +97,97 @@ function CreatePlace() {
     event.preventDefault();
     // Obtener el valor seleccionado del elemento <select> a través de la referencia
     const departmentValue = selectRef.current.value;
-    console.log(departmentValue);
-  
+    //console.log(departmentValue);
     // Obtener el nombre de usuario del estado user
     const username = user.username;
-  
-    const place = {
-      id_places: newIdValue + 1,
-      name: document.getElementById('name-id').value,
-      description: document.getElementById('description-id').value,
-      rating: selectedStars,
-      department: departmentValue,
-      imageUrl: document.getElementById('imageUrl-id').value,
-      author: username, // Agregar el nombre de usuario como 'author' en el objeto place
-    };
-  
-    // Realizar la inserción del lugar en la base de datos (usando supabase)
-    const { data, error } = await supabase.from('places').insert([
-      {
-        id_places: place.id_places,
-        name: place.name,
-        description: place.description,
-        rating: place.rating,
-        id_departments: departmentValue,
-        image: place.imageUrl,
-        author: place.author, // Insertar el nombre de usuario en la columna 'author'
-      },
-    ]);
-  
-    if (error) {
-      console.error('Error al insertar el lugar:', error);
-    } else {
-      console.log('Lugar insertado exitosamente:', place);
-      // Limpiar los campos después de la inserción exitosa
-      setPlaceData({
-        name: '',
-        description: '',
-        rating: 0,
-        department: 0,
-        imageUrl: '',
-      });
-      setSelectedStars(0);
-      setHoveredStars(0);
-      selectRef.current.value = "";
+    // Sube la imagen
+    onPressButton()
     }
-  };
 
-
+    async function uploadImage(e) {
+      let file = e.target.files[0];
+    
+      if (file) {
+        // Generar un nombre único para la imagen
+        const imageName = uuidv4(); 
+        const folderName = 'images';
+        // Construir la ruta completa
+        const imagePath = `${folderName}/${imageName}`; 
+    
+        const { data, error } = await supabase.storage
+          // Reemplaza 'tu_bucket_de_imagenes' con el nombre de tu bucket
+          .from('PlacesImages') 
+          .upload(imagePath, file);
+    
+        if (error) {
+          console.error('Error al cargar la imagen:', error);
+        } else {
+          // Usar imagePath en lugar de data.Key
+          console.log('Imagen cargada con éxito:', imagePath); 
+          // Obtener la URL pública de la imagen recién cargada
+          const imageUrlResponse = await supabase.storage
+            .from('PlacesImages')
+            // Usar imagePath en lugar de data.Key
+            .getPublicUrl(imagePath); 
+          // Obtener solo la URL
+          const imageUrl = imageUrlResponse.data.publicUrl; 
+          // Actualizar el estado con la URL de la imagen
+          setPlaceData({ ...placeData, imageUrl }); 
+        }
+      }
+    }
+    
+    
+    async function onPressButton() {
+      console.log(image);
+      if (!image) {
+        console.log("Debes seleccionar una imagen primero.");
+      }
+    
+      // Subir la imagen al bucket
+      if (placeData.imageUrl) {
+        const { data, error } = await supabase
+          .from('places')
+          .insert([
+            {
+              id_places: newIdValue,
+              name: placeData.name,
+              description: placeData.description,
+              rating: selectedStars,
+              id_departments: selectRef.current.value,
+              image: placeData.imageUrl, // Usar la URL de la imagen
+              author: user.username,
+            },
+          ]);
+    
+        if (error) {
+          console.error('Error al insertar el lugar:', error);
+        } else {
+          console.log('Lugar insertado exitosamente:', placeData);
+          // Limpiar los campos después de la inserción exitosa
+          setPlaceData({
+            name: '',
+            description: '',
+            rating: 0,
+            department: 0,
+            imageUrl: '',
+          });
+          setSelectedStars(0);
+          setHoveredStars(0);
+          selectRef.current.value = '';
+        }
+      }
+    }
+    
+    
+    
+  
+    
   return (
     <div className="container-CreatePlace">
       <h1>Crear un nuevo lugar</h1>
       <form onSubmit={handleFormSubmit}>
-        <label htmlFor="name" className="label">Nombre:</label>
+        <label htmlFor="name" data-testid="nombre-label" className="label">Nombre:</label>
         <input
           type="text"
           id="name-id"
@@ -162,6 +224,7 @@ function CreatePlace() {
               onClick={handleRatingClick}
               onMouseEnter={handleRatingHover}
               onMouseLeave={handleRatingLeave}
+              data-testid="rating-stars"
               className={hoveredStars >= 1 || selectedStars >= 1 ? "filled" : ""}
             >
               &#9733;
@@ -173,6 +236,7 @@ function CreatePlace() {
               onClick={handleRatingClick}
               onMouseEnter={handleRatingHover}
               onMouseLeave={handleRatingLeave}
+              data-testid="rating-stars"
               className={hoveredStars >= 2 || selectedStars >= 2 ? "filled" : ""}
             >
               &#9733;
@@ -184,6 +248,7 @@ function CreatePlace() {
               onClick={handleRatingClick}
               onMouseEnter={handleRatingHover}
               onMouseLeave={handleRatingLeave}
+              data-testid="rating-stars"
               className={hoveredStars >= 3 || selectedStars >= 3 ? "filled" : ""}
             >
               &#9733;
@@ -227,21 +292,16 @@ function CreatePlace() {
               </>
             </select>
 
-        <label htmlFor="imageUrl" className="label">Link de la imagen:</label>
-        <input
-          type="text"
-          id="imageUrl-id"
-          name="imageUrl"
-          className="imageUrl"
-          value={placeData.imageUrl}
-          onChange={handleInputChange}
-          required
-        />
-
+        <label htmlFor="imageUrl" className="label">Selecciona tu imagen</label>
+        <br></br>
+        <div className="label" >
+          <input id="id_ImageUrl" name="ImageUrl" type="file" accept="image/png, image/jpg, image/jpeg" onChange={(e) => uploadImage(e)}/>
+        </div>
+        <br></br>
         <button type="submit" className="submit">Crear lugar</button>
       </form>
     </div>
   );
 }
 
-export default CreatePlace;
+export default CreatePlace;

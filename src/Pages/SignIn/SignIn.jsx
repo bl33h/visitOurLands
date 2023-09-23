@@ -174,7 +174,7 @@ function SignIn() {
         </div>
 
         <br></br>
-        <button className="sign-in-button" onClick={check_signIn}>
+        <button className="sign-in-button" data-testid="registro-button" onClick={check_signIn}>
           REGISTRARME
         </button>
         <button className="log-in-button" onClick={() => history.push('/Login')}>
