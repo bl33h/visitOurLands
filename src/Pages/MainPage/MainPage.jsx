@@ -7,6 +7,7 @@ import Map from '/src/Pages/Map/Map'
 import Profile from '/src/Pages/Profile/Profile'
 import CreatePlace from '/src/Pages/CreatePlace/CreatePlace';
 import TopRec from '/src/Pages/TopRec/TopRec';
+import HomePage from './HomePage/HomePage'
 import "./MainPage.css"
 
 function MainPage() {
@@ -56,7 +57,9 @@ function MainPage() {
               <Route path="/MainPage/TopRec">
                 <TopRec/>
               </Route>
-
+              <Route path="/MainPage/">
+                <HomePage/>
+              </Route>
             </Switch>
           </main>
         </div>

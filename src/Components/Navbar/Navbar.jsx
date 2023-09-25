@@ -84,6 +84,10 @@ const Sidebar = () => {
     }
   }, [])
 
+  const redirectToPage = () => {
+    history.push("/Mainpage")
+  };
+
   useEffect(() => {
   }, [user])
 
@@ -141,7 +145,7 @@ const Sidebar = () => {
 
           {!isCollapsed.colapsed && (
             <Box mb="5px">
-              <Box display="flex" justifyContent="center" alignItems="center">
+              <Box display="flex" justifyContent="center" onClick={redirectToPage} style={{ cursor: 'pointer', borderRadius: '50%' }} alignItems="center">
                 <img
                   alt="profile-user"
                   width="70px"
