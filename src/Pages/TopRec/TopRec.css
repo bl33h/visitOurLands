@@ -83,4 +83,32 @@
   .activeIn {
     color: #04738c;
   }
+
+  .pagination {
+    margin-top: 5px;
+    text-align: center;
+  }
+  
+  .pagination button {
+    border: 1px solid #04738c;
+    background-color: #fff;
+    color: #04738c;
+    font-size: 16px;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .pagination button.activePage {
+    background-color: #04738c;
+    color: #fff;
+  }
+  
+  .pagination button:hover {
+    background-color: #04738c;
+    color: #fff;
+  }  
   
