@@ -135,7 +135,7 @@ function RecommendationPage() {
             <ul>
               {relatedRecommendations.map((related) => (
                 <li key={related.id_places}>
-                  <a href={`/recomendation/${related.id_places}`}>{related.name}</a>
+                  <a href={`/MainPage/recomendation/${related.id_places}`}>{related.name}</a>
                   <img src={related.image} alt={related.name} />
                 </li>
               ))}
@@ -145,7 +145,7 @@ function RecommendationPage() {
           <><p>No se encontraron lugares turísticos relacionados. Aquí hay algunas recomendaciones populares:</p><ul>
                           {relatedRecommendations.map((best) => (
                               <li key={best.id_places}>
-                                  <a href={`/recomendation/${best.id_places}`}>{best.name}</a>
+                                  <a href={`/MainPage/recomendation/${best.id_places}`}>{best.name}</a>
                                   <img src={best.image} alt={best.name} />
                               </li>
                           ))}
