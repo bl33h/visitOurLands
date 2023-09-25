@@ -3,7 +3,7 @@ import '/src/Components/display.css'
 import { useState, useEffect } from 'react'
 import React from 'react'
 import jaguiImage from '../../assets/jagui.png'
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { supabase } from '../../client';
 
 function Map(){
@@ -144,7 +144,9 @@ function Map(){
         
         {selectedDepartment && (
             <div className='my-box'>
-                <h6>{selectedDepartment.name}</h6>
+                <Link to={`/MainPage/recommendation/${selectedDepartment.id_places}`}>
+                  <h6>{selectedDepartment.name}</h6>
+                </Link>
                 <p>{selectedDepartment.description}</p>
                 <img className='imag' src={selectedDepartment.image} alt={selectedDepartment.name} />
             </div>

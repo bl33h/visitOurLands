@@ -9,6 +9,7 @@ import save from '../../assets/2.png';
 import like from '../../assets/3.png';
 import EditButton from './buttons/edit/EditButton';
 import LikeButton from './buttons/like/LikeButton';
+import { Link } from 'react-router-dom';
 
 function Profile() {
   const [user, setUser] = useState({});
@@ -138,7 +139,9 @@ function Profile() {
             <div className="recommendations-container">
               {userRecommendations.map((recommendation) => (
                 <div key={recommendation.id_places} className="recommendation-card">
-                  <h3>{recommendation.name}</h3>
+                  <Link to={`/MainPage/recommendation/${recommendation.id_places}`}>
+                      <h3>{recommendation.name}</h3>
+                  </Link>
                   <p>{recommendation.description}</p>
                   <div className="rating-stars">{renderRatingStars(recommendation.rating)}</div>
                   <img src={recommendation.image} alt={recommendation.name} />

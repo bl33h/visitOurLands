@@ -4,6 +4,7 @@ import './TopRec.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faBookmark, faComment, faShare } from "@fortawesome/free-solid-svg-icons";
 import Comment from './interactions/comment/comment.jsx'
+import { Link } from 'react-router-dom';
 
 function TopRec(){
     const [user, setUser] = useState({});
@@ -167,7 +168,9 @@ function TopRec(){
               <div className="recommendations-container2">
                 {userRecommendations.map((recommendation) => (
                   <div key={recommendation.id_places} className="recommendation-card2">
-                    <h3>{recommendation.name}</h3>
+                    <Link to={`/MainPage/recommendation/${recommendation.id_places}`}>
+                      <h3>{recommendation.name}</h3>
+                    </Link>
                     <h3>{recommendation.departmentName}</h3>
                     <p>{recommendation.description}</p>
                     <div className="rating-stars">{renderRatingStars(recommendation.rating)}</div>

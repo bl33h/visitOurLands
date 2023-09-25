@@ -1,0 +1,91 @@
+.recommendation-page {
+    display: flex;
+    justify-content: space-between; /* Coloca los elementos a la izquierda y derecha */
+  }
+  
+  .image-container {
+    flex: 1;
+    margin-right: 20px; /* Espacio entre la imagen y los detalles */
+  }
+  
+  img {
+    max-width: 100%; /* Asegura que la imagen no se desborde */
+  }
+  
+  .details-container {
+    flex: 2; /* Los detalles ocupan más espacio que la imagen */
+  }
+  
+  h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  p {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  /* Estilos CSS para RecommendationPage */
+
+  .recommendation-details {
+    flex: 1; /* Ocupa el espacio restante */
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .related-recommendations {
+    flex: 0 0 300px; /* Ancho fijo de 300px */
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #f5f5f5;
+    border-left: 1px solid #ddd;
+  }
+  
+  .related-recommendations h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .related-recommendations ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .related-recommendations li {
+    margin-bottom: 5px;
+  }
+  
+  .related-recommendations a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+  }
+  
+  .comments-container {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .comments-container h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .comments-container ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .comments-container li {
+    margin-bottom: 10px;
+  }
+  
+  .comments-container p {
+    font-size: 14px;
+    color: #555;
+  }
