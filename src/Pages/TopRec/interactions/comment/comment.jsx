@@ -77,13 +77,15 @@ function Comment({ selectedPlaceId }) {
   return (
     <div className="root">
       <div className="container">
-        <h2>Sección de comentarios</h2>
+        <h2>Escribe tu comentario</h2>
+        <p>A: {placeInfo.name}</p>
         <textarea
+          className="write-comment"
           value={comment}
           onChange={(e) => setComment(e.target.value)}
-          placeholder="Escribe tu comentario..."
+          placeholder="Escribe aquí..."
         />
-        <button onClick={saveComment}>Guardar comentario</button>
+        <button className="save-comment" onClick={saveComment}>Guardar</button>
       </div>
     </div>
   );

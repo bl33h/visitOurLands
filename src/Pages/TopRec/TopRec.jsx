@@ -13,7 +13,7 @@ function TopRec(){
   const [departmentName, setDepartmentName] = useState('');
   const [interactionStates, setInteractionStates] = useState({});
   const [favoriteRecommendations, setFavoriteRecommendations] = useState([]);
-  const [showCommentModal, setShowCommentModal] = useState(false);
+  const [showComment, setShowComment] = useState(false);
   const [selectedCommentPlaceId, setSelectedCommentPlaceId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 2; // Cambia esto al número deseado de elementos por página
@@ -200,17 +200,10 @@ function TopRec(){
                     icon={faComment}
                     onClick={() => {
                       setSelectedCommentPlaceId(recommendation.id_places);
-                      setShowCommentModal(true);
+                      setShowComment(true); // Cambia el estado a true para mostrar el componente Comment
                     }}
                     className={interactionStates[recommendation.id_places].comment ? "activeIn" : ""}
                   />
-                  {showCommentModal && (
-                    <div className="comment-modal">
-                      <Comment selectedPlaceId={selectedCommentPlaceId} />
-                      <button onClick={() => setShowCommentModal(false)}>Cerrar</button>
-                    </div>
-                  )}
-
                   <FontAwesomeIcon
                     icon={faShare}
                     onClick={() => toggleInteraction(recommendation.id_places, 'share')}
@@ -222,6 +215,12 @@ function TopRec(){
           </div>
         )}
       </div>
+      {showComment && (
+        <div className="comment-modal">
+          <button className="close-button" onClick={() => setShowComment(false)}>×</button>
+          <Comment selectedPlaceId={selectedCommentPlaceId} />
+        </div>
+      )}
       <div className="pagination">
         {Array.from({ length: totalPages }, (_, index) => (
           <button
