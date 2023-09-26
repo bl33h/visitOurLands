@@ -89,3 +89,20 @@
     font-size: 14px;
     color: #555;
   }
+
+  /* Estilos CSS para la calificación promedio y las estrellas */
+.rating-container {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  color: #8C4303; /* Color de las estrellas rellenadas */
+}
+
+.rating-text {
+  margin-right: 10px; /* Espacio entre el texto y las estrellas */
+}
+
+.star {
+  font-size: 24px; /* Tamaño de las estrellas */
+  color: #ccc; /* Color de las estrellas vacías */
+}

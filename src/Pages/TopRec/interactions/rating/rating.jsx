@@ -59,7 +59,6 @@ function Rating({ selectedPlaceId }) {
             id_places: selectedPlaceId,
             username: user.username,
             rate: selectedStars, // Guardar la calificación como un número entero
-            stars: selectedStars,
           },
         ])
         .single();
