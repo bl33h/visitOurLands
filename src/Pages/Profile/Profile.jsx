@@ -10,6 +10,7 @@ import like from '../../assets/3.png';
 import EditButton from './buttons/edit/EditButton';
 import LikeButton from './buttons/like/LikeButton';
 import { Link } from 'react-router-dom';
+import { v4 as uuidv4 } from "uuid";
 
 function Profile() {
   const [user, setUser] = useState({});
@@ -18,7 +19,73 @@ function Profile() {
   const [showInitialInfo, setShowInitialInfo] = useState(true); // Estado para mostrar/ocultar recomendaciones iniciales
   const [showEditButton, setShowEditButton] = useState(false);
   const [showLikeButton, setShowLikeButton] = useState(false);
+  const [urlimage, setImageUrl] = useState('');
+  const[ ProfilePictures, setProfilePictures] = useState([]);
+  const [image, setImage] = useState(); 
+  const [userData, setUserData] = useState({
+    username: '',
+    imageUrl: ''
+  });
+  const [selectedImage, setSelectedImage] = useState(null); 
+  const [uploading, setUploading] = useState(false); 
 
+  const inputRef = useState(null);
+
+  const handleImageClick = () => {
+    inputRef.current.click();
+
+  }
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedImage(URL.createObjectURL(file)); // Muestra la imagen seleccionada
+    setImage(file);
+
+  }
+
+  const handleImageUpload = async () => {
+    if (image && !uploading) { // Evita cargar si ya se está cargando una imagen
+      setUploading(true);
+
+      const imageName = uuidv4();
+      const folderName = 'images';
+      const imagePath = `${folderName}/${imageName}`;
+
+      try {
+          const { data: uploadData, error: uploadError } = await supabase.storage
+            .from('ProfilePictures')
+            .upload(imagePath, image);
+
+          if (uploadError) {
+            console.error('Error al cargar la imagen:', uploadError);
+          } else {
+            console.log('Imagen cargada con éxito:', imagePath);
+
+            const imageUrlResponse = await supabase.storage
+              .from('ProfilePictures')
+              .getPublicUrl(imagePath);
+
+            const imageUrl = imageUrlResponse.data.publicUrl;
+            setUserData({ ...userData, imageUrl });
+
+            const { error: updateError } = await supabase
+            .from('users')
+            .update({ images: imageUrl })
+            .eq('username', user.username);
+
+            if (updateError) {
+              console.error('Error al actualizar la URL de la imagen en la base de datos:', updateError);
+            } else {
+              console.log('URL de imagen actualizada en la base de datos del usuario.');
+            }
+          }
+        } catch (error) {
+          console.error('Error en handleImageUpload:', error);
+        } finally {
+          setUploading(false); // Marca la carga como completa
+        }
+      }
+    }
 
   useEffect(() => {
     // Local storage
@@ -27,6 +94,34 @@ function Profile() {
       setUser(JSON.parse(browser_data));
     }
   }, []);
+
+  useEffect(() => {
+    async function fetchUserData() {
+      try {
+        // Obtén la información del usuario de la tabla 'users' por su nombre de usuario
+        const { data, error } = await supabase
+          .from('users')
+          .select('images')
+          .eq('username', user.username)
+          .single(); // Obtén solo una fila, ya que se supone que el nombre de usuario es único
+
+        if (error) {
+          console.error('Error al obtener la información del usuario:', error);
+        } else {
+          // Actualiza la URL de la imagen si existe en la base de datos
+          if (data && data.images) {
+            setUserData({ ...userData, imageUrl: data.images });
+          }
+        }
+      } catch (error) {
+        console.error('Error en fetchUserData:', error);
+      }
+    }
+
+    if (user.username) {
+      fetchUserData();
+    }
+  }, [user.username]);
 
   useEffect(() => {
     async function fetchUserRecommendations() {
@@ -70,10 +165,33 @@ function Profile() {
   }
 
   return (
+    // Foto de Perfil
     <div className="root">
       <div className="container">
         <div className="info">
-          <img id="profile-picture" src={profileImage} alt="Profile" />
+          <div className="image-container-profile">
+            <div onClick={handleImageClick}>
+              {userData.imageUrl ? (
+                // Muestra la imagen de la base de datos si existe
+                <img id="profile-picture" src={userData.imageUrl} alt="Profile" />
+              ) : selectedImage ? (
+                // Muestra la imagen seleccionada si no hay imagen en la base de datos
+                <img id="profile-picture" src={selectedImage} alt="Profile" />
+              ) : (
+                // Si no tiene foto de perfil ni imagen seleccionada, muestra una predeterminada
+                <img id="profile-picture" src={profileImage} alt="Profile" className="image-display" />
+              )}
+              <input
+                type="file"
+                ref={inputRef}
+                onChange={handleImageChange}
+                accept="image/png, image/jpg, image/jpeg"
+                style={{ display: "none" }}
+                className="image-display"
+              />
+            </div>
+            <button className="image-change-submit" onClick={handleImageUpload}>Subir</button>
+          </div>
           <div className="column">
             <h1 className="username">{user.username}</h1>
             <p className="description">{user.role}</p>
