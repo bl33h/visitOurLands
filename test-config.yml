@@ -1,0 +1,22 @@
+config:
+  target: 'https://visitourlands.netlify.app/'
+  phases:
+    - duration: 180  # Test duration in seconds (3 minutes)
+      arrivalRate: 10  # Virtual users arrival rate per second
+
+scenarios:
+  - flow:
+      - get:
+          url: '/Login'  # login page path
+       # wait for 2 seconds before proceeding
+      - think: 2 
+      - post:
+          url: '/Login' # login page path
+          json:
+          # credentials
+            username: 'sara'
+            password: '12345' 
+       # wait for 5 seconds before proceeding
+      - think: 5 
+      - get:
+          url: '/MainPage'  # access the main page after logging in
