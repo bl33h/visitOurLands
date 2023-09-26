@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../../client.js';
 import './TopRec.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faBookmark, faComment, faShare } from "@fortawesome/free-solid-svg-icons";
+import { faHeart, faStar, faComment, faShare } from "@fortawesome/free-solid-svg-icons";
 import Comment from './interactions/comment/comment.jsx';
+import Rating from './interactions/rating/rating.jsx';
 import { Link } from 'react-router-dom';
 
 function TopRec(){
@@ -14,6 +15,7 @@ function TopRec(){
   const [interactionStates, setInteractionStates] = useState({});
   const [favoriteRecommendations, setFavoriteRecommendations] = useState([]);
   const [showComment, setShowComment] = useState(false);
+  const [showRating, setShowRating] = useState(false);
   const [selectedCommentPlaceId, setSelectedCommentPlaceId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 2; // Cambia esto al número deseado de elementos por página
@@ -215,9 +217,11 @@ function TopRec(){
                     className={interactionStates[recommendation.id_places].like ? "activeIn" : ""}
                   />
                   <FontAwesomeIcon
-                    icon={faBookmark}
-                    onClick={() => toggleInteraction(recommendation.id_places, 'save')}
-                    className={interactionStates[recommendation.id_places].save ? "activeIn" : ""}
+                    icon={faStar}
+                    onClick={() => {
+                      setSelectedCommentPlaceId(recommendation.id_places);
+                      setShowRating(true);
+                    }}
                   />
                   <FontAwesomeIcon
                     icon={faComment}
@@ -243,6 +247,13 @@ function TopRec(){
           </div>
         )}
       </div>
+
+      {showRating && (
+        <div className="rating-modal">
+          <button className="close-button" onClick={() => setShowRating(false)}>×</button>
+          <Rating selectedPlaceId={selectedCommentPlaceId} />
+        </div>
+      )}
       {showComment && (
         <div className="comment-modal">
           <button className="close-button" onClick={() => setShowComment(false)}>×</button>
