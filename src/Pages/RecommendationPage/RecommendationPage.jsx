@@ -108,6 +108,7 @@ function RecommendationPage() {
         {recommendationData ? (
           <>
             <h1>{recommendationData.name}</h1>
+            <h2>{recommendationData.departmentName}</h2>
             <p>{recommendationData.description}</p>
             <img src={recommendationData.image} alt={recommendationData.name} />
           </>

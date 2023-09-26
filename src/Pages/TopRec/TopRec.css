@@ -138,3 +138,10 @@
     color: #333;
     padding: 0;
   }
+  .copy-message {
+    background-color: #ccc;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    margin-top: 10px;
+  }

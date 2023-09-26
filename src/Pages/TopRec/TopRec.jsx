@@ -17,6 +17,9 @@ function TopRec(){
   const [selectedCommentPlaceId, setSelectedCommentPlaceId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 2; // Cambia esto al número deseado de elementos por página
+  const [copiedLink, setCopiedLink] = useState(null);
+  const [showCopyMessage, setShowCopyMessage] = useState(false);
+
 
   useEffect(() => {
     // Local storage
@@ -104,6 +107,26 @@ function TopRec(){
     };
 
     setInteractionStates(updatedInteractionStates);
+
+    if (interactionType === 'share') {
+      // Obtén el enlace de la recomendación
+      const recommendation = userRecommendations.find((rec) => rec.id_places === recommendationId);
+      if (recommendation) {
+        const recommendationLink = `${window.location.origin}/MainPage/recommendation/${recommendation.id_places}`;
+  
+        // Copia el enlace al portapapeles
+        try {
+          await navigator.clipboard.writeText(recommendationLink);
+          setCopiedLink(recommendationLink);
+          setShowCopyMessage(true);
+          setTimeout(() => {
+            setShowCopyMessage(false);
+          }, 3000);
+        } catch (error) {
+          console.error('Error al copiar el enlace:', error);
+        }
+      }
+    }
 
     if (interactionType === 'like') {
       if (!favoriteRecommendations.includes(recommendationId)) {
@@ -209,6 +232,11 @@ function TopRec(){
                     onClick={() => toggleInteraction(recommendation.id_places, 'share')}
                     className={interactionStates[recommendation.id_places].share ? "activeIn" : ""}
                   />
+                  {showCopyMessage && (
+                        <div className="copy-message">
+                          <p>Enlace copiado al portapapeles: {copiedLink}</p>
+                        </div>
+                  )}
                 </div>
               </div>
             ))}
