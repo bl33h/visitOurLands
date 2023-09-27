@@ -173,10 +173,10 @@ function Profile() {
             <div onClick={handleImageClick}>
               {userData.imageUrl ? (
                 // Muestra la imagen de la base de datos si existe
-                <img id="profile-picture" src={userData.imageUrl} alt="Profile" />
+                <img id="profile-picture" src={userData.imageUrl} alt="Profile" className="image-display"/>
               ) : selectedImage ? (
                 // Muestra la imagen seleccionada si no hay imagen en la base de datos
-                <img id="profile-picture" src={selectedImage} alt="Profile" />
+                <img id="profile-picture" src={selectedImage} alt="Profile" className="image-display"/>
               ) : (
                 // Si no tiene foto de perfil ni imagen seleccionada, muestra una predeterminada
                 <img id="profile-picture" src={profileImage} alt="Profile" className="image-display" />
