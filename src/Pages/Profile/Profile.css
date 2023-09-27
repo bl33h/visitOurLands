@@ -104,7 +104,7 @@
   color: #FFAA4F;
 }
 
-.image-container{
+.image-container-profile{
   Display:flex; 
   align-items : center;
   justify-content: center;
@@ -125,4 +125,8 @@
   height: 10px;
   width: 10px;
   border-radius: 100%;
+}
+
+.image-display:hover {
+	opacity: 100;
 }
