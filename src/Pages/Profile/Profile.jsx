@@ -5,7 +5,6 @@ import '/src/Components/display.css';
 import profileImage from '../../assets/profile.png';
 import { supabase } from '../../client';
 import edit from '../../assets/1.png';
-import save from '../../assets/2.png';
 import like from '../../assets/3.png';
 import EditButton from './buttons/edit/EditButton';
 import LikeButton from './buttons/like/LikeButton';
@@ -209,19 +208,6 @@ function Profile() {
               backgroundPosition: "center"
             }}
             onClick={() => handleEditRecommendationClick(null)}
-          ></button>
-          <button
-            id="save"
-            className="each-button"
-            data-testid="save-button"
-            style={{
-              backgroundImage: `url(${save})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center"
-            }}
-            onClick={() => {
-               // Colocar la acción para mostrar las recomendaciones
-            }}
           ></button>
 
           <button
