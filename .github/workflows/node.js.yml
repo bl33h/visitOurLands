@@ -23,7 +23,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'yarn'  # Cambiado de 'npm' a 'yarn'
     - name: Install dependencies with Yarn
-      run: yarn install --production
+      run: yarn install --frozen-lockfile
     - name: Build
       run: yarn run build
     #- name: Test
