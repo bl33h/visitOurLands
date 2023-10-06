@@ -1,0 +1,15 @@
+.write-comment{
+    border-radius: 5px;
+    font-family: "Lucida Grande";
+    max-width: 100%;
+    height: 60px;
+}
+
+.save-comment{
+    width: 150px;
+    height: 30px;
+    margin: 10px;
+    border-color: #04738C;
+    border-radius: 5px;
+    color: #04738C;
+}

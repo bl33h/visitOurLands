@@ -5,6 +5,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { tokens } from '../theme'
 import '/node_modules/react-pro-sidebar/dist/css/styles.css'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import HomeIcon from '@mui/icons-material/Home';
 import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 import AirlineStopsIcon from '@mui/icons-material/AirlineStops';
 import CreatePlaceIcon from '@mui/icons-material/AddHome';
@@ -173,6 +174,14 @@ const Sidebar = () => {
               title="Profile"
               to="/MainPage/Profile"
               icon={<AccountCircleIcon />}
+              selected={selected.page_selected}
+              setSelected={setSelected}
+            />
+
+            <Item
+              title="Recomendations"
+              to="/MainPage/Recomendations"
+              icon={<HomeIcon />}
               selected={selected.page_selected}
               setSelected={setSelected}
             />
