@@ -5,6 +5,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material'
 import  Sidebar  from '/src/Components/Navbar/Navbar'
 import Map from '/src/Pages/Map/Map'
 import Profile from '/src/Pages/Profile/Profile'
+import Recomendations from '/src/Pages/Recomendations/Recomendations'
 import CreatePlace from '/src/Pages/CreatePlace/CreatePlace';
 import TopRec from '/src/Pages/TopRec/TopRec';
 import HomePage from './HomePage/HomePage'
@@ -49,6 +50,10 @@ function MainPage() {
               </Route>
               <Route path="/MainPage/Profile">
                 <Profile/>
+              </Route>
+
+              <Route path="/MainPage/Recomendations">
+                <Recomendations/>
               </Route>
 
               <Route path="/MainPage/CreatePlace">

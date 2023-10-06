@@ -5,6 +5,7 @@ import Profile from './Profile'
 import Map from './Map'
 import MainPage from './MainPage'
 import CreatePlace from './CreatePlace'
+import Recomendations from './Recomendations'
 import TopRec from './TopRec'
 import RecommendationPage from './RecommendationPage';
 import { Switch, Route, Redirect} from 'react-router-dom'
@@ -36,6 +37,10 @@ const Page = () => {
                 <MainPage />
             </Route>
 
+            <Route path="/Recomendations">
+                <Recomendations />
+            </Route>
+
             <Route path="/TopRec">
                 <TopRec />
             </Route>
@@ -43,7 +48,7 @@ const Page = () => {
             <Route path="/recommendation/:recommendationId">
                 <RecommendationPage />
             </Route>
-            
+
             <Redirect from="/" to="/Login" />
         </Switch>
     )
