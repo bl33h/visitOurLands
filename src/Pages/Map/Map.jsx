@@ -10,8 +10,11 @@ function Map(){
   const history = useHistory();
 
   const [departmentsData, setDepartmentsData] = useState([]);
-    const [placesData, setPlacesData] = useState([]);
+  const [placesData, setPlacesData] = useState([]);
   const [departmentInfo, setDepartmentInfo] = useState({});
+  const [randomPlaceIndex, setRandomPlaceIndex] = useState(0);
+  const [selectedDepartment, setSelectedDepartment] = useState({});
+  const [selectedDept, setSelectedDept] = useState({});
 
   useEffect(() => {
   // Función para obtener los datos de la tabla 'departments'
@@ -56,18 +59,43 @@ function Map(){
       
       setDepartmentInfo(mergedData);
       }, [departmentsData, placesData]);
-
-  const [selectedDepartment, setSelectedDepartment] = useState(null);
   
-  const handleDepartmentClick = (departmentId) => {
-    const selectedDept = departmentInfo[departmentId];
-    setSelectedDepartment(selectedDept);
-    };
+      const getDepartmentPlaces = (departmentsData) => {
+        // Supongamos que tienes una lista de lugares en placesData y cada lugar tiene un campo id_departments
+        const departmentId = departmentsData;
+    
+        const departmentPlaces = placesData.filter((place) => place.id_departments === departmentId);
+  
+        return departmentPlaces;
+      };
+  
+       
+  const handleDepartmentClick = (departmentsData) => {
+    const departmentPlaces = getDepartmentPlaces(departmentsData);
+    console.log("Department Places:", departmentPlaces);
+
+    setSelectedDept((prevSelectedDept) => ({
+    ...prevSelectedDept,
+    ...departmentsData,
+    places: departmentPlaces,
+    }));
+  };
+  useEffect(() => {
+    if (selectedDept && selectedDept.places && Array.isArray(selectedDept.places)) {
+      const randomIndex = Math.floor(Math.random() * selectedDept.places.length);
+      setRandomPlaceIndex(randomIndex);
+    } else {
+      console.error("selectedDept o selectedDept.places no están definidos o no son un array válido.");
+    }
+  }, [selectedDept]);
     
   return (
     <div>
     <div className="root">
+      <div className="Titles">
       <h5>¡Bienvenido a Visita Nuestras Tierras!</h5>
+      <h7>Presiona cualquier departamento para ver algún lugar. (Sigue presionando y veras uno diferente cada vez!)</h7>
+      </div>
         <div className="mapadiv">
         <svg version="1.2" viewBox="0 0 1000 1056" xmlns="http://www.w3.org/2000/svg">
           <a xlinkTitle="Baja Verapaz" className="card">
@@ -142,13 +170,13 @@ function Map(){
           
         </svg>
         
-        {selectedDepartment && (
+        {selectedDept && selectedDept.places && selectedDept.places.length > 0 &&(
             <div className='my-box'>
-                <Link to={`/MainPage/recommendation/${selectedDepartment.id_places}`}>
-                  <h6>{selectedDepartment.name}</h6>
+                <Link to={`/MainPage/recommendation/${selectedDept.places[randomPlaceIndex]?.id_places || ''}`}>
+                  <h6>{selectedDept.places[randomPlaceIndex]?.name || ''}</h6>
                 </Link>
-                <p>{selectedDepartment.description}</p>
-                <img className='imag' src={selectedDepartment.image} alt={selectedDepartment.name} />
+                <p>{selectedDept.places[randomPlaceIndex]?.description || ''}</p>
+                <img className='imag' src={selectedDept.places[randomPlaceIndex]?.image} alt={selectedDept.places[randomPlaceIndex]?.name} />
             </div>
   )}
         <img className="jagui-mapa" src={jaguiImage} alt="Jagui Mapa"/>
