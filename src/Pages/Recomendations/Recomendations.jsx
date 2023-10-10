@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../client.js';
-import './TopRec.css';
+import './Recomendations.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faStar, faComment, faShare } from "@fortawesome/free-solid-svg-icons";
 import Comment from './interactions/comment/comment.jsx';
 import Rating from './interactions/rating/rating.jsx';
 import { Link } from 'react-router-dom';
 
-function TopRec(){
+function Recomendations(){
   const [user, setUser] = useState({});
   const [loadingRecommendations, setLoadingRecommendations] = useState(true);
   const [userRecommendations, setUserRecommendations] = useState([]);
@@ -21,6 +21,12 @@ function TopRec(){
   const itemsPerPage = 2; // Cambia esto al número deseado de elementos por página
   const [copiedLink, setCopiedLink] = useState(null);
   const [showCopyMessage, setShowCopyMessage] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [departmentFilter, setDepartmentFilter] = useState('');
+  const [departments, setDepartments] = useState([]);
+  const [selectedDepartments, setSelectedDepartments] = useState([]);
+
 
 
   useEffect(() => {
@@ -34,7 +40,7 @@ function TopRec(){
   async function fetchUserRecommendations() {
     setLoadingRecommendations(true);
     // Obtener los datos de las tablas "places" y "departments"
-    const { data: placesData, error: placesError } = await supabase.from('places').select('*').eq('rating', 5);
+    const { data: placesData, error: placesError } = await supabase.from('places').select('*');
     const { data: departmentsData, error: departmentsError } = await supabase.from('departments').select('*');
 
     if (placesError || departmentsError) {
@@ -64,6 +70,20 @@ function TopRec(){
     }
     setLoadingRecommendations(false);
   }
+
+  async function fetchDepartments() {
+    const { data, error } = await supabase.from('departments').select('*');
+    if (error) {
+      console.error('Error al obtener los departamentos:', error);
+    } else {
+      setDepartments(data);
+    }
+  }
+
+  useEffect(() => {
+    fetchDepartments();
+  }, []);
+
 
   useEffect(() => {
     fetchUserRecommendations();
@@ -166,6 +186,28 @@ function TopRec(){
     }
   }
 
+  const performSearch = () => {
+    const filteredResults = userRecommendations.filter((recommendation) => {
+      const nameMatches = recommendation.name.toLowerCase().includes(searchTerm.toLowerCase());
+      const apartmentMatches = recommendation.departmentName.toLowerCase().includes(searchTerm.toLowerCase());
+      const departmentMatches = selectedDepartments.length === 0 || selectedDepartments.includes(recommendation.departmentName);
+      return (nameMatches || apartmentMatches) && departmentMatches;
+    });
+    setSearchResults(filteredResults);
+  };
+
+
+  const handleDepartmentSelection = (e) => {
+  const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
+  setSelectedDepartments(selectedOptions);
+};
+
+
+  useEffect(() => {
+    performSearch();
+  }, [searchTerm]);
+
+
   function renderRatingStars(rating) {
     const stars = [];
     const totalStars = 5;
@@ -191,15 +233,44 @@ function TopRec(){
 
   return (
     <div className="RecDiv">
-      <h1 className="Header">¡Estos son los lugares mejor valorados!</h1>
+      <input
+        type="text"
+        placeholder="Buscar por nombre"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      <div className="department-filter">
+        <label>Selecciona departamentos:</label>
+        <select
+          multiple
+          value={selectedDepartments}
+          onChange={handleDepartmentSelection}
+        >
+          {departments.map((department) => (
+            <option key={department.id_departments} value={department.name}>
+              {department.name}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="selected-departments">
+        <p>Departamentos seleccionados:</p>
+        <ul>
+          {selectedDepartments.map((selectedDepartment) => (
+            <li key={selectedDepartment}>{selectedDepartment}</li>
+          ))}
+        </ul>
+      </div>
+      <button onClick={performSearch}>Buscar</button>
+      <h1 className="Header">¡Estos son todos los lugares que poseemos!</h1>
       <div className="user-recommendations">
         {loadingRecommendations ? (
           <p>Cargando recomendaciones...</p>
-        ) : userRecommendations.length === 0 ? (
-          <p>Aún no hay recomendaciones para mostrar</p>
+        ) : searchResults.length === 0 ? (
+          <p>No se encontraron resultados</p>
         ) : (
           <div className="recommendations-container2">
-            {recommendationsToDisplay.map((recommendation) => (
+            {searchResults.map((recommendation) => (
               <div key={recommendation.id_places} className="recommendation-card2">
                 <Link to={`/MainPage/recommendation/${recommendation.id_places}`}>
                   <h3>{recommendation.name}</h3>
@@ -275,4 +346,4 @@ function TopRec(){
   );
 }
 
-export default TopRec;
+export default Recomendations;

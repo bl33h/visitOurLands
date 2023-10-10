@@ -5,6 +5,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { tokens } from '../theme'
 import '/node_modules/react-pro-sidebar/dist/css/styles.css'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import HomeIcon from '@mui/icons-material/Home';
 import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 import AirlineStopsIcon from '@mui/icons-material/AirlineStops';
 import CreatePlaceIcon from '@mui/icons-material/AddHome';
@@ -84,6 +85,10 @@ const Sidebar = () => {
     }
   }, [])
 
+  const redirectToPage = () => {
+    history.push("/Mainpage")
+  };
+
   useEffect(() => {
   }, [user])
 
@@ -141,7 +146,7 @@ const Sidebar = () => {
 
           {!isCollapsed.colapsed && (
             <Box mb="5px">
-              <Box display="flex" justifyContent="center" alignItems="center">
+              <Box display="flex" justifyContent="center" onClick={redirectToPage} style={{ cursor: 'pointer', borderRadius: '50%' }} alignItems="center">
                 <img
                   alt="profile-user"
                   width="70px"
@@ -169,6 +174,14 @@ const Sidebar = () => {
               title="Profile"
               to="/MainPage/Profile"
               icon={<AccountCircleIcon />}
+              selected={selected.page_selected}
+              setSelected={setSelected}
+            />
+
+            <Item
+              title="Recomendations"
+              to="/MainPage/Recomendations"
+              icon={<HomeIcon />}
               selected={selected.page_selected}
               setSelected={setSelected}
             />

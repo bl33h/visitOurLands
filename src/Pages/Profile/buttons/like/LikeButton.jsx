@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './LikeButton.css';
-import { supabase } from '../../../../client'; // Asegúrate de ajustar la ruta correcta para tu archivo de cliente Supabase
+import { supabase } from '../../../../client';
+import { Link } from 'react-router-dom';
 
 function LikeButton() {
   const [user, setUser] = useState({});
@@ -89,7 +90,9 @@ function LikeButton() {
             <div>
             {likedRecommendations.map((recommendation) => (
                 <div key={recommendation.id_places} className="liked-recommendation-card">
-                <h3>{recommendation.name}</h3>
+                <Link to={`/MainPage/recommendation/${recommendation.id_places}`}>
+                  <h3>{recommendation.name}</h3>
+                </Link>
                 <p>{recommendation.description}</p>
                 <div className="rating-stars">{renderRatingStars(recommendation.rating)}</div>
                 <img src={recommendation.image} alt={recommendation.name} />

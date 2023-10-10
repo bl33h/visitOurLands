@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import '/src/Components/texts.css';
 import '/src/Components/display.css';
 import { supabase } from '../../../../client';
-import './comment.css';
+import './rating.css';
 
-function Comment({ selectedPlaceId }) {
+function Rating({ selectedPlaceId }) {
   const [placeInfo, setPlaceInfo] = useState({});
-  const [comment, setComment] = useState('');
+  const [rate, setRate] = useState('');
   const [user, setUser] = useState(null);
+  const [selectedStars, setSelectedStars] = useState(0); // Inicializar selectedStars como 0
 
   useEffect(() => {
     async function fetchPlaceInfo() {
@@ -30,7 +31,6 @@ function Comment({ selectedPlaceId }) {
   }, [selectedPlaceId]);
 
   useEffect(() => {
-    // Obtener el usuario del localStorage
     const userJSON = window.localStorage.getItem('LOGIN_STATUS');
     if (userJSON) {
       const user = JSON.parse(userJSON);
@@ -38,8 +38,8 @@ function Comment({ selectedPlaceId }) {
     }
   }, []);
 
-  async function saveComment() {
-    if (comment.trim() === '') return;
+  async function saveRating() {
+    if (selectedStars === 0) return; // Verificar si no se ha seleccionado una calificación
 
     if (!user || !user.username) {
       console.error('Usuario no válido o sin nombre.');
@@ -53,42 +53,54 @@ function Comment({ selectedPlaceId }) {
 
     try {
       const { data, error } = await supabase
-        .from('comments')
+        .from('ratings')
         .insert([
           {
             id_places: selectedPlaceId,
             username: user.username,
-            message: comment.trim(),
+            rate: selectedStars, // Guardar la calificación como un número entero
           },
         ])
         .single();
 
-        if (error) {
-          console.error('Error al guardar el comentario:', error);
-        } else {
-        console.log('Comentario guardado:', data);
-        setComment('');
+      if (error) {
+        console.error('Error al guardar la calificación:', error);
+      } else {
+        setSelectedStars(0);
       }
     } catch (error) {
-        console.error('Error al guardar el comentario:', error);
+      console.error('Error al guardar la calificación:', error);
     }
   }
 
+  const handleRatingClick = (event) => {
+    const value = parseInt(event.target.getAttribute('data-value'), 10);
+    setSelectedStars(value);
+  };
+
+  const stars = [1, 2, 3, 4, 5].map((value) => (
+    <a
+      key={value}
+      href="#"
+      data-value={value}
+      title={`Votar con ${value} estrellas`}
+      onClick={handleRatingClick}
+      className={`ec-stars-item ${selectedStars >= value ? 'filled' : ''}`}
+    >
+      &#9733;
+    </a>
+  ));
+
   return (
     <div className="root">
-      <div className="container">
-        <h2>Escribe tu comentario</h2>
-        <p>A: {placeInfo.name}</p>
-        <textarea
-          className="write-comment"
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          placeholder="Escribe aquí..."
-        />
-        <button className="save-comment" onClick={saveComment}>Guardar</button>
-      </div>
+        <div className="container">
+            <h2>Califica con estrellas</h2>
+            <p>A: {placeInfo.name}</p>
+            <div className="ec-stars-wrapper">{stars}</div>
+            <button className="save-rating" onClick={saveRating}>Guardar</button>
+        </div>
     </div>
   );
 }
 
-export default Comment;
+export default Rating;
