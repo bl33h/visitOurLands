@@ -92,7 +92,10 @@ function Map(){
   return (
     <div>
     <div className="root">
+      <div className="Titles">
       <h5>¡Bienvenido a Visita Nuestras Tierras!</h5>
+      <h7>Presiona cualquier departamento para ver algún lugar. (Sigue presionando y veras uno diferente cada vez!)</h7>
+      </div>
         <div className="mapadiv">
         <svg version="1.2" viewBox="0 0 1000 1056" xmlns="http://www.w3.org/2000/svg">
           <a xlinkTitle="Baja Verapaz" className="card">
