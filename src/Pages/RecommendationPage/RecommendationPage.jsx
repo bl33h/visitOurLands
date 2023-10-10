@@ -142,6 +142,16 @@ function RecommendationPage() {
       // Actualiza el estado con las reseñas y el promedio
       setReviews(data);
       setAverageRating(averageRating);
+
+      // Actualiza el valor de avg_rating en la base de datos
+      const { error: updateError } = await supabase
+      .from('places')
+      .update({ avg_rating: averageRating })
+      .eq('id_places', recommendationId);
+
+      if (updateError) {
+        console.error('Error al actualizar avg_rating en la base de datos:', updateError);
+      }
     }
     fetchInitialRating();
     fetchReviewsAndAverageRating();
@@ -214,14 +224,17 @@ function RecommendationPage() {
             </ul>
           </>
         ) : (
-          <><p>No se encontraron lugares turísticos relacionados. Aquí hay algunas recomendaciones populares:</p><ul>
-                          {relatedRecommendations.map((best) => (
-                              <li key={best.id_places}>
-                                  <a href={`/MainPage/recommendation/${best.id_places}`}>{best.name}</a>
-                                  <img src={best.image} alt={best.name} />
-                              </li>
+          <>
+          <p>No se encontraron lugares turísticos relacionados. Aquí hay algunas recomendaciones populares:</p>
+          <ul>
+              {relatedRecommendations.map((best) => (
+              <li key={best.id_places}>
+                <a href={`/MainPage/recommendation/${best.id_places}`}>{best.name}</a>
+                <img src={best.image} alt={best.name} />
+              </li>
                           ))}
-                      </ul></>
+          </ul>
+          </>
         )}
       </div>
     </div>
