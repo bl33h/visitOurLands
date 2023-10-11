@@ -12,6 +12,7 @@ function TopRec(){
   const [loadingRecommendations, setLoadingRecommendations] = useState(true);
   const [userRecommendations, setUserRecommendations] = useState([]);
   const [departmentName, setDepartmentName] = useState('');
+  const [recommendationsPerPage, setRecommendationsPerPage] = useState(2);
   const [interactionStates, setInteractionStates] = useState({});
   const [favoriteRecommendations, setFavoriteRecommendations] = useState([]);
   const [showComment, setShowComment] = useState(false);
@@ -166,6 +167,12 @@ function TopRec(){
     }
   }
 
+  function handleRecommendationsPerPageChange(event) {
+    const newRecommendationsPerPage = parseInt(event.target.value, 10);
+    setRecommendationsPerPage(newRecommendationsPerPage);
+    setCurrentPage(1); // Reinicia la página actual cuando cambias la cantidad de recomendaciones por página
+  }
+  
   function renderRatingStars(rating) {
     const stars = [];
     const totalStars = 5;
@@ -192,6 +199,22 @@ function TopRec(){
   return (
     <div className="RecDiv">
       <h1 className="Header">¡Estos son los lugares mejor valorados!</h1>
+  
+      {/* Configuración de la cantidad de recomendaciones por página */}
+      <div className="recommendations-per-page">
+        <label htmlFor="recommendationsPerPage">Recomendaciones por página: </label>
+        <select
+          id="recommendationsPerPage"
+          onChange={handleRecommendationsPerPageChange}
+          value={recommendationsPerPage}
+        >
+          <option value={2}>2</option>
+          <option value={5}>5</option>
+          <option value={10}>10</option>
+          {/* Agrega más opciones según tus preferencias */}
+        </select>
+      </div>
+  
       <div className="user-recommendations">
         {loadingRecommendations ? (
           <p>Cargando recomendaciones...</p>
@@ -208,7 +231,7 @@ function TopRec(){
                 <p>{recommendation.description}</p>
                 <div className="rating-stars">{renderRatingStars(recommendation.rating)}</div>
                 <img src={recommendation.image} alt={recommendation.name} />
-
+  
                 {/* Icons */}
                 <div className="interaction-icons">
                   <FontAwesomeIcon
@@ -237,9 +260,9 @@ function TopRec(){
                     className={interactionStates[recommendation.id_places]?.share ? "activeIn" : ""}
                   />
                   {showCopyMessage && (
-                        <div className="copy-message">
-                          <p>Enlace copiado al portapapeles: {copiedLink}</p>
-                        </div>
+                    <div className="copy-message">
+                      <p>Enlace copiado al portapapeles: {copiedLink}</p>
+                    </div>
                   )}
                 </div>
               </div>
@@ -247,7 +270,7 @@ function TopRec(){
           </div>
         )}
       </div>
-
+  
       {showRating && (
         <div className="rating-modal">
           <button className="close-button" onClick={() => setShowRating(false)}>×</button>
@@ -270,9 +293,9 @@ function TopRec(){
             {index + 1}
           </button>
         ))}
+        </div>
       </div>
-    </div>
-  );
-}
-
+    );
+  }
+  
 export default TopRec;
