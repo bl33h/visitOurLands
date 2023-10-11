@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { supabase } from '../../client';
 import './RecommendationPage.css';
 
@@ -227,12 +227,12 @@ function RecommendationPage() {
           <>
           <p>No se encontraron lugares turísticos relacionados. Aquí hay algunas recomendaciones populares:</p>
           <ul>
-              {relatedRecommendations.map((best) => (
+            {relatedRecommendations.map((best) => (
               <li key={best.id_places}>
-                <a href={`/MainPage/recommendation/${best.id_places}`}>{best.name}</a>
+                <Link to={`/MainPage/recommendation/${best.id_places}`}>{best.name}</Link>
                 <img src={best.image} alt={best.name} />
               </li>
-                          ))}
+            ))}
           </ul>
           </>
         )}
