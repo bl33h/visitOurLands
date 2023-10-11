@@ -229,7 +229,7 @@ function RecommendationPage() {
           <ul>
             {relatedRecommendations.map((best) => (
               <li key={best.id_places}>
-                <Link to={`/MainPage/recommendation/${best.id_places}`}>{best.name}</Link>
+                <Link to={`/recommendation/${best.id_places}`}>{best.name}</Link>
                 <img src={best.image} alt={best.name} />
               </li>
             ))}
