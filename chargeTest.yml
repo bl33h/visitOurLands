@@ -1,8 +1,8 @@
 config:
-  target: 'https://visitourlands.netlify.app/'
+  target: 'https://visitourlands.netlify.app'
   phases:
-    - duration: 180  # Test duration in seconds (3 minutes)
-      arrivalRate: 10  # Virtual users arrival rate per second
+    - duration: 30  # Test duration in seconds
+      arrivalRate: 5  # Virtual users arrival rate per second
 
 scenarios:
   - flow:

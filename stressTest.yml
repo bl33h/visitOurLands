@@ -1,0 +1,16 @@
+config:
+  target: 'https://visitourlands.netlify.app'
+  phases:
+    - duration: 30  # Test duration in seconds
+      arrivalRate: 5  # Virtual users arrival rate per second
+
+scenarios:
+  - flow:
+      - post:
+          url: 'https://cchcbbjgpcwuugrjedsl.supabase.co/'  # Ruta de tu endpoint de creación de lugares
+          json:
+            name: 'stressTest'  # name
+            description: 'a stress test'  # description
+            rating: 4  # rating
+            department: 1  # dedpartment
+            imageUrl: 'https://www.expreso.info/files/2023-07/Guatemala_Antigua.jpg'  # url

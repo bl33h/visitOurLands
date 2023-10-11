@@ -1,0 +1,30 @@
+  .ec-stars-wrapper {
+    font-size: 0;
+    display: inline-block;
+  }
+  
+  .ec-stars-wrapper a {
+    text-decoration: none;
+    display: inline-block;
+    font-size: 32px;
+    font-size: 2rem;
+    color: #111;
+  }
+  
+  .ec-stars-wrapper a.filled,
+  .ec-stars-wrapper a:hover {
+    color: #ffaa4f;
+  }
+  
+  .ec-stars-wrapper > a:hover ~ a {
+    color: #111;
+  }
+  
+  .save-rating{
+    width: 150px;
+    height: 30px;
+    margin: 10px;
+    border-color: #04738C;
+    border-radius: 5px;
+    color: #04738C;
+}
