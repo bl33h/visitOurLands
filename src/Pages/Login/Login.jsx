@@ -14,7 +14,6 @@ function Login() {
   let succesfull_login = false
   const history = useHistory()
   useEffect(() => {
-    console.log('writing', user)
     window.localStorage.setItem('LOGIN_STATUS', JSON.stringify(user))
   }, [user])
   useEffect(() => {
