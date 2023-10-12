@@ -22,8 +22,8 @@ const HomePage = () => {
         backgroundSize: 'cover',
       }}
     >
-      <h1 className="main-title">Welcome back {user.username}!</h1>
-      <p className="role-message">You signed in as {user.role}</p>
+      <h1 className="main-title">Bienvenido de nuevo {user.username}!</h1>
+      <p className="role-message">Estas asignado como {user.role}</p>
     </div>
   );
 };
