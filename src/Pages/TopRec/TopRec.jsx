@@ -19,7 +19,7 @@ function TopRec(){
   const [showRating, setShowRating] = useState(false);
   const [selectedCommentPlaceId, setSelectedCommentPlaceId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 2; // Cambia esto al número deseado de elementos por página
+  const itemsPerPage = recommendationsPerPage; 
   const [copiedLink, setCopiedLink] = useState(null);
   const [showCopyMessage, setShowCopyMessage] = useState(false);
 
@@ -209,9 +209,12 @@ function TopRec(){
           value={recommendationsPerPage}
         >
           <option value={2}>2</option>
+          <option value={3}>3</option>
+          <option value={4}>4</option>
           <option value={5}>5</option>
           <option value={10}>10</option>
-          {/* Agrega más opciones según tus preferencias */}
+          <option value={15}>15</option>
+          <option value={20}>20</option>
         </select>
       </div>
   
@@ -297,5 +300,5 @@ function TopRec(){
       </div>
     );
   }
-  
+
 export default TopRec;
