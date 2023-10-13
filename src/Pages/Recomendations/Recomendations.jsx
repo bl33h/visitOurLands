@@ -7,26 +7,23 @@ import Comment from './interactions/comment/comment.jsx';
 import Rating from './interactions/rating/rating.jsx';
 import { Link } from 'react-router-dom';
 
-function Recomendations(){
+function Recomendations() {
   const [user, setUser] = useState({});
   const [loadingRecommendations, setLoadingRecommendations] = useState(true);
   const [userRecommendations, setUserRecommendations] = useState([]);
-  const [departmentName, setDepartmentName] = useState('');
+  const [allRecommendations, setAllRecommendations] = useState([]); // Nuevo estado
   const [interactionStates, setInteractionStates] = useState({});
   const [favoriteRecommendations, setFavoriteRecommendations] = useState([]);
   const [showComment, setShowComment] = useState(false);
   const [showRating, setShowRating] = useState(false);
   const [selectedCommentPlaceId, setSelectedCommentPlaceId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 2; // Cambia esto al número deseado de elementos por página
+  const itemsPerPage = 2;
   const [copiedLink, setCopiedLink] = useState(null);
   const [showCopyMessage, setShowCopyMessage] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const [departmentFilter, setDepartmentFilter] = useState('');
-  const [departments, setDepartments] = useState([]);
   const [selectedDepartments, setSelectedDepartments] = useState([]);
-
 
 
   useEffect(() => {
@@ -39,17 +36,15 @@ function Recomendations(){
 
   async function fetchUserRecommendations() {
     setLoadingRecommendations(true);
-    // Obtener los datos de las tablas "places" y "departments"
     const { data: placesData, error: placesError } = await supabase.from('places').select('*');
     const { data: departmentsData, error: departmentsError } = await supabase.from('departments').select('*');
 
     if (placesError || departmentsError) {
       console.error('Error al obtener los datos:', placesError || departmentsError);
     } else {
-      // Combinar los datos de las tablas "places" y "departments" utilizando el campo "department_id"
       const userRecommendations = placesData.map(place => {
         const department = departmentsData.find(department => department.id_departments === place.id_departments);
-        const departmentName = department ? department.name : ''; // Nombre del departamento o cadena vacía si no se encuentra
+        const departmentName = department ? department.name : '';
         return {
           ...place,
           departmentName
@@ -57,6 +52,7 @@ function Recomendations(){
       });
 
       setUserRecommendations(userRecommendations);
+      setAllRecommendations(userRecommendations); // Guardar todas las recomendaciones
       const initialInteractionStates = userRecommendations.reduce((acc, rec) => {
         acc[rec.id_places] = {
           like: false,
@@ -67,23 +63,10 @@ function Recomendations(){
         return acc;
       }, {});
       setInteractionStates(initialInteractionStates);
+      performSearch(); // Realizar la búsqueda al cargar todas las recomendaciones
     }
     setLoadingRecommendations(false);
   }
-
-  async function fetchDepartments() {
-    const { data, error } = await supabase.from('departments').select('*');
-    if (error) {
-      console.error('Error al obtener los departamentos:', error);
-    } else {
-      setDepartments(data);
-    }
-  }
-
-  useEffect(() => {
-    fetchDepartments();
-  }, []);
-
 
   useEffect(() => {
     fetchUserRecommendations();
@@ -97,8 +80,6 @@ function Recomendations(){
 
       if (error) {
         console.error('Error al obtener el nombre del departamento:', error);
-      } else {
-        setDepartmentName(data.name);
       }
     }
 
@@ -131,12 +112,9 @@ function Recomendations(){
     setInteractionStates(updatedInteractionStates);
 
     if (interactionType === 'share') {
-      // Obtén el enlace de la recomendación
       const recommendation = userRecommendations.find((rec) => rec.id_places === recommendationId);
       if (recommendation) {
         const recommendationLink = `${window.location.origin}/MainPage/recommendation/${recommendation.id_places}`;
-  
-        // Copia el enlace al portapapeles
         try {
           await navigator.clipboard.writeText(recommendationLink);
           setCopiedLink(recommendationLink);
@@ -187,7 +165,7 @@ function Recomendations(){
   }
 
   const performSearch = () => {
-    const filteredResults = userRecommendations.filter((recommendation) => {
+    const filteredResults = allRecommendations.filter((recommendation) => {
       const nameMatches = recommendation.name.toLowerCase().includes(searchTerm.toLowerCase());
       const apartmentMatches = recommendation.departmentName.toLowerCase().includes(searchTerm.toLowerCase());
       const departmentMatches = selectedDepartments.length === 0 || selectedDepartments.includes(recommendation.departmentName);
@@ -196,22 +174,9 @@ function Recomendations(){
     setSearchResults(filteredResults);
   };
 
-
-  const handleDepartmentSelection = (e) => {
-  const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
-  setSelectedDepartments(selectedOptions);
-};
-
-
-  useEffect(() => {
-    performSearch();
-  }, [searchTerm]);
-
-
   function renderRatingStars(rating) {
     const stars = [];
     const totalStars = 5;
-
     for (let i = 1; i <= totalStars; i++) {
       if (i <= rating) {
         stars.push(<i key={i} className="fas fa-star filled-star"></i>);
@@ -219,58 +184,32 @@ function Recomendations(){
         stars.push(<i key={i} className="far fa-star empty-star"></i>);
       }
     }
-
     return stars;
   }
 
-  // Filtrar recomendaciones a mostrar en función de la página actual y elementos por página
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const recommendationsToDisplay = userRecommendations.slice(startIndex, endIndex);
-
-  // Calcular la cantidad total de páginas en función del número de recomendaciones y elementos por página
-  const totalPages = Math.ceil(userRecommendations.length / itemsPerPage);
+  const recommendationsToDisplay = searchResults.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(searchResults.length / itemsPerPage);
 
   return (
     <div className="RecDiv">
       <input
         type="text"
-        placeholder="Buscar por nombre"
+        placeholder="Buscar por nombre o departamento"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <div className="department-filter">
-        <label>Selecciona departamentos:</label>
-        <select
-          multiple
-          value={selectedDepartments}
-          onChange={handleDepartmentSelection}
-        >
-          {departments.map((department) => (
-            <option key={department.id_departments} value={department.name}>
-              {department.name}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className="selected-departments">
-        <p>Departamentos seleccionados:</p>
-        <ul>
-          {selectedDepartments.map((selectedDepartment) => (
-            <li key={selectedDepartment}>{selectedDepartment}</li>
-          ))}
-        </ul>
-      </div>
       <button onClick={performSearch}>Buscar</button>
       <h1 className="Header">¡Estos son todos los lugares que poseemos!</h1>
       <div className="user-recommendations">
         {loadingRecommendations ? (
           <p>Cargando recomendaciones...</p>
-        ) : searchResults.length === 0 ? (
+        ) : recommendationsToDisplay.length === 0 ? (
           <p>No se encontraron resultados</p>
         ) : (
           <div className="recommendations-container2">
-            {searchResults.map((recommendation) => (
+            {recommendationsToDisplay.map((recommendation) => (
               <div key={recommendation.id_places} className="recommendation-card2">
                 <Link to={`/MainPage/recommendation/${recommendation.id_places}`}>
                   <h3>{recommendation.name}</h3>
@@ -280,7 +219,6 @@ function Recomendations(){
                 <div className="rating-stars">{renderRatingStars(recommendation.rating)}</div>
                 <img src={recommendation.image} alt={recommendation.name} />
 
-                {/* Icons */}
                 <div className="interaction-icons">
                   <FontAwesomeIcon
                     icon={faHeart}
@@ -298,7 +236,7 @@ function Recomendations(){
                     icon={faComment}
                     onClick={() => {
                       setSelectedCommentPlaceId(recommendation.id_places);
-                      setShowComment(true); // Cambia el estado a true para mostrar el componente Comment
+                      setShowComment(true);
                     }}
                     className={interactionStates[recommendation.id_places].comment ? "activeIn" : ""}
                   />
@@ -308,9 +246,9 @@ function Recomendations(){
                     className={interactionStates[recommendation.id_places].share ? "activeIn" : ""}
                   />
                   {showCopyMessage && (
-                        <div className="copy-message">
-                          <p>Enlace copiado al portapapeles: {copiedLink}</p>
-                        </div>
+                    <div className="copy-message">
+                      <p>Enlace copiado al portapapeles: {copiedLink}</p>
+                    </div>
                   )}
                 </div>
               </div>
@@ -340,7 +278,8 @@ function Recomendations(){
           >
             {index + 1}
           </button>
-        ))}
+        )
+      )}
       </div>
     </div>
   );
