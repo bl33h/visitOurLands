@@ -9,14 +9,12 @@ function CreatePlace() {
   let maxId = 0;
   const MAX_DESCRIPTION_LENGTH = 280;
   const selectRef = useRef(null);
-  const [urlimage, setImageUrl] = useState('');
-  const[ PlacesImages, setPlacesImages] = useState([]);
   const [listDepartments, setDepartments] = useState([]);
   const [placesData, setPlacesData] = useState([]);
   const [user, setUser] = useState({});
   const [selectedStars, setSelectedStars] = useState(0);
   const [hoveredStars, setHoveredStars] = useState(0);
-  const [image, setImage] = useState(); 
+  const [image] = useState();
   const [placeData, setPlaceData] = useState({
     id_places: 0,
     name: '',
@@ -32,24 +30,6 @@ function CreatePlace() {
     if (browser_data !== null) setUser(JSON.parse(browser_data))
   }, [])
 
-  //Funcion para obtener la imagen
-  async function getImage() {
-    const { data, error } = await supabase
-      .storage
-      .from('PlacesImages')
-      .list(placeData?.id_places + "/", {
-        limit: 100,
-        offset: 0,
-        sortBy: { column: "name", order: "asc" }
-      });
-    if (data !== null) {
-      setPlacesImages(data); 
-    } else {
-      alert("Error al cargar la imagen");
-      console.log(error);
-    }
-  } 
-
   async function fetchPosts() {
     await fetchPost()
     await fetchPost2()
@@ -62,8 +42,6 @@ function CreatePlace() {
 
   async function fetchPost2() {
     const { data } = await supabase.from('places').select()
-    console.log("places: ", data)
-    setPlacesData(data)
 
     for (const place of data) {
       if (place.id_places > maxId) {
@@ -95,11 +73,6 @@ function CreatePlace() {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    // Obtener el valor seleccionado del elemento <select> a través de la referencia
-    const departmentValue = selectRef.current.value;
-    //console.log(departmentValue);
-    // Obtener el nombre de usuario del estado user
-    const username = user.username;
     // Sube la imagen
     onPressButton()
     }
@@ -114,7 +87,7 @@ function CreatePlace() {
         // Construir la ruta completa
         const imagePath = `${folderName}/${imageName}`; 
     
-        const { data, error } = await supabase.storage
+        const { error } = await supabase.storage
           // Reemplaza 'tu_bucket_de_imagenes' con el nombre de tu bucket
           .from('PlacesImages') 
           .upload(imagePath, file);
@@ -123,16 +96,16 @@ function CreatePlace() {
           console.error('Error al cargar la imagen:', error);
         } else {
           // Usar imagePath en lugar de data.Key
-          console.log('Imagen cargada con éxito:', imagePath); 
+          console.log('Imagen cargada con éxito:', imagePath);
           // Obtener la URL pública de la imagen recién cargada
           const imageUrlResponse = await supabase.storage
             .from('PlacesImages')
             // Usar imagePath en lugar de data.Key
-            .getPublicUrl(imagePath); 
+            .getPublicUrl(imagePath);
           // Obtener solo la URL
-          const imageUrl = imageUrlResponse.data.publicUrl; 
+          const imageUrl = imageUrlResponse.data.publicUrl;
           // Actualizar el estado con la URL de la imagen
-          setPlaceData({ ...placeData, imageUrl }); 
+          setPlaceData({ ...placeData, imageUrl });
         }
       }
     }
@@ -146,7 +119,7 @@ function CreatePlace() {
     
       // Subir la imagen al bucket
       if (placeData.imageUrl) {
-        const { data, error } = await supabase
+        const { error } = await supabase
           .from('places')
           .insert([
             {
@@ -178,10 +151,6 @@ function CreatePlace() {
         }
       }
     }
-    
-    
-    
-  
     
   return (
     <div className="container-CreatePlace">
@@ -304,4 +273,4 @@ function CreatePlace() {
   );
 }
 
-export default CreatePlace;
+export default CreatePlace;
