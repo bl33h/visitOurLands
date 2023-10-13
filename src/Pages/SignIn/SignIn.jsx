@@ -62,7 +62,7 @@ function SignIn() {
   }
 
   async function fetchPosts() {
-    const { data } = await supabase.from('users').select();
+    await supabase.from('users').select();
     setUser({ ...user, username: '', password: '', confirmPassword: '', email: '' });
   }
 
@@ -82,7 +82,7 @@ function SignIn() {
   };
 
   const check_signIn = () => {
-    const { username, password, confirmPassword, email } = user;
+    const { password, confirmPassword, email } = user;
 
     if (password !== confirmPassword) {
       setPasswordMatch(false);

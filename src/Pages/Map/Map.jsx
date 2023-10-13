@@ -3,17 +3,15 @@ import '/src/Components/display.css'
 import { useState, useEffect } from 'react'
 import React from 'react'
 import jaguiImage from '../../assets/jagui.png'
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { supabase } from '../../client';
 
 function Map(){
-  const history = useHistory();
 
   const [departmentsData, setDepartmentsData] = useState([]);
   const [placesData, setPlacesData] = useState([]);
   const [departmentInfo, setDepartmentInfo] = useState({});
   const [randomPlaceIndex, setRandomPlaceIndex] = useState(0);
-  const [selectedDepartment, setSelectedDepartment] = useState({});
   const [selectedDept, setSelectedDept] = useState({});
 
   useEffect(() => {

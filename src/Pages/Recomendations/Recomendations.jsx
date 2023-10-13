@@ -27,7 +27,6 @@ function Recomendations() {
   const [hasFiltered, setHasFiltered] = useState(false);
   const [searching, setSearching] = useState(false);
 
-
   useEffect(() => {
     // Local storage
     const browser_data = window.localStorage.getItem('LOGIN_STATUS');
@@ -75,7 +74,7 @@ function Recomendations() {
 
   useEffect(() => {
     async function fetchDepartmentName() {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('departments')
         .select('*');
 
@@ -136,7 +135,7 @@ function Recomendations() {
         setFavoriteRecommendations(updatedFavorites);
 
         // Insertar el "like" en la tabla likedReviews
-        const { data, error } = await supabase.from('likedReviews').upsert([
+        const { error } = await supabase.from('likedReviews').upsert([
           {
             username: user.username, // El ID del usuario que dio "like"
             id_places: recommendationId, // El ID de la recomendación que se dio "like"
@@ -155,7 +154,7 @@ function Recomendations() {
         setFavoriteRecommendations(updatedFavorites);
 
         // Eliminar el "like" de la tabla likedReviews
-        const { data, error } = await supabase.from('likedReviews').delete().eq('username', user.username).eq('id_places', recommendationId);
+        const { error } = await supabase.from('likedReviews').delete().eq('username', user.username).eq('id_places', recommendationId);
 
         if (error) {
           console.error('Error al eliminar el "like":', error);
