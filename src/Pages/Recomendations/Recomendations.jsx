@@ -24,6 +24,8 @@ function Recomendations() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [selectedDepartments, setSelectedDepartments] = useState([]);
+  const [hasFiltered, setHasFiltered] = useState(false);
+  const [searching, setSearching] = useState(false);
 
 
   useEffect(() => {
@@ -63,7 +65,6 @@ function Recomendations() {
         return acc;
       }, {});
       setInteractionStates(initialInteractionStates);
-      performSearch(); // Realizar la búsqueda al cargar todas las recomendaciones
     }
     setLoadingRecommendations(false);
   }
@@ -165,14 +166,47 @@ function Recomendations() {
   }
 
   const performSearch = () => {
-    const filteredResults = allRecommendations.filter((recommendation) => {
-      const nameMatches = recommendation.name.toLowerCase().includes(searchTerm.toLowerCase());
-      const apartmentMatches = recommendation.departmentName.toLowerCase().includes(searchTerm.toLowerCase());
-      const departmentMatches = selectedDepartments.length === 0 || selectedDepartments.includes(recommendation.departmentName);
-      return (nameMatches || apartmentMatches) && departmentMatches;
-    });
-    setSearchResults(filteredResults);
+    if (searchTerm !== '') {
+      setSearching(true);
+      const searchTermRegex = new RegExp(searchTerm, 'i');
+      const departmentMatches = selectedDepartments.length > 0;
+
+      setHasFiltered(searchTerm !== '' || departmentMatches);
+
+      const filteredResults = allRecommendations.filter((recommendation) => {
+        const nameMatches = searchTermRegex.test(recommendation.name.toLowerCase());
+        const apartmentMatches = searchTermRegex.test(recommendation.departmentName.toLowerCase());
+        const departmentMatches = selectedDepartments.length === 0 || selectedDepartments.includes(recommendation.departmentName);
+        return (nameMatches || apartmentMatches) && departmentMatches;
+      });
+
+      setSearchResults(filteredResults);
+      setCurrentPage(1);
+      setSearching(false);
+    }
   };
+
+
+  const handleSearchInputChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+
+  useEffect(() => {
+    if (searchTerm !== '' && !searching) {
+      performSearch();
+    }
+  }, [searchTerm, searching]);
+
+  useEffect(() => {
+    // Local storage
+    const browser_data = window.localStorage.getItem('LOGIN_STATUS');
+    if (browser_data !== null) {
+      setUser(JSON.parse(browser_data));
+    }
+    setSearchTerm(''); // Establece searchTerm en una cadena vacía
+  }, []);
+  
 
   function renderRatingStars(rating) {
     const stars = [];
@@ -189,8 +223,12 @@ function Recomendations() {
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
+  const allrec = allRecommendations.slice(startIndex, endIndex);
   const recommendationsToDisplay = searchResults.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(searchResults.length / itemsPerPage);
+  // Calcular totalPages en función de searchResults
+  const totalPages = searchResults.length >= 0 && searchTerm !==''
+  ? Math.ceil(searchResults.length / itemsPerPage)
+  : Math.ceil(allRecommendations.length / itemsPerPage)
 
   return (
     <div className="RecDiv">
@@ -198,18 +236,69 @@ function Recomendations() {
         type="text"
         placeholder="Buscar por nombre o departamento"
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={handleSearchInputChange}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            performSearch();
+          }
+        }}
       />
-      <button onClick={performSearch}>Buscar</button>
       <h1 className="Header">¡Estos son todos los lugares que poseemos!</h1>
       <div className="user-recommendations">
         {loadingRecommendations ? (
           <p>Cargando recomendaciones...</p>
-        ) : recommendationsToDisplay.length === 0 ? (
+        ) : searchTerm !=='' && recommendationsToDisplay.length === 0 ? (
           <p>No se encontraron resultados</p>
-        ) : (
+        ) : searchTerm !== '' ? (
           <div className="recommendations-container2">
             {recommendationsToDisplay.map((recommendation) => (
+              <div key={recommendation.id_places} className="recommendation-card2">
+                <Link to={`/MainPage/recommendation/${recommendation.id_places}`}>
+                  <h3>{recommendation.name}</h3>
+                </Link>
+                <h3>{recommendation.departmentName}</h3>
+                <p>{recommendation.description}</p>
+                <div className="rating-stars">{renderRatingStars(recommendation.rating)}</div>
+                <img src={recommendation.image} alt={recommendation.name} />
+
+                <div className="interaction-icons">
+                  <FontAwesomeIcon
+                    icon={faHeart}
+                    onClick={() => toggleInteraction(recommendation.id_places, 'like')}
+                    className={interactionStates[recommendation.id_places].like ? "activeIn" : ""}
+                  />
+                  <FontAwesomeIcon
+                    icon={faStar}
+                    onClick={() => {
+                      setSelectedCommentPlaceId(recommendation.id_places);
+                      setShowRating(true);
+                    }}
+                  />
+                  <FontAwesomeIcon
+                    icon={faComment}
+                    onClick={() => {
+                      setSelectedCommentPlaceId(recommendation.id_places);
+                      setShowComment(true);
+                    }}
+                    className={interactionStates[recommendation.id_places].comment ? "activeIn" : ""}
+                  />
+                  <FontAwesomeIcon
+                    icon={faShare}
+                    onClick={() => toggleInteraction(recommendation.id_places, 'share')}
+                    className={interactionStates[recommendation.id_places].share ? "activeIn" : ""}
+                  />
+                  {showCopyMessage && (
+                    <div className="copy-message">
+                      <p>Enlace copiado al portapapeles: {copiedLink}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        ): (
+          <div className="recommendations-container2">
+            {allrec.map((recommendation) => (
               <div key={recommendation.id_places} className="recommendation-card2">
                 <Link to={`/MainPage/recommendation/${recommendation.id_places}`}>
                   <h3>{recommendation.name}</h3>
@@ -270,16 +359,17 @@ function Recomendations() {
         </div>
       )}
       <div className="pagination">
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button
-            key={index + 1}
-            onClick={() => setCurrentPage(index + 1)}
-            className={currentPage === index + 1 ? 'activePage' : ''}
-          >
-            {index + 1}
-          </button>
-        )
-      )}
+        {(searchResults.length > 0 || searchTerm === '') &&(
+          Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index + 1}
+              onClick={() => setCurrentPage(index + 1)}
+              className={currentPage === index + 1 ? 'activePage' : ''}
+            >
+              {index + 1}
+            </button>
+          )))
+        }
       </div>
     </div>
   );
