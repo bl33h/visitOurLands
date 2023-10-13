@@ -11,7 +11,6 @@ function TopRec(){
   const [user, setUser] = useState({});
   const [loadingRecommendations, setLoadingRecommendations] = useState(true);
   const [userRecommendations, setUserRecommendations] = useState([]);
-  const [departmentName, setDepartmentName] = useState('');
   const [interactionStates, setInteractionStates] = useState({});
   const [favoriteRecommendations, setFavoriteRecommendations] = useState([]);
   const [showComment, setShowComment] = useState(false);
@@ -70,22 +69,6 @@ function TopRec(){
   }, [currentPage]);
 
   useEffect(() => {
-    async function fetchDepartmentName() {
-      const { data, error } = await supabase
-        .from('departments')
-        .select('*');
-
-      if (error) {
-        console.error('Error al obtener el nombre del departamento:', error);
-      } else {
-        setDepartmentName(data.name);
-      }
-    }
-
-    fetchDepartmentName();
-  }, []);
-
-  useEffect(() => {
     const storedRecommendations = window.localStorage.getItem('USER_RECOMMENDATIONS');
     if (storedRecommendations && user.username === JSON.parse(storedRecommendations)[0]?.author) {
       setUserRecommendations(JSON.parse(storedRecommendations));
@@ -137,7 +120,7 @@ function TopRec(){
         setFavoriteRecommendations(updatedFavorites);
 
         // Insertar el "like" en la tabla likedReviews
-        const { data, error } = await supabase.from('likedReviews').upsert([
+        const { error } = await supabase.from('likedReviews').upsert([
           {
             username: user.username, // El ID del usuario que dio "like"
             id_places: recommendationId, // El ID de la recomendación que se dio "like"
@@ -156,7 +139,7 @@ function TopRec(){
         setFavoriteRecommendations(updatedFavorites);
 
         // Eliminar el "like" de la tabla likedReviews
-        const { data, error } = await supabase.from('likedReviews').delete().eq('username', user.username).eq('id_places', recommendationId);
+        const {error } = await supabase.from('likedReviews').delete().eq('username', user.username).eq('id_places', recommendationId);
 
         if (error) {
           console.error('Error al eliminar el "like":', error);

@@ -6,7 +6,6 @@ import './rating.css';
 
 function Rating({ selectedPlaceId }) {
   const [placeInfo, setPlaceInfo] = useState({});
-  const [rate, setRate] = useState('');
   const [user, setUser] = useState(null);
   const [selectedStars, setSelectedStars] = useState(0); // Inicializar selectedStars como 0
 
@@ -52,7 +51,7 @@ function Rating({ selectedPlaceId }) {
     }
 
     try {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('ratings')
         .insert([
           {
