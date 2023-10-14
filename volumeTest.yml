@@ -7,7 +7,7 @@ config:
 scenarios:
   - flow:
       - post:
-          url: "https://visitourlands.netlify.app/login"
+          url: "https://visitourlands.netlify.app/Login"
           json:
             username: "sara"
             password: "12345"
