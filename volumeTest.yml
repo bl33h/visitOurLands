@@ -2,7 +2,7 @@ config:
   target: "https://visitourlands.netlify.app"
   phases:
     - duration: 60
-      arrivalRate: 10
+      arrivalRate: 30
 
 scenarios:
   - flow:
