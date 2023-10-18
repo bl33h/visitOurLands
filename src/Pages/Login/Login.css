@@ -40,3 +40,9 @@
     position: relative;
     width: 300px;
 }
+
+p .recover-link {
+    color: #8C4303;
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+  }
+  

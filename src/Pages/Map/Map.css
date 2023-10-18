@@ -86,9 +86,10 @@ h6{
 .Titles h5{
   margin-bottom: 0%;
 }
-.Titles h7{
+.Titles h6{
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
   color: #8C4303;
+  font-size: medium;
 }
 
 .my-box p {

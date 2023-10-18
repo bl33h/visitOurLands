@@ -1,0 +1,20 @@
+config:
+  target: "https://visitourlands.netlify.app"
+  phases:
+    - duration: 60
+      arrivalRate: 30
+
+scenarios:
+  - flow:
+      - post:
+          url: "https://visitourlands.netlify.app/Login"
+          json:
+            username: "sara"
+            password: "12345"
+          capture:
+            - as: "authToken"  # Nombre para la captura
+              json: $.token
+      - get:
+          url: "https://visitourlands.netlify.app/MainPage/recommendation/7"
+          headers:
+            Authorization: Bearer {{ authToken }}  # Utiliza el nombre de captura

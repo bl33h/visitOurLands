@@ -3,17 +3,15 @@ import '/src/Components/display.css'
 import { useState, useEffect } from 'react'
 import React from 'react'
 import jaguiImage from '../../assets/jagui.png'
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { supabase } from '../../client';
 
 function Map(){
-  const history = useHistory();
 
   const [departmentsData, setDepartmentsData] = useState([]);
   const [placesData, setPlacesData] = useState([]);
   const [departmentInfo, setDepartmentInfo] = useState({});
   const [randomPlaceIndex, setRandomPlaceIndex] = useState(0);
-  const [selectedDepartment, setSelectedDepartment] = useState({});
   const [selectedDept, setSelectedDept] = useState({});
 
   useEffect(() => {
@@ -94,7 +92,7 @@ function Map(){
     <div className="root">
       <div className="Titles">
       <h5>¡Bienvenido a Visita Nuestras Tierras!</h5>
-      <h7>Presiona cualquier departamento para ver algún lugar. (Sigue presionando y veras uno diferente cada vez!)</h7>
+      <h6>Presiona cualquier departamento para ver algún lugar. (Sigue presionando y veras uno diferente cada vez!)</h6>
       </div>
         <div className="mapadiv">
         <svg version="1.2" viewBox="0 0 1000 1056" xmlns="http://www.w3.org/2000/svg">

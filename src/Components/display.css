@@ -16,3 +16,11 @@
     flex-direction: column;
     background-color: white;
 }
+
+    @media  screen and (max-width: 850px) {
+        .container{
+            display: flex;
+            justify-content: center;
+            padding: 3px;
+        }
+    }

@@ -18,16 +18,13 @@ function Profile() {
   const [showInitialInfo, setShowInitialInfo] = useState(true); // Estado para mostrar/ocultar recomendaciones iniciales
   const [showEditButton, setShowEditButton] = useState(false);
   const [showLikeButton, setShowLikeButton] = useState(false);
-  const [urlimage, setImageUrl] = useState('');
-  const[ ProfilePictures, setProfilePictures] = useState([]);
-  const [image, setImage] = useState(); 
+  const [image, setImage] = useState();
   const [userData, setUserData] = useState({
     username: '',
     imageUrl: ''
   });
-  const [selectedImage, setSelectedImage] = useState(null); 
-  const [uploading, setUploading] = useState(false); 
-
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [uploading, setUploading] = useState(false);
   const inputRef = useState(null);
 
   const handleImageClick = () => {
@@ -51,7 +48,7 @@ function Profile() {
       const imagePath = `${folderName}/${imageName}`;
 
       try {
-          const { data: uploadData, error: uploadError } = await supabase.storage
+          const { error: uploadError } = await supabase.storage
             .from('ProfilePictures')
             .upload(imagePath, image);
 
