@@ -14,7 +14,6 @@ function Login() {
   let succesfull_login = false
   const history = useHistory()
   useEffect(() => {
-    console.log('writing', user)
     window.localStorage.setItem('LOGIN_STATUS', JSON.stringify(user))
   }, [user])
   useEffect(() => {
@@ -71,10 +70,10 @@ function Login() {
     <div className="root" >
       <div className="container">
        <img className="welcome-jagui" src={welcomeJagui} alt="welcome Jagui" /> 
-        <h1>Username:</h1>
+        <h1>Usuario:</h1>
         <input id="input-username" data-testid="input-usernam" className="input-login" onClick={fetchPosts} onKeyDown={handleKeyDown}></input>
           
-        <h1>Password:</h1>
+        <h1>Contraseña:</h1>
         <input type={mostrarContrasena ? 'text' : 'password'}  id="input-password" data-testid="input-p" className="input-login" onClick={fetchPosts} onKeyDown={handleKeyDown}></input>
         <div style={{ display: 'inline-flex', alignItems: 'center' }}>
           <p>Mostrar contraseña</p>

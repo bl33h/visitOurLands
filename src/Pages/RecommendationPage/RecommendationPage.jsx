@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { supabase } from '../../client';
 import './RecommendationPage.css';
 
@@ -8,7 +8,6 @@ function RecommendationPage() {
   const [recommendationData, setRecommendationData] = useState(null);
   const [comments, setComments] = useState(null);
   const [relatedRecommendations, setRelatedRecommendations] = useState([]);
-  const [reviews, setReviews] = useState(null);
   const [averageRating, setAverageRating] = useState(null);
 
   useEffect(() => {
@@ -25,7 +24,7 @@ function RecommendationPage() {
         }
 
         if (data) {
-          const { data: departmentData, error: departmentError } = await supabase
+          const { data: departmentData } = await supabase
             .from('departments')
             .select('name')
             .eq('id_departments', data.id_departments)
@@ -140,7 +139,6 @@ function RecommendationPage() {
       const averageRating = totalRatings > 0 ? sumOfRatings / (totalRatings + 1) : initialRating;
     
       // Actualiza el estado con las reseñas y el promedio
-      setReviews(data);
       setAverageRating(averageRating);
 
       // Actualiza el valor de avg_rating en la base de datos
@@ -227,12 +225,12 @@ function RecommendationPage() {
           <>
           <p>No se encontraron lugares turísticos relacionados. Aquí hay algunas recomendaciones populares:</p>
           <ul>
-              {relatedRecommendations.map((best) => (
+            {relatedRecommendations.map((best) => (
               <li key={best.id_places}>
-                <a href={`/MainPage/recommendation/${best.id_places}`}>{best.name}</a>
+                <Link to={`/recommendation/${best.id_places}`}>{best.name}</Link>
                 <img src={best.image} alt={best.name} />
               </li>
-                          ))}
+            ))}
           </ul>
           </>
         )}

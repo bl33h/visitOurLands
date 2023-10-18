@@ -74,7 +74,7 @@ function MainPage() {
             </Switch>
           </main>
         </div>
-        : <div id="logged-out-status" style={{color: 'red'}} > Signing out...</div>}
+        : <div id="logged-out-status" style={{color: 'red'}} > Cerrando sesión...</div>}
       </div>
     )
   }
@@ -82,8 +82,8 @@ function MainPage() {
     verify_Loggin_status()
     return (
       <>
-        <div>You are not authorized... </div>
-        <div>Signing out...</div>
+        <div>No estas autorizado... </div>
+        <div>Cerrando sesión...</div>
       </>
     )
   }

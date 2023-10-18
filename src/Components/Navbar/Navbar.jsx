@@ -171,7 +171,7 @@ const Sidebar = () => {
 
           <Box paddingLeft={isCollapsed.colapsed ? undefined : '10%'}>
             <Item
-              title="Profile"
+              title="Perfil"
               to="/MainPage/Profile"
               icon={<AccountCircleIcon />}
               selected={selected.page_selected}
@@ -179,7 +179,7 @@ const Sidebar = () => {
             />
 
             <Item
-              title="Recomendations"
+              title="Recomendaciones"
               to="/MainPage/Recomendations"
               icon={<HomeIcon />}
               selected={selected.page_selected}
@@ -211,7 +211,7 @@ const Sidebar = () => {
             />
 
             <Item
-              title="Log Out"
+              title="Cerrar Sesión"
               to="/Login"
               icon={<LogoutIcon />}
               selected={selected.page_selected}
