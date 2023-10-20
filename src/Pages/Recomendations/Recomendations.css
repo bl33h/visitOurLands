@@ -1,3 +1,28 @@
+.FiltroBusqueda {
+  padding: 8px;
+  border: 2px solid #FFAA4F; /* Color del borde */
+  background-color: #fff; /* Fondo blanco */
+  border-radius: 5px;
+  font-size: 16px;
+  color: #8c4303; /* Color del texto */
+  margin-top: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 300px;
+  transition: border-color 0.3s, color 0.3s;
+}
+
+.FiltroBusqueda::placeholder {
+  color: #04738c; /* Color del placeholder */
+  opacity: 0.6;
+}
+
+.FiltroBusqueda:focus {
+  border-color: #04738c; /* Color del borde al enfocar */
+  color: #333; /* Color del texto al enfocar */
+  outline: none;
+}
+
 .Header{
     justify-content: center;
 }
