@@ -1,6 +1,10 @@
+.profile-container{
+  margin-top: 25px;
+}
+
 .info {
     display: flex;
-    align-items: center;
+    justify-content: left;
     padding: 12px;
     border: 4px solid #FFAA4F;
     border-radius: 5px;
@@ -32,6 +36,13 @@
     text-align: justify;
 }
 
+.buttons-container{
+  display: inline-flex;
+  justify-content: center;
+  height: auto;
+  width: 250px;
+}
+
 .each-button {
   display: inline-block;
   margin: 5%;
@@ -42,8 +53,6 @@
   height: 90px;
   outline: "none";
   border-style: hidden;
-  margin-top: 10%;
-  margin-bottom: -7%;
 }
 
 .each-button:hover{
@@ -129,4 +138,69 @@
 
 .image-display:hover {
 	opacity: 100;
+}
+
+@media screen and (max-width: 321px) {
+  .info{
+    display: flex;
+    justify-content: center;
+    width: 175px;
+  }
+
+  .buttons-container{
+    width: 175px;
+  }
+
+  .each-button{
+    width: 70px;
+    height: 70px;
+  }
+
+  .image-change-submit{
+    font-size: 15px;
+    height: 25px;
+  }
+
+  .user-recommendations{
+    width: 150px;
+  }
+}
+
+@media  screen and  (min-width: 321px) and (max-width: 426px){
+  .info{
+    display: flex;
+    justify-content: center;
+    width: 250px;
+  }
+
+  .image-change-submit{
+    font-size: 15px;
+    height: 25px;
+  }
+
+  .user-recommendations{
+    width: 225px;
+  }
+}
+
+@media screen and (min-width: 426px) and (max-width: 1024px){
+  .info{
+    display: flex;
+    width: 450px;
+  }
+
+  .user-recommendations{
+    width: 425px;
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  .info{
+    display: flex;
+    width: 900px;
+  }
+
+  .user-recommendations{
+    width: 875px;
+  }
 }

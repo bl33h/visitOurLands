@@ -32,8 +32,8 @@
     size: 10px;
     padding: 5px;
     margin-left: 5px;
-    min-height: 10px;
-    min-width: 650px;
+    height: 100px;
+    width: 500px;
     font-family: "Lucida Grande";
     border-color: #FFAA4F;
     border-radius: 5px;
@@ -45,8 +45,8 @@
     size: 10px;
     padding: 5px;
     margin-left: 5px;
-    min-height: 10px;
-    min-width: 650px;
+    height: auto;
+    width: 500px;
     font-family: "Lucida Grande";
     border-color: #FFAA4F;
     border-radius: 5px;
@@ -54,7 +54,6 @@
 
 .action-buttons{
     padding-top: 10px;
-    padding-right: 100px;
     display: flex;
     justify-content: right;
 }
@@ -138,4 +137,92 @@
   .ec-stars-wrapper > a:hover ~ a {
     color: #111;
   }
+
+@media screen and (max-width: 321px){
+    .edit-recommendations-container{
+        width: 175px;
+    }
+
+    .editing{
+        padding-left: 0px;
+    }
+
+    .descriptionPlace{
+        width: 175px;
+    }
+
+    .cont-rating{
+        width: 175px;
+    }
+
+    .input-edit{
+        width: 175px;
+    }
+}
+
+@media  screen and  (min-width: 321px) and (max-width: 426px){
+    .edit-recommendations-container{
+        width: 250px;
+    }
+
+    .editing{
+        padding-left: 0px;
+    }
+
+    .descriptionPlace{
+        width: 250px;
+    }
+
+    .cont-rating{
+        width: 250px;
+    }
+
+    .input-edit{
+        width: 250px;
+    }
+}
+  
+@media screen and (min-width: 426px) and (max-width: 1024px){
+    .edit-recommendations-container{
+        width: 450px;
+    }
+
+    .editing{
+        padding-left: 0px;
+    }
+
+    .descriptionPlace{
+        width: 450px;
+    }
+
+    .cont-rating{
+        width: 450px;
+    }
+
+    .input-edit{
+        width: 450px;
+    }
+}
+  
+@media screen and (min-width: 1025px) {
+    .edit-recommendations-container{
+        width: 900px;
+    }
+
+    .editing{
+        padding-left: 0px;
+    }
+
+    .descriptionPlace{
+        width: 900px;
+    }
+
+    .cont-rating{
+        width: 900px;
+    }
+
+    .input-edit{
+        width: 900px;
+    }
+}
   
