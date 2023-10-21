@@ -79,7 +79,7 @@ function LikeButton() {
   }
 
   return (
-    <div className='header3'>
+    <div className="liked-places">
         <h2>Los lugares que mas te han gustado</h2>
         <div>
         {loading ? (

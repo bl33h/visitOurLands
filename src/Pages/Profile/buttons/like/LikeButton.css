@@ -51,3 +51,28 @@
   .rating-stars i.empty-star {
     color: #FFAA4F;
   }
+
+@media screen and (max-width: 321px) {
+  .liked-places{
+    width: 175;
+  }
+}
+  
+@media  screen and  (min-width: 321px) and (max-width: 426px){
+  .liked-places{
+    width: 250px;
+  }
+}
+  
+@media screen and (min-width: 426px) and (max-width: 1024px){
+  .liked-places{
+    width: 450px;
+  }
+}
+  
+@media screen and (min-width: 1025px) {
+  .liked-places{
+    width: 900px;
+  }
+}
+  

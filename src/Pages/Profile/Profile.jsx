@@ -163,7 +163,7 @@ function Profile() {
   return (
     // Foto de Perfil
     <div className="root">
-      <div className="container">
+      <div className="profile-container">
         <div className="info">
           <div className="image-container-profile">
             <div onClick={handleImageClick}>
@@ -221,6 +221,7 @@ function Profile() {
             }}
           ></button>
         </div>
+      </div>
 
         {showLikeButton && <LikeButton />}
 
@@ -252,7 +253,6 @@ function Profile() {
           </div>
         )}
       </div>
-    </div>
   );
 }
 
