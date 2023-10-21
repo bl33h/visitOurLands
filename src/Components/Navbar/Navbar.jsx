@@ -1,5 +1,5 @@
-import { useState, useEffect, useMemo } from 'react'
-import { ProSidebar, Menu, MenuItem } from 'react-pro-sidebar'
+import React, { useState, useEffect, useMemo } from 'react'
+import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar'
 import { Box, IconButton, Typography, useTheme } from '@mui/material'
 import { Link, useHistory } from 'react-router-dom'
 import { tokens } from '../theme'
@@ -61,10 +61,26 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode)
   const [isCollapsed, setIsCollapsed] = useState({ colapsed: false })
   const [selected, setSelected] = useState({ page_selected: 'Home' })
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 425);
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [user, setUser] = useState({})
   const [logged_In, set_Logged_In_Status] = useState(false)
-
   const history = useHistory()
+
+  const handleResize = () => {
+    setIsMobile(window.innerWidth <= 425);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  const toggleSidebar = () => {
+    setIsSidebarExpanded(!isSidebarExpanded);
+  };
 
   useMemo(() => {
     const browser_data = window.localStorage.getItem('LOGIN_STATUS')
@@ -100,6 +116,7 @@ const Sidebar = () => {
     )
     window.localStorage.setItem('MAINPAGE_SELECTED', JSON.stringify({ page_selected: '' }))
   }
+  const overlayClass = isSidebarExpanded ? 'overlay expanded' : 'overlay';
 
   return (
     <Box
@@ -121,6 +138,11 @@ const Sidebar = () => {
         },
       }}
     >
+      {isMobile && (
+        <IconButton onClick={toggleSidebar} style={{ position: 'fixed', zIndex: 100, left: 5 }}>
+          <MenuOutlinedIcon />
+        </IconButton>
+      )}
       <ProSidebar collapsed={isCollapsed.colapsed}>
         {' '}
         <Menu iconShape="square">
@@ -220,6 +242,7 @@ const Sidebar = () => {
           </Box>
         </Menu>
       </ProSidebar>
+      <div className={overlayClass}></div>
     </Box>
   )
 }
