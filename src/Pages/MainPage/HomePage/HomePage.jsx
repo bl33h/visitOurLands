@@ -11,20 +11,22 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div
-      style={{
-        width: '100%',
-        height: '100%',
-        display: 'grid',
-        alignContent: 'center',
-        backgroundImage: `url(${bg})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        zIndex: -1
-      }}
-    >
-      <h1 className="main-title">Bienvenido de nuevo {user.username}!</h1>
-      <p className="role-message">Estas asignado como {user.role}</p>
+    <div className="root">
+      <div
+        style={{
+          width: '150%',
+          height: '100%',
+          display: 'grid',
+          alignContent: 'center',
+          backgroundImage: `url(${bg})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          zIndex: -1
+        }}
+      >
+        <h1 className="main-title">Bienvenido de nuevo {user.username}!</h1>
+        <p className="role-message">Estas asignado como {user.role}</p>
+      </div>
     </div>
   );
 };
