@@ -20,6 +20,7 @@ const HomePage = () => {
         backgroundImage: `url(${bg})`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
+        zIndex: -1
       }}
     >
       <h1 className="main-title">Bienvenido de nuevo {user.username}!</h1>

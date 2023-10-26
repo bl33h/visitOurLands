@@ -153,124 +153,127 @@ function CreatePlace() {
     }
     
   return (
-    <div className="container-CreatePlace">
-      <h1>Crear un nuevo lugar</h1>
-      <form onSubmit={handleFormSubmit}>
-        <label htmlFor="name" data-testid="nombre-label" className="label">Nombre:</label>
-        <input
-          type="text"
-          id="name-id"
-          name="name"
-          className="name"
-          value={placeData.name}
-          onChange={handleInputChange}
-          required
-        />
+    <div className="root">
+      <div className="container-CreatePlace">
+        <h1 className="h1-create">Crear un nuevo lugar</h1>
+        <form className="create-form" onSubmit={handleFormSubmit}>
+          <label htmlFor="name" data-testid="nombre-label" className="label">Nombre:</label>
+          <input
+            type="text"
+            id="name-id"
+            name="name"
+            className="name"
+            value={placeData.name}
+            onChange={handleInputChange}
+            required
+          />
 
-        <label htmlFor="description" className="label">Descripción corta:</label>
-        <textarea
-          id="description-id"
-          name="description"
-          className="description-place"
-          value={placeData.description}
-          onChange={handleInputChange}
-          maxLength={MAX_DESCRIPTION_LENGTH} // Limitar la descripción a 280 caracteres
-          required
-        ></textarea>
+          <label htmlFor="description" className="label">Descripción corta:</label>
+          <textarea
+            id="description-id"
+            name="description"
+            className="description-place"
+            value={placeData.description}
+            onChange={handleInputChange}
+            maxLength={MAX_DESCRIPTION_LENGTH} // Limitar la descripción a 280 caracteres
+            required
+          ></textarea>
 
-        {placeData.description.length >= MAX_DESCRIPTION_LENGTH && (
-                  <p className="description-warning">
-                    Ha alcanzado el máximo de caracteres permitidos (280).
-                  </p>
-                )}
-        <label htmlFor="rating" className="label">Rating:</label>
-        <div className="cont-rating">
-          <div className="ec-stars-wrapper">
-            <a
-              href="#"
-              data-value="1"
-              title="Votar con 1 estrellas"
-              onClick={handleRatingClick}
-              onMouseEnter={handleRatingHover}
-              onMouseLeave={handleRatingLeave}
-              data-testid="rating-stars"
-              className={hoveredStars >= 1 || selectedStars >= 1 ? "filled" : ""}
-            >
-              &#9733;
-            </a>
-            <a
-              href="#"
-              data-value="2"
-              title="Votar con 2 estrellas"
-              onClick={handleRatingClick}
-              onMouseEnter={handleRatingHover}
-              onMouseLeave={handleRatingLeave}
-              data-testid="rating-stars"
-              className={hoveredStars >= 2 || selectedStars >= 2 ? "filled" : ""}
-            >
-              &#9733;
-            </a>
-            <a
-              href="#"
-              data-value="3"
-              title="Votar con 3 estrellas"
-              onClick={handleRatingClick}
-              onMouseEnter={handleRatingHover}
-              onMouseLeave={handleRatingLeave}
-              data-testid="rating-stars"
-              className={hoveredStars >= 3 || selectedStars >= 3 ? "filled" : ""}
-            >
-              &#9733;
-            </a>
-            <a
-              href="#"
-              data-value="4"
-              title="Votar con 4 estrellas"
-              onClick={handleRatingClick}
-              onMouseEnter={handleRatingHover}
-              onMouseLeave={handleRatingLeave}
-              className={hoveredStars >= 4 || selectedStars >= 4 ? "filled" : ""}
-            >
-              &#9733;
-            </a>
-            <a
-              href="#"
-              data-value="5"
-              title="Votar con 5 estrellas"
-              onClick={handleRatingClick}
-              onMouseEnter={handleRatingHover}
-              onMouseLeave={handleRatingLeave}
-              className={hoveredStars >= 5 || selectedStars >= 5 ? "filled" : ""}
-            >
-              &#9733;
-            </a>
+          {placeData.description.length >= MAX_DESCRIPTION_LENGTH && (
+                    <p className="description-warning">
+                      Ha alcanzado el máximo de caracteres permitidos (280).
+                    </p>
+                  )}
+          <label htmlFor="rating" className="label">Rating:</label>
+          <div className="cont-rating-create">
+            <div className="ec-stars-wrapper">
+              <a
+                href="#"
+                data-value="1"
+                title="Votar con 1 estrellas"
+                onClick={handleRatingClick}
+                onMouseEnter={handleRatingHover}
+                onMouseLeave={handleRatingLeave}
+                data-testid="rating-stars"
+                className={hoveredStars >= 1 || selectedStars >= 1 ? "filled" : ""}
+              >
+                &#9733;
+              </a>
+              <a
+                href="#"
+                data-value="2"
+                title="Votar con 2 estrellas"
+                onClick={handleRatingClick}
+                onMouseEnter={handleRatingHover}
+                onMouseLeave={handleRatingLeave}
+                data-testid="rating-stars"
+                className={hoveredStars >= 2 || selectedStars >= 2 ? "filled" : ""}
+              >
+                &#9733;
+              </a>
+              <a
+                href="#"
+                data-value="3"
+                title="Votar con 3 estrellas"
+                onClick={handleRatingClick}
+                onMouseEnter={handleRatingHover}
+                onMouseLeave={handleRatingLeave}
+                data-testid="rating-stars"
+                className={hoveredStars >= 3 || selectedStars >= 3 ? "filled" : ""}
+              >
+                &#9733;
+              </a>
+              <a
+                href="#"
+                data-value="4"
+                title="Votar con 4 estrellas"
+                onClick={handleRatingClick}
+                onMouseEnter={handleRatingHover}
+                onMouseLeave={handleRatingLeave}
+                className={hoveredStars >= 4 || selectedStars >= 4 ? "filled" : ""}
+              >
+                &#9733;
+              </a>
+              <a
+                href="#"
+                data-value="5"
+                title="Votar con 5 estrellas"
+                onClick={handleRatingClick}
+                onMouseEnter={handleRatingHover}
+                onMouseLeave={handleRatingLeave}
+                className={hoveredStars >= 5 || selectedStars >= 5 ? "filled" : ""}
+              >
+                &#9733;
+              </a>
+            </div>
           </div>
-        </div>
 
-        <label htmlFor="departments" className="label">Departamento:</label>
-            <select id="departments-id" className="select-department" ref={selectRef}>
-              <>
-              <option className="label" value="" >Seleccione una opción </option>
-              {listDepartments &&
-              <>
-                {listDepartments.map(e => (
-                  <option key={e.id_departments} value={e.id_departments}>{e.name}</option>
-                ))}
-              </>
-            }
-              </>
-            </select>
+          <label htmlFor="departments" className="label">Departamento:</label>
+              <select id="departments-id" className="select-department" ref={selectRef}>
+                <>
+                <option className="label" value="" >Seleccione una opción </option>
+                {listDepartments &&
+                <>
+                  {listDepartments.map(e => (
+                    <option key={e.id_departments} value={e.id_departments}>{e.name}</option>
+                  ))}
+                </>
+              }
+                </>
+              </select>
 
-        <label htmlFor="imageUrl" className="label">Selecciona tu imagen</label>
-        <br></br>
-        <div className="label" >
-          <input id="id_ImageUrl" name="ImageUrl" type="file" accept="image/png, image/jpg, image/jpeg" onChange={(e) => uploadImage(e)}/>
-        </div>
-        <br></br>
-        <button type="submit" className="submit">Crear lugar</button>
-      </form>
+          <label htmlFor="imageUrl" className="label">Selecciona tu imagen</label>
+          <br></br>
+          <div className="label-upload" >
+            <input id="id_ImageUrl" name="ImageUrl" type="file" accept="image/png, image/jpg, image/jpeg" onChange={(e) => uploadImage(e)}/>
+          </div>
+          <br></br>
+          <button type="submit" className="submit">Crear lugar</button>
+        </form>
+      </div>
     </div>
   );
 }
 
 export default CreatePlace;
+

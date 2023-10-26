@@ -1,5 +1,5 @@
+/* Common styles for all devices */
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
-
 .main-title {
   font-family: 'Pacifico', cursive;
   font-size: 60px;
@@ -10,4 +10,44 @@
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   font-size: 20px;
   color: rgb(246, 247, 248);
+}
+
+/* Media query for mobile devices s */
+@media screen and (max-width: 321px) {
+  .main-title {
+    font-size: 20px;
+  }
+  .role-message {
+    font-size: 12px;
+  }
+}
+
+/* Media query for mobile devices M-L */
+@media screen and (min-width: 321px) and (max-width: 426px){
+  .main-title {
+    font-size: 28px;
+  }
+  .role-message {
+    font-size: 14px;
+  }
+}
+
+/* Media query for tablets */
+@media screen and (min-width: 426px) and (max-width: 1024px) {
+  .main-title {
+    font-size: 50px;
+  }
+  .role-message {
+    font-size: 18px;
+  }
+}
+
+/* Media query for desktop computers */
+@media screen and (min-width: 1025px) {
+  .main-title {
+    font-size: 60px;
+  }
+  .role-message {
+    font-size: 20px;
+  }
 }

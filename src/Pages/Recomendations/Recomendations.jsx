@@ -232,6 +232,7 @@ function Recomendations() {
   return (
     <div className="RecDiv">
       <input
+        className="FiltroBusqueda"
         type="text"
         placeholder="Buscar por nombre o departamento"
         value={searchTerm}
