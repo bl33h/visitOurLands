@@ -1,0 +1,16 @@
+version: '3'
+services:
+  react-app:
+    build:
+      context: .  # dockerfile location
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://supabase-api:8000
+
+  supabase-api:
+    image: supabase/supabase
+    ports:
+      - "8000:8000"
+    environment:
+      - SUPABASE_KEY=your-api-key
