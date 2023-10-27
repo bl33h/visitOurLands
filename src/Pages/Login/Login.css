@@ -1,48 +1,80 @@
-.login-button {
-    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
-    color: white;
-    font-size: 20px;
-    position: relative;
-    display: table;
-    margin: 0px 70px 10px 70px;
-    padding: 2px 5px 2px 5px;
-    text-align: center;
-    border-radius: 5px;
-    width: 190px;
-    height: 40px;
-    border: 0.5px solid #D97C2B;
-    cursor: pointer;
-    background-color: #D97C2B;
-    text-decoration: inherit;
-    font-size: medium;
-}
-
+.login-button,
 .signin-button {
     font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
     color: white;
     font-size: 20px;
     position: relative;
     display: table;
-    margin: 0px 70px 10px 70px;
     padding: 2px 5px 2px 5px;
     text-align: center;
     border-radius: 5px;
-    border: 0.5px solid #8C4303;
     cursor: pointer;
-    width: 190px;
-    height: 40px;
-    background-color: #8C4303;
     text-decoration: inherit;
     font-size: medium;
 }
 
-.welcome-jagui{
+.login-button {
+    width: 190px;
+    height: 40px;
+    border: 0.5px solid #D97C2B;
+    margin: 0px 70px 10px 70px;
+    background-color: #D97C2B;
+}
+
+.signin-button {
+    width: 190px;
+    height: 40px;
+    border: 0.5px solid #8C4303;
+    margin: 0px 70px 10px 70px;
+    background-color: #8C4303;
+}
+
+.welcome-jagui {
     position: relative;
     width: 300px;
+}
+
+@media screen and (max-width: 600px) {
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .welcome-jagui {
+        width: 100%;
+        max-width: none;
+        margin: 20px 0
+    }
+
+    .login-button,
+    .signin-button {
+        width: 100%;
+        margin: 10px 0;
+    }
+}
+
+@media screen and (min-width: 601px) {
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .welcome-jagui {
+        width: 100%;
+        max-width: none;
+        display: block;
+    }      
+
+    .login-button,
+    .signin-button {
+        width: 190px;
+        margin: 0px 70px 10px 70px;
+    }
 }
 
 p .recover-link {
     color: #8C4303;
     font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
-  }
-  
+}

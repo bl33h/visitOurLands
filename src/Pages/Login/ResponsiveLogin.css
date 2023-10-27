@@ -1,0 +1,32 @@
+/* Estilos para pantallas pequeñas (móviles) */
+@media (max-width: 768px) {
+    .login-button,
+    .signin-button {
+      /* Estilos para botones en pantallas pequeñas */
+      width: 100%; /* Ocupar todo el ancho disponible */
+    }
+  
+    .welcome-jagui {
+      /* Tamaño de imagen para pantallas pequeñas */
+      max-width: 80%; /* Ajustar el tamaño de la imagen */
+    }
+  
+    .checkbox-container {
+      /* Estilos para el contenedor del checkbox en pantallas pequeñas */
+      display: flex;
+      flex-direction: column;
+    }
+  
+    /* Estilos para mensajes de error en pantallas pequeñas */
+    .error-message {
+      font-size: 14px;
+    }
+  
+    /* Otros estilos específicos para pantallas pequeñas */
+  }
+  
+  /* Estilos para pantallas medianas y grandes (tabletas y escritorio) */
+  @media (min-width: 769px) {
+    /* Añade estilos adicionales para tamaños de pantalla más grandes si es necesario */
+  }
+  
