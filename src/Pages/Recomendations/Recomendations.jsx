@@ -19,7 +19,7 @@ function Recomendations() {
   const [selectedCommentPlaceId, setSelectedCommentPlaceId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(2);
-  const optionsPerPage = [2, 3, 5, 10, 20]; 
+  const optionsPerPage = [2, 5, 10, 20]; 
   const [copiedLink, setCopiedLink] = useState(null);
   const [showCopyMessage, setShowCopyMessage] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -249,9 +249,9 @@ function Recomendations() {
           }
         }}
       />
-      <div className="items-per-page-dropdown">
+      <div className="dropdown-container">
         <label>Recomendaciones por página:</label>
-        <select value={itemsPerPage} onChange={handleItemsPerPageChange}>
+        <select value={itemsPerPage} onChange={handleItemsPerPageChange} className="dropdown">
           {optionsPerPage.map((option) => (
             <option key={option} value={option}>
               {option}
