@@ -39,7 +39,8 @@
     .welcome-jagui {
         width: 100%;
         max-width: 80%;
-        margin-top: 20px;
+        margin-bottom: 10%;
+        margin-top: 10%;
     }
 
     .login-button,
@@ -59,6 +60,7 @@
     .welcome-jagui {
         width: 100%;
         max-width: 300px;
+        margin-top: 10%;
         display: block;
     }      
 
