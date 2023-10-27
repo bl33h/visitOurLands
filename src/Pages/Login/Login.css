@@ -29,11 +29,6 @@
     background-color: #8C4303;
 }
 
-.welcome-jagui {
-    position: relative;
-    width: 300px;
-}
-
 @media screen and (max-width: 600px) {
     .container {
         display: flex;
@@ -43,8 +38,8 @@
 
     .welcome-jagui {
         width: 100%;
-        max-width: none;
-        margin: 20px 0
+        max-width: 80%;
+        margin-top: 20px;
     }
 
     .login-button,
@@ -63,7 +58,7 @@
 
     .welcome-jagui {
         width: 100%;
-        max-width: none;
+        max-width: 300px;
         display: block;
     }      
 
@@ -77,4 +72,8 @@
 p .recover-link {
     color: #8C4303;
     font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+}
+
+.welcome-jagui-container {
+    text-align: center;
 }

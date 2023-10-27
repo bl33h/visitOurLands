@@ -68,8 +68,11 @@ function Login() {
   }
   return (
     <div className="root" >
+      <div className="welcome-jagui-container">
+        <img className="welcome-jagui" src={welcomeJagui} alt="welcome Jagui" />
+      </div>
       <div className="container">
-       <img className="welcome-jagui" src={welcomeJagui} alt="welcome Jagui" /> 
+      
         <h1>Usuario:</h1>
         <input id="input-username" data-testid="input-usernam" className="input-login" onClick={fetchPosts} onKeyDown={handleKeyDown}></input>
           
