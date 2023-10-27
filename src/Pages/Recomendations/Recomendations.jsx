@@ -19,7 +19,7 @@ function Recomendations() {
   const [selectedCommentPlaceId, setSelectedCommentPlaceId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(2);
-  const optionsPerPage = [2, 5, 10, 20]; 
+  const optionsPerPage = [2, 3, 4, 5, 6, 10, 15, 16, 20]; 
   const [copiedLink, setCopiedLink] = useState(null);
   const [showCopyMessage, setShowCopyMessage] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
