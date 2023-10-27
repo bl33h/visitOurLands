@@ -11,14 +11,15 @@ function Recomendations() {
   const [user, setUser] = useState({});
   const [loadingRecommendations, setLoadingRecommendations] = useState(true);
   const [userRecommendations, setUserRecommendations] = useState([]);
-  const [allRecommendations, setAllRecommendations] = useState([]); // Nuevo estado
+  const [allRecommendations, setAllRecommendations] = useState([]); 
   const [interactionStates, setInteractionStates] = useState({});
   const [favoriteRecommendations, setFavoriteRecommendations] = useState([]);
   const [showComment, setShowComment] = useState(false);
   const [showRating, setShowRating] = useState(false);
   const [selectedCommentPlaceId, setSelectedCommentPlaceId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 2;
+  const [itemsPerPage, setItemsPerPage] = useState(3);
+  const optionsPerPage = [2, 3, 5, 10, 20]; 
   const [copiedLink, setCopiedLink] = useState(null);
   const [showCopyMessage, setShowCopyMessage] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -27,6 +28,11 @@ function Recomendations() {
   const [hasFiltered, setHasFiltered] = useState(false);
   const [searching, setSearching] = useState(false);
 
+  const handleItemsPerPageChange = (event) => {
+    setItemsPerPage(parseInt(event.target.value, 10));
+    setCurrentPage(1);
+  };
+  
   useEffect(() => {
     // Local storage
     const browser_data = window.localStorage.getItem('LOGIN_STATUS');
@@ -243,6 +249,16 @@ function Recomendations() {
           }
         }}
       />
+      <div className="items-per-page-dropdown">
+        <label>Recomendaciones por página:</label>
+        <select value={itemsPerPage} onChange={handleItemsPerPageChange}>
+          {optionsPerPage.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+      </div>
       <h1 className="Header">¡Estos son todos los lugares que poseemos!</h1>
       <div className="user-recommendations">
         {loadingRecommendations ? (

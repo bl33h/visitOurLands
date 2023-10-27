@@ -183,8 +183,6 @@ function TopRec(){
   return (
     <div className="RecDiv">
       <h1 className="Header">¡Estos son los lugares mejor valorados!</h1>
-  
-      {/* Configuración de la cantidad de recomendaciones por página */}
       <div className="recommendations-per-page">
         <label htmlFor="recommendationsPerPage">Recomendaciones por página: </label>
         <select
