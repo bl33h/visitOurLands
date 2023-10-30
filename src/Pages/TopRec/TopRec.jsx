@@ -181,7 +181,7 @@ function TopRec(){
   const totalPages = Math.ceil(userRecommendations.length / itemsPerPage);
 
   return (
-    <div className="RecDiv">
+    <div className="root">
       <h1 className="Header">¡Estos son los lugares mejor valorados!</h1>
       <div className="recommendations-per-page">
         <label htmlFor="recommendationsPerPage" className="label-text">

@@ -103,7 +103,7 @@ function SignIn() {
   };
 
   return (
-    <div className="root">
+    <div className="root2">
       <div style={{ display: 'inline-flex', alignItems: 'center' }}>
       <img className="jagui" src={jagui} alt="logo" /> 
         <h3>¡Únete a Visita Nuestras Tierras!</h3>
