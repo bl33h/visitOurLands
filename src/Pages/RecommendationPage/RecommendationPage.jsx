@@ -178,6 +178,7 @@ function RecommendationPage() {
   
 
   return (
+    <div className="root">
     <div className="recommendation-page">
         <div className="recommendation-details">
         {recommendationData ? (
@@ -235,6 +236,7 @@ function RecommendationPage() {
           </>
         )}
       </div>
+    </div>
     </div>
   );
 }

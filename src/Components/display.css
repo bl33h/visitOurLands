@@ -6,6 +6,14 @@
 	background-size: cover;
 }
 
+.root2 {
+    display: grid;
+	place-items: center;
+	height: 100%;
+	width: 100%;
+	background-size: cover;
+}
+
 .container {
     height: 300px;
     width: 230px;
@@ -17,10 +25,27 @@
     background-color: white;
 }
 
-    @media  screen and (max-width: 850px) {
-        .container{
-            display: flex;
-            justify-content: center;
-            padding: 3px;
-        }
+@media screen and (max-width: 321px) {
+    .root{
+        padding-left: 10%;
     }
+}
+  
+@media screen and (min-width: 321px) and (max-width: 426px){
+    .root{
+        padding-left: 20%;
+    }
+}
+  
+
+@media screen and (min-width: 426px) and (max-width: 1024px) {
+    .root{
+        padding-left: 30%;
+    }
+}
+  
+@media screen and (min-width: 1025px) {
+    .root{
+        padding-left: 20%;
+    }
+}

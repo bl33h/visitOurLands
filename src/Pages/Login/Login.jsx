@@ -67,7 +67,7 @@ function Login() {
     setMostrarContrasena(!mostrarContrasena);
   }
   return (
-    <div className="root" >
+    <div className="root2" >
       <div className="welcome-jagui-container">
         <img className="welcome-jagui" src={welcomeJagui} alt="welcome Jagui" />
       </div>

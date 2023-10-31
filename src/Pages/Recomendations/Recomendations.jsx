@@ -6,6 +6,8 @@ import { faHeart, faStar, faComment, faShare } from "@fortawesome/free-solid-svg
 import Comment from './interactions/comment/comment.jsx';
 import Rating from './interactions/rating/rating.jsx';
 import { Link } from 'react-router-dom';
+import '/src/Components/texts.css'
+import '/src/Components/display.css'
 
 function Recomendations() {
   const [user, setUser] = useState({});
@@ -236,7 +238,7 @@ function Recomendations() {
   : Math.ceil(allRecommendations.length / itemsPerPage)
 
   return (
-    <div className="RecDiv">
+    <div className="root">
       <input
         className="FiltroBusqueda"
         type="text"
