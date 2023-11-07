@@ -1,16 +1,29 @@
 version: '3'
+
 services:
   react-app:
     build:
-      context: .  # dockerfile location
+      context: .
+      dockerfile: Dockerfile   # Ajusta el nombre de tu archivo Dockerfile si es diferente
     ports:
-      - "3000:3000"
-    environment:
-      - REACT_APP_API_URL=http://supabase-api:8000
+      - "3000:3000"  # Puerto en el que tu aplicación React estará disponible
 
-  supabase-api:
-    image: supabase/supabase
+  supabase:
+    image: supabase/supabase-dev:latest
     ports:
       - "8000:8000"
     environment:
-      - SUPABASE_KEY=your-api-key
+      DB_HOST: db
+      DB_NAME: postgres
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_PORT: 5432
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
