@@ -6,8 +6,8 @@ import "./edit.css";
 function EditButton({setShowEditButton, setShowInitialInfo}) {
   const [user, setUser] = useState({});
   const [userRecommendations, setUserRecommendations] = useState([]);
-  const [loadingRecommendations, setLoadingRecommendations] = useState(true);
-  const [editRecom, setEditRecom] = useState(true);
+  const [setLoadingRecommendations] = useState(true);
+  const [editRecom] = useState(true);
   const [showEditForm, setShowEditForm] = useState(false); 
   const [currentRecommendation, setCurrentRecommendation] = useState(null); 
   
@@ -126,7 +126,7 @@ function EditButton({setShowEditButton, setShowInitialInfo}) {
       }
     }
   }
-  
+
 
   return (
     <div className="root">

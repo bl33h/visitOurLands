@@ -13,7 +13,7 @@ function SignIn() {
     username: '',
     password: '',
     confirmPassword: '',
-    role: 'Turista',
+    role: '',
     email: '',
   });
   const [error, setError] = useState('');
