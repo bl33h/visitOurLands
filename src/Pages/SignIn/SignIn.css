@@ -40,6 +40,21 @@
     font-size: medium;
 }
 
+@media (max-width: 768px) {
+    .input-login {
+      font-size: 20px;
+    }
+  
+    .sign-in-button, .log-in-button {
+      margin: 10px 0;
+      width: 100%;
+    }
+  
+    .jagui {
+      width: 100px;
+    }
+  }
+  
 .jagui{
     width: 150px;
 }
