@@ -1,21 +1,28 @@
-.mapadiv{
-	width: 35%;
-	position: fixed;
+body{
+  overflow-y: scroll;
+}
+.mapadiv {
+  width: 35%;
+  position: fixed;
   top: 50%;
   left: 65%;
   transform: translate(-50%, -50%);
   align-items: center;
   margin-top: 50px;
 }
-.mapadiv path{
-	fill: #F4D6B4;
-	stroke: #FFAA4F;
-	stroke-width: 5px;
+
+.mapadiv path {
+  fill: #F4D6B4;
+  stroke: #FFAA4F;
+  stroke-width: 5px;
 }
+
 .mapadiv path:hover {
   fill: #FFAA4F;
 }
+
 .tooltip {
+  display: none;
   position: absolute;
   z-index: 9999;
   background-color: #FFAA4F;
@@ -25,34 +32,37 @@
   font-size: 14px;
   font-weight: bold;
 }
+
 .mapadiv path:hover + .tooltip {
   display: block;
 }
+
 .my-box {
-  position: absolute; 
-  top: 65%; 
+  position: absolute;
+  top: 65%;
   left: 10%;
-  transform: translate(-120%, -100%); 
-  width: 70%; 
+  transform: translate(-120%, -100%);
+  width: 70%;
   height: 68%;
-  background-color: #f1f1f1; 
-  padding: 5%; 
+  background-color: #f1f1f1;
+  padding: 5%;
   font-size: 100%;
   box-shadow: 0 2.5% 5% rgba(0, 0, 0, 0.1);
   border-radius: 5%;
 }
 
-.imag{
-  width: 250px;
-  height: 150px;
+.imag {
+  width: 100%;
+  height: auto;
   border-radius: 5%;
   margin-top: 2%;
 }
 
-.jagui-mapa{
+.jagui-mapa {
   position: absolute;
-  width: 250px;
+  width: 40%;
   top: 60%;
+  right: -30%;
 }
 
 .see-more-button {
@@ -61,20 +71,20 @@
   font-size: 20px;
   position: relative;
   display: table;
-  margin: 0px 70px 10px 70px;
+  margin: 0px auto 10px auto;
   padding: 2px 5px 2px 5px;
   text-align: center;
   border-radius: 5px;
   border: 0.5px solid #8C4303;
   cursor: pointer;
-  width: 100px;
+  width: 50%;
+  max-width: 200px;
   height: 40px;
   background-color: #8C4303;
   text-decoration: inherit;
-  font-size: medium;
 }
 
-h6{
+h6 {
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
   color: #8C4303;
   text-align: left;
@@ -83,10 +93,11 @@ h6{
   margin-top: 0;
 }
 
-.Titles h5{
-  margin-bottom: 0%;
+.Titles h5 {
+  margin-bottom: 0;
 }
-.Titles h6{
+
+.Titles h6 {
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
   color: #8C4303;
   font-size: medium;
@@ -95,6 +106,59 @@ h6{
 .my-box p {
   margin-top: -10%;
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
-  font-size:medium;
+  font-size: medium;
   color: #8C4303;
 }
+
+@media only screen and (max-width: 768px) {
+  .Titles h5{
+    font-size: 150%;
+    left: 10%;
+    position: relative;
+    max-width: 80%;
+  }
+  .Titles h6{
+    font-size: small;
+    left: 10%;
+    max-width: 80%;
+    position: relative;
+  }
+  .map-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 90%;
+    
+  }
+
+  .mapadiv {
+    width: 90%; /* Ajusta el ancho según sea necesario */
+    margin-top: 20px; /* Modifica según sea necesario */
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    max-width: 80%;
+  }
+
+  .my-box {
+    position: relative;
+    width: 90%;
+    left: 5%;
+    top: auto;
+    transform: none;
+    margin-top: 20px; /* Modifica según sea necesario */
+    overflow-y: auto;
+  }
+  
+  .jagui-mapa {
+    width: 0%;
+    height: 0%;
+    margin-top: 0px; /* Modifica según sea necesario */
+    right: 0;
+  }
+}
+
+/* Add more media queries for other screen sizes if needed */

@@ -94,6 +94,7 @@ function Map(){
       <h5>¡Bienvenido a Visita Nuestras Tierras!</h5>
       <h6>Presiona cualquier departamento para ver algún lugar. (Sigue presionando y veras uno diferente cada vez!)</h6>
       </div>
+      <div className="map-container">
         <div className="mapadiv">
         <svg version="1.2" viewBox="0 0 1000 1056" xmlns="http://www.w3.org/2000/svg">
           <a xlinkTitle="Baja Verapaz" className="card">
@@ -168,17 +169,17 @@ function Map(){
           
         </svg>
         
-        {selectedDept && selectedDept.places && selectedDept.places.length > 0 &&(
-            <div className='my-box'>
-                <Link to={`/MainPage/recommendation/${selectedDept.places[randomPlaceIndex]?.id_places || ''}`}>
-                  <h6>{selectedDept.places[randomPlaceIndex]?.name || ''}</h6>
-                </Link>
-                <p>{selectedDept.places[randomPlaceIndex]?.description || ''}</p>
-                <img className='imag' src={selectedDept.places[randomPlaceIndex]?.image} alt={selectedDept.places[randomPlaceIndex]?.name} />
-            </div>
-  )}
-        <img className="jagui-mapa" src={jaguiImage} alt="Jagui Mapa"/>
-        
+          {selectedDept && selectedDept.places && selectedDept.places.length > 0 &&(
+              <div className='my-box'>
+                  <Link to={`/MainPage/recommendation/${selectedDept.places[randomPlaceIndex]?.id_places || ''}`}>
+                    <h6>{selectedDept.places[randomPlaceIndex]?.name || ''}</h6>
+                  </Link>
+                  <p>{selectedDept.places[randomPlaceIndex]?.description || ''}</p>
+                  <img className='imag' src={selectedDept.places[randomPlaceIndex]?.image} alt={selectedDept.places[randomPlaceIndex]?.name} />
+              </div>
+              )}
+          <img className="jagui-mapa" src={jaguiImage} alt="Jagui Mapa"/>
+        </div>        
       </div>
       </div>
     </div>
