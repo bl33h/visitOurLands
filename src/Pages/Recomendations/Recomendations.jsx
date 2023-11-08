@@ -6,8 +6,6 @@ import { faHeart, faStar, faComment, faShare } from "@fortawesome/free-solid-svg
 import Comment from './interactions/comment/comment.jsx';
 import Rating from './interactions/rating/rating.jsx';
 import { Link } from 'react-router-dom';
-import '/src/Components/texts.css'
-import '/src/Components/display.css'
 
 function Recomendations() {
   const [user, setUser] = useState({});
@@ -262,15 +260,15 @@ function Recomendations() {
         </select>
       </div>
       <h1 className="Header">¡Estos son todos los lugares que poseemos!</h1>
-      <div className="user-recommendations">
+      <div className="user-recommendations3">
         {loadingRecommendations ? (
           <p>Cargando recomendaciones...</p>
         ) : searchTerm !=='' && recommendationsToDisplay.length === 0 ? (
           <p>No se encontraron resultados</p>
         ) : searchTerm !== '' ? (
-          <div className="recommendations-container2">
+          <div className="recommendations-container3">
             {recommendationsToDisplay.map((recommendation) => (
-              <div key={recommendation.id_places} className="recommendation-card2">
+              <div key={recommendation.id_places} className="recommendation-card-rec">
                 <Link to={`/MainPage/recommendation/${recommendation.id_places}`}>
                   <h3>{recommendation.name}</h3>
                 </Link>
@@ -279,7 +277,7 @@ function Recomendations() {
                 <div className="rating-stars">{renderRatingStars(recommendation.rating)}</div>
                 <img src={recommendation.image} alt={recommendation.name} />
 
-                <div className="interaction-icons">
+                <div className="interaction-icons2">
                   <FontAwesomeIcon
                     icon={faHeart}
                     onClick={() => toggleInteraction(recommendation.id_places, 'like')}
@@ -315,7 +313,7 @@ function Recomendations() {
             ))}
           </div>
         ): (
-          <div className="recommendations-container2">
+          <div className="recommendations-container3">
             {allrec.map((recommendation) => (
               <div key={recommendation.id_places} className="recommendation-card2">
                 <Link to={`/MainPage/recommendation/${recommendation.id_places}`}>
