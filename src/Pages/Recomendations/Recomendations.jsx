@@ -24,8 +24,8 @@ function Recomendations() {
   const [showCopyMessage, setShowCopyMessage] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const [selectedDepartments, setSelectedDepartments] = useState([]);
-  const [hasFiltered, setHasFiltered] = useState(false);
+  const [selectedDepartments] = useState([]);
+  const [, setHasFiltered] = useState(false);
   const [searching, setSearching] = useState(false);
 
   const handleItemsPerPageChange = (event) => {

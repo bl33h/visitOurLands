@@ -14,12 +14,11 @@ import './MainPage.css';
 
 function MainPage() {
   const [user, setUser] = useState({});
-  const [logged_In, set_Logged_In_Status] = useState(false);
+  const [, set_Logged_In_Status] = useState(false);
   const [theme, colorMode] = useMode();
   const [isSidebar] = useState(true);
   const [redirect, setRedirect] = useState(false);
-  const [redirectPath, setRedirectPath] = useState(null);
-  const history = useHistory();
+  const [, setRedirectPath] = useState(null);
   const location = useLocation();
 
   useEffect(() => {

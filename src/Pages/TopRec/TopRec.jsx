@@ -11,7 +11,6 @@ function TopRec(){
   const [user, setUser] = useState({});
   const [loadingRecommendations, setLoadingRecommendations] = useState(true);
   const [userRecommendations, setUserRecommendations] = useState([]);
-  const [departmentName, setDepartmentName] = useState('');
   const [recommendationsPerPage, setRecommendationsPerPage] = useState(2);
   const [interactionStates, setInteractionStates] = useState({});
   const [favoriteRecommendations, setFavoriteRecommendations] = useState([]);
@@ -19,7 +18,7 @@ function TopRec(){
   const [showRating, setShowRating] = useState(false);
   const [selectedCommentPlaceId, setSelectedCommentPlaceId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = recommendationsPerPage; 
+  const itemsPerPage = recommendationsPerPage;
   const [copiedLink, setCopiedLink] = useState(null);
   const [showCopyMessage, setShowCopyMessage] = useState(false);
 
