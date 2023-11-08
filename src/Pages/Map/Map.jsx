@@ -10,7 +10,7 @@ function Map(){
 
   const [departmentsData, setDepartmentsData] = useState([]);
   const [placesData, setPlacesData] = useState([]);
-  const [departmentInfo, setDepartmentInfo] = useState({});
+  const [, setDepartmentInfo] = useState({});
   const [randomPlaceIndex, setRandomPlaceIndex] = useState(0);
   const [selectedDept, setSelectedDept] = useState({});
 
