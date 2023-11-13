@@ -369,10 +369,7 @@ function Recomendations() {
         </div>
       )}
       {showComment && (
-        <div className="comment-modal">
-          <button className="close-button" onClick={() => setShowComment(false)}>×</button>
           <Comment selectedPlaceId={selectedCommentPlaceId} />
-        </div>
       )}
       <div className="pagination">
         {(searchResults.length > 0 || searchTerm === '') &&(
