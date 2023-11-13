@@ -1,14 +1,19 @@
+// Import necessary libraries and styles
 import React, { useState, useEffect } from 'react';
 import '/src/Components/texts.css';
 import '/src/Components/display.css';
 import { supabase } from '../../../../client';
 import './comment.css';
 
+// Define a functional component named "Comment" that takes a "selectedPlaceId" prop
 function Comment({ selectedPlaceId }) {
+  // Define and initialize state variables using the useState hook
   const [placeInfo, setPlaceInfo] = useState({});
   const [comment, setComment] = useState('');
   const [user, setUser] = useState(null);
+  const [isCommentOpen, setIsCommentOpen] = useState(true);
 
+  // useEffect hook with a dependency array to fetch place information when "selectedPlaceId" changes
   useEffect(() => {
     async function fetchPlaceInfo() {
       if (selectedPlaceId) {
@@ -27,10 +32,11 @@ function Comment({ selectedPlaceId }) {
     }
 
     fetchPlaceInfo();
+    setIsCommentOpen(true); // Open the comment window
   }, [selectedPlaceId]);
 
+  // useEffect hook to get user information from localStorage
   useEffect(() => {
-    // Obtener el usuario del localStorage
     const userJSON = window.localStorage.getItem('LOGIN_STATUS');
     if (userJSON) {
       const user = JSON.parse(userJSON);
@@ -38,16 +44,17 @@ function Comment({ selectedPlaceId }) {
     }
   }, []);
 
+  // Function to save a comment to the database
   async function saveComment() {
     if (comment.trim() === '') return;
 
     if (!user || !user.username) {
-      console.error('Usuario no válido o sin nombre.');
+      console.error('Invalid user or user without a username.');
       return;
     }
 
     if (!selectedPlaceId) {
-      console.error('ID de lugar no encontrado.');
+      console.error('Place ID not found.');
       return;
     }
 
@@ -62,33 +69,32 @@ function Comment({ selectedPlaceId }) {
           },
         ])
         .single();
-
-        if (error) {
-          console.error('Error al guardar el comentario:', error);
-        } else {
-        console.log('Comentario guardado:', data);
+        
+        console.log('Comment saved:', data);
         setComment('');
-      }
-    } catch (error) {
-        console.error('Error al guardar el comentario:', error);
+        setIsCommentOpen(false); // Close the comment window
+      
+      } catch (error) {
+      console.error('Error saving the comment:', error);
     }
   }
 
-  return (
-    <div className="root">
-      <div className="container">
-        <h2>Escribe tu comentario</h2>
-        <p>A: {placeInfo.name}</p>
-        <textarea
-          className="write-comment"
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          placeholder="Escribe aquí..."
-        />
-        <button className="save-comment" onClick={saveComment}>Guardar</button>
-      </div>
+  // Render the component if "isCommentOpen" is true, otherwise return null
+  return isCommentOpen ? (
+    <div className="comment-container">
+      <h2>Escribe tu comentario</h2>
+      <p>A: {placeInfo.name}</p>
+      <textarea
+        className="write-comment"
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
+        placeholder="Escribe aquí..."
+      />
+      <button className="save-comment" onClick={saveComment}>Guardar</button>
+      <button className="close-button" onClick={() => setIsCommentOpen(false)}>×</button>
     </div>
-  );
+  ) : null;
 }
 
+// Export the "Comment" component as the default export
 export default Comment;

@@ -1,101 +1,109 @@
-import { useState, useEffect } from 'react'
-import { useHistory, Route, Switch } from 'react-router-dom'
-import { ColorModeContext, useMode } from '/src/Components/theme'
-import { CssBaseline, ThemeProvider } from '@mui/material'
-import  Sidebar  from '/src/Components/Navbar/Navbar'
-import Map from '/src/Pages/Map/Map'
-import Profile from '/src/Pages/Profile/Profile'
-import Recomendations from '/src/Pages/Recomendations/Recomendations'
+import { useState, useEffect } from 'react';
+import { useHistory, Route, Switch, Redirect, useLocation } from 'react-router-dom';
+import { ColorModeContext, useMode } from '/src/Components/theme';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import Sidebar from '/src/Components/Navbar/Navbar';
+import Map from '/src/Pages/Map/Map';
+import Profile from '/src/Pages/Profile/Profile';
+import Recomendations from '/src/Pages/Recomendations/Recomendations';
 import CreatePlace from '/src/Pages/CreatePlace/CreatePlace';
 import TopRec from '/src/Pages/TopRec/TopRec';
-import HomePage from './HomePage/HomePage'
-import RecommendationPage from '../RecommendationPage'
-import "./MainPage.css"
+import HomePage from './HomePage/HomePage';
+import RecommendationPage from '../RecommendationPage';
+import './MainPage.css';
 
 function MainPage() {
-  const [user, setUser] = useState({})
-  const [logged_In, set_Logged_In_Status] = useState(false)
-  const [user_Authorized, setUserAuthorized] = useState(false)
-  const [theme, colorMode] = useMode()
+  const [user, setUser] = useState({});
+  const [, set_Logged_In_Status] = useState(false);
+  const [theme, colorMode] = useMode();
   const [isSidebar] = useState(true);
-  const history = useHistory()
+  const [redirect, setRedirect] = useState(false);
+  const [, setRedirectPath] = useState(null);
+  const location = useLocation();
+
   useEffect(() => {
-    const browser_data = window.localStorage.getItem('LOGIN_STATUS')
-    if (browser_data !== null) setUser(JSON.parse(browser_data))
-  }, [])
+    const browser_data = window.localStorage.getItem('LOGIN_STATUS');
+    if (browser_data !== null) setUser(JSON.parse(browser_data));
+  }, []);
+
   useEffect(() => {
-    set_Logged_In_Status(user.logged_in)
-    setUserAuthorized((user.logged_in))
-  }, [user])
-  const verify_Loggin_status = () => {
-    if(!(user.user_id===undefined)){
-      if((!logged_In)&&(logged_In!=undefined)){
-        setTimeout(() => {
-          history.push('/Login')
-          history.go(0)
-        }, [3000])
-      }
+    set_Logged_In_Status(user.logged_in);
+  }, [user]);
+
+  useEffect(() => {
+    // Si el usuario no está logueado, configura la redirección después de 3 segundos (3000ms)
+    if (!user.logged_in) {
+      const timer = setTimeout(() => {
+        setRedirect(true);
+      }, 3000);
+
+      // Limpia el temporizador cuando el componente se desmonta o cuando el usuario se loguea antes del tiempo establecido
+      return () => clearTimeout(timer);
     }
+  }, [user.logged_in]);
+
+  useEffect(() => {
+    if (!user.logged_in) {
+      // Almacena la URL si el usuario no está logueado
+      localStorage.setItem('redirectAfterLogin', location.pathname);
+    } else {
+      // Si el usuario está logueado, borra el almacenamiento local de redirección
+      localStorage.removeItem('redirectAfterLogin');
+    }
+  }, [user.logged_in, location.pathname]);
+
+  useEffect(() => {
+    if (!user.logged_in) {
+      // Si el usuario no está logueado, establece el enlace al que se redirigirá después del inicio de sesión
+      setRedirectPath(localStorage.getItem('redirectAfterLogin'));
+    }
+  }, [user.logged_in]);
+
+  if (redirect) {
+    return <Redirect to="/Login" />;
   }
-  function UserMainPage() {
-    return(
-      <div>
-        {logged_In ?
-        <div className="app" >
-          <Sidebar isSidebar={isSidebar} style={{height: "100vh"}}/>
-          <main className="content">
-            <Switch>
-              <Route path="/MainPage/Map">
-                <Map/>
-              </Route>
-              <Route path="/MainPage/Profile">
-                <Profile/>
-              </Route>
 
-              <Route path="/MainPage/Recomendations">
-                <Recomendations/>
-              </Route>
-
-              <Route path="/MainPage/CreatePlace">
-                  <CreatePlace />
-                </Route>
-              
-              <Route path="/MainPage/TopRec">
-                <TopRec/>
-              </Route>
-
-              <Route path="/MainPage/recommendation/:recommendationId">
-                <RecommendationPage />
-            </Route>
-
-              <Route path="/MainPage/">
-                <HomePage/>
-              </Route>
-            </Switch>
-          </main>
-        </div>
-        : <div id="logged-out-status" style={{color: 'red'}} > Cerrando sesión...</div>}
-      </div>
-    )
-  }
-  function UserUnauthorized() {
-    verify_Loggin_status()
-    return (
-      <>
-        <div>No estas autorizado... </div>
-        <div>Cerrando sesión...</div>
-      </>
-    )
-  }
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <div className="main-page" >
-          {user_Authorized ? <UserMainPage /> : <UserUnauthorized/> }
+        <div className="main-page">
+          {user.logged_in ? ( // Verifica si el usuario está logueado
+            <div className="app">
+              <Sidebar isSidebar={isSidebar} style={{ height: '100vh' }} />
+              <main className="content">
+                <Switch>
+                  <Route path="/MainPage/Map">
+                    <Map />
+                  </Route>
+                  <Route path="/MainPage/Profile">
+                    <Profile />
+                  </Route>
+                  <Route path="/MainPage/Recomendations">
+                    <Recomendations />
+                  </Route>
+                  <Route path="/MainPage/CreatePlace">
+                    <CreatePlace />
+                  </Route>
+                  <Route path="/MainPage/TopRec">
+                    <TopRec />
+                  </Route>
+                  <Route path="/MainPage/recommendation/:recommendationId">
+                    <RecommendationPage />
+                  </Route>
+                  <Route path="/MainPage/">
+                    <HomePage />
+                  </Route>
+                </Switch>
+              </main>
+            </div>
+          ) : (
+            <div id="logged-out-status" style={{ color: 'red' }}>Cerrando sesión...</div>
+          )}
         </div>
       </ThemeProvider>
     </ColorModeContext.Provider>
-  )
+  );
 }
-export default MainPage
+
+export default MainPage;

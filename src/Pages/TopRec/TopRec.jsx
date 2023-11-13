@@ -1,3 +1,4 @@
+// Import necessary libraries and styles
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../client.js';
 import './TopRec.css';
@@ -7,11 +8,12 @@ import Comment from './interactions/comment/comment.jsx';
 import Rating from './interactions/rating/rating.jsx';
 import { Link } from 'react-router-dom';
 
+// Define a functional component named "TopRec"
 function TopRec(){
+  // Define and initialize state variables using the useState hook
   const [user, setUser] = useState({});
   const [loadingRecommendations, setLoadingRecommendations] = useState(true);
   const [userRecommendations, setUserRecommendations] = useState([]);
-  const [departmentName, setDepartmentName] = useState('');
   const [recommendationsPerPage, setRecommendationsPerPage] = useState(2);
   const [interactionStates, setInteractionStates] = useState({});
   const [favoriteRecommendations, setFavoriteRecommendations] = useState([]);
@@ -19,11 +21,12 @@ function TopRec(){
   const [showRating, setShowRating] = useState(false);
   const [selectedCommentPlaceId, setSelectedCommentPlaceId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = recommendationsPerPage; 
+  const itemsPerPage = recommendationsPerPage;
   const [copiedLink, setCopiedLink] = useState(null);
   const [showCopyMessage, setShowCopyMessage] = useState(false);
 
 
+  // useEffect hook to fetch user information from local storage
   useEffect(() => {
     // Local storage
     const browser_data = window.localStorage.getItem('LOGIN_STATUS');
@@ -32,16 +35,17 @@ function TopRec(){
     }
   }, []);
 
+  // Function to fetch user recommendations from the database
   async function fetchUserRecommendations() {
     setLoadingRecommendations(true);
-    // Obtener los datos de las tablas "places" y "departments"
+    // Fetch data from the "places" and "departments" tables
     const { data: placesData, error: placesError } = await supabase.from('places').select('*').gte('avg_rating', 4);
     const { data: departmentsData, error: departmentsError } = await supabase.from('departments').select('*');
 
     if (placesError || departmentsError) {
       console.error('Error al obtener los datos:', placesError || departmentsError);
     } else {
-      // Combinar los datos de las tablas "places" y "departments" utilizando el campo "department_id"
+      // Combine data from the "places" and "departments" tables using the "department_id" field
       const userRecommendations = placesData.map(place => {
         const department = departmentsData.find(department => department.id_departments === place.id_departments);
         const departmentName = department ? department.name : ''; // Nombre del departamento o cadena vacía si no se encuentra
@@ -66,10 +70,12 @@ function TopRec(){
     setLoadingRecommendations(false);
   }
 
+  // useEffect hook to fetch user recommendations when the "currentPage" changes
   useEffect(() => {
     fetchUserRecommendations();
   }, [currentPage]);
 
+  // useEffect hook to load user recommendations from local storage
   useEffect(() => {
     const storedRecommendations = window.localStorage.getItem('USER_RECOMMENDATIONS');
     if (storedRecommendations && user.username === JSON.parse(storedRecommendations)[0]?.author) {
@@ -78,12 +84,14 @@ function TopRec(){
     }
   }, [user.username]);
 
+  // useEffect hook to store user recommendations in local storage
   useEffect(() => {
     if (userRecommendations.length > 0) {
       window.localStorage.setItem('USER_RECOMMENDATIONS', JSON.stringify(userRecommendations));
     }
   }, [userRecommendations]);
 
+  // Function to toggle interactions (like, share) for a recommendation
   async function toggleInteraction(recommendationId, interactionType) {
     const updatedInteractionStates = {
       ...interactionStates,
@@ -96,12 +104,12 @@ function TopRec(){
     setInteractionStates(updatedInteractionStates);
 
     if (interactionType === 'share') {
-      // Obtén el enlace de la recomendación
+      // Get the link of the recommendation
       const recommendation = userRecommendations.find((rec) => rec.id_places === recommendationId);
       if (recommendation) {
         const recommendationLink = `${window.location.origin}/MainPage/recommendation/${recommendation.id_places}`;
   
-        // Copia el enlace al portapapeles
+        // Copy the link to the clipboard
         try {
           await navigator.clipboard.writeText(recommendationLink);
           setCopiedLink(recommendationLink);
@@ -117,15 +125,15 @@ function TopRec(){
 
     if (interactionType === 'like') {
       if (!favoriteRecommendations.includes(recommendationId)) {
-        // Agregar la recomendación a la lista de favoritos
+        // Add the recommendation to the list of favorites
         const updatedFavorites = [...favoriteRecommendations, recommendationId];
         setFavoriteRecommendations(updatedFavorites);
 
-        // Insertar el "like" en la tabla likedReviews
+        // Insert the "like" in the likedReviews table
         const { error } = await supabase.from('likedReviews').upsert([
           {
-            username: user.username, // El ID del usuario que dio "like"
-            id_places: recommendationId, // El ID de la recomendación que se dio "like"
+            username: user.username, // The user ID who gave the "like"
+            id_places: recommendationId, // The ID of the recommendation that received the "like"
           },
         ]);
 
@@ -134,13 +142,13 @@ function TopRec(){
 
         }
       } else {
-        // Si ya está marcado como favorito, quítalo de la lista de favoritos
+        // If already marked as favorite, remove it from the list of favorites
         const updatedFavorites = favoriteRecommendations.filter(
           (fav) => fav !== recommendationId
         );
         setFavoriteRecommendations(updatedFavorites);
 
-        // Eliminar el "like" de la tabla likedReviews
+        // Delete the "like" from the likedReviews table
         const {error } = await supabase.from('likedReviews').delete().eq('username', user.username).eq('id_places', recommendationId);
 
         if (error) {
@@ -151,12 +159,14 @@ function TopRec(){
     }
   }
 
+  // Function to handle the change in the number of recommendations per page
   function handleRecommendationsPerPageChange(event) {
     const newRecommendationsPerPage = parseInt(event.target.value, 10);
     setRecommendationsPerPage(newRecommendationsPerPage);
-    setCurrentPage(1); // Reinicia la página actual cuando cambias la cantidad de recomendaciones por página
+    setCurrentPage(1); // Reset the current page when changing the number of recommendations per page
   }
   
+  // Function to render rating stars
   function renderRatingStars(rating) {
     const stars = [];
     const totalStars = 5;
@@ -172,14 +182,15 @@ function TopRec(){
     return stars;
   }
 
-  // Filtrar recomendaciones a mostrar en función de la página actual y elementos por página
+  // Calculate the range of recommendations to display based on the current page and items per page
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const recommendationsToDisplay = userRecommendations.slice(startIndex, endIndex);
 
-  // Calcular la cantidad total de páginas en función del número de recomendaciones y elementos por página
+  // Calculate the total number of pages based on the number of recommendations and items per page
   const totalPages = Math.ceil(userRecommendations.length / itemsPerPage);
 
+  // Render the component's UI
   return (
     <div className="root">
       <h1 className="Header">¡Estos son los lugares mejor valorados!</h1>
@@ -193,6 +204,7 @@ function TopRec(){
           value={recommendationsPerPage}
           className="dropdown"
         >
+          {/* Options for the number of recommendations per page */}
           <option value={2}>2</option>
           <option value={3}>3</option>
           <option value={4}>4</option>
@@ -222,7 +234,7 @@ function TopRec(){
                 <div className="rating-stars">{renderRatingStars(recommendation.rating)}</div>
                 <img src={recommendation.image} alt={recommendation.name} />
   
-                {/* Icons */}
+                {/* Icons for interactions (like, comment, share) */}
                 <div className="interaction-icons">
                   <FontAwesomeIcon
                     icon={faHeart}
@@ -261,17 +273,16 @@ function TopRec(){
         )}
       </div>
   
+      {/* Modal for rating */}
       {showRating && (
         <div className="rating-modal">
           <button className="close-button" onClick={() => setShowRating(false)}>×</button>
           <Rating selectedPlaceId={selectedCommentPlaceId} />
         </div>
       )}
+      {/* Comment component */}
       {showComment && (
-        <div className="comment-modal">
-          <button className="close-button" onClick={() => setShowComment(false)}>×</button>
-          <Comment selectedPlaceId={selectedCommentPlaceId} />
-        </div>
+        <Comment selectedPlaceId={selectedCommentPlaceId} />
       )}
       <div className="pagination">
         {Array.from({ length: totalPages }, (_, index) => (
@@ -288,4 +299,5 @@ function TopRec(){
     );
   }
 
+// Export the "TopRec" component as the default export
 export default TopRec;

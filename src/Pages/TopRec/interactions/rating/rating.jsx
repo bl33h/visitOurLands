@@ -1,14 +1,17 @@
+// Import necessary libraries and styles
 import React, { useState, useEffect } from 'react';
 import '/src/Components/texts.css';
 import '/src/Components/display.css';
 import { supabase } from '../../../../client';
 import './rating.css';
 
+// Define a functional component named "Rating" that takes a "selectedPlaceId" prop
 function Rating({ selectedPlaceId }) {
+  // Define and initialize state variables using the useState hook
   const [placeInfo, setPlaceInfo] = useState({});
-  const [rate, setRate] = useState('');
+  const [selectedStars, setSelectedStars] = useState(0); // Initialize selectedStars to 0
   const [user, setUser] = useState(null);
-  const [selectedStars, setSelectedStars] = useState(0); // Inicializar selectedStars como 0
+  const [isRatingOpen, setisRatingOpen] = useState(true);
 
   useEffect(() => {
     async function fetchPlaceInfo() {
@@ -28,8 +31,10 @@ function Rating({ selectedPlaceId }) {
     }
 
     fetchPlaceInfo();
+    setisRatingOpen(true);
   }, [selectedPlaceId]);
 
+  // useEffect hook to get user information from localStorage
   useEffect(() => {
     const userJSON = window.localStorage.getItem('LOGIN_STATUS');
     if (userJSON) {
@@ -38,16 +43,17 @@ function Rating({ selectedPlaceId }) {
     }
   }, []);
 
+  // Function to save the user's rating
   async function saveRating() {
-    if (selectedStars === 0) return; // Verificar si no se ha seleccionado una calificación
+    if (selectedStars === 0) return; // Check if no rating has been selected
 
     if (!user || !user.username) {
-      console.error('Usuario no válido o sin nombre.');
+      console.error('Invalid user or user without a username.');
       return;
     }
 
     if (!selectedPlaceId) {
-      console.error('ID de lugar no encontrado.');
+      console.error('Place ID not found.');
       return;
     }
 
@@ -58,26 +64,29 @@ function Rating({ selectedPlaceId }) {
           {
             id_places: selectedPlaceId,
             username: user.username,
-            rate: selectedStars, // Guardar la calificación como un número entero
+            rate: selectedStars, // Save the rating as an integer
           },
         ])
         .single();
 
       if (error) {
-        console.error('Error al guardar la calificación:', error);
+        console.error('Error saving the rating:', error);
       } else {
-        setSelectedStars(0);
+        setSelectedStars(0); // Reset the selected rating
+        setisRatingOpen(false); // Close the rating component
       }
     } catch (error) {
-      console.error('Error al guardar la calificación:', error);
+      console.error('Error saving the rating:', error);
     }
   }
 
+  // Function to handle rating clicks
   const handleRatingClick = (event) => {
     const value = parseInt(event.target.getAttribute('data-value'), 10);
     setSelectedStars(value);
   };
 
+  // Create an array of star icons for rating
   const stars = [1, 2, 3, 4, 5].map((value) => (
     <a
       key={value}
@@ -91,16 +100,15 @@ function Rating({ selectedPlaceId }) {
     </a>
   ));
 
-  return (
-    <div className="root">
-        <div className="container">
-            <h2>Califica con estrellas</h2>
-            <p>A: {placeInfo.name}</p>
-            <div className="ec-stars-wrapper">{stars}</div>
-            <button className="save-rating" onClick={saveRating}>Guardar</button>
-        </div>
+  return isRatingOpen ? (
+    <div className="raiting">
+      <h2>Califica con estrellas</h2>
+      <p>A: {placeInfo.name}</p>
+      <div className="ec-stars-wrapper">{stars}</div>
+      <button className="save-rating" onClick={saveRating}>Guardar</button>
     </div>
-  );
+  ) : null;
 }
 
+// Export the "Rating" component as the default export
 export default Rating;

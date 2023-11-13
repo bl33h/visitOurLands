@@ -12,6 +12,7 @@
   transition: border-color 0.3s, color 0.3s;
 }
 
+
 .FiltroBusqueda::placeholder {
   color: #04738c; /* Color del placeholder */
   opacity: 0.6;
@@ -27,19 +28,19 @@
     justify-content: center;
 }
 
-.recommendations-container2 {
+.recommendations-container3 {
     padding: 10px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 10px;
     margin: 0 auto;
     width: 80%;
-    max-width: 90%;
+    max-width: 80%;
     justify-items: center;
     align-items: center; 
   }
   
-  .recommendation-card2 {
+  .recommendation-card3 {
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 20px;
@@ -52,13 +53,13 @@
     justify-content: center;
   }
   
-  .recommendation-card2 h3 {
+  .recommendation-card3 h3 {
     font-size: 18px;
     color: #04738c;
     margin-top: 0;
   }
   
-  .recommendation-card2 p {
+  .recommendation-card3 p {
     font-size: 14px;
     color: #8c4303;
     text-overflow: ellipsis;
@@ -67,7 +68,7 @@
     max-width: 100%; 
   }
   
-  .recommendation-card2 img {
+  .recommendation-card3 img {
     width: 100%;
     height: 200px; 
     border-radius: 5px;
@@ -96,7 +97,7 @@
     color: #FFAA4F;
   }
 
-  .interaction-icons {
+  .interaction-icons2 {
     display: flex;
     gap: 90px;
     margin-top: 5%;
@@ -221,4 +222,45 @@
   border-color: #04738c;
   color: #333;
   outline: none;
+}
+
+/* Estilos para dispositivos móviles */
+@media only screen and (max-width: 767px) {
+  .FiltroBusqueda{
+    position: relative;
+    width: 80%;
+    max-width: 70%;
+  }
+
+  .recommendations-container3 {
+    grid-template-columns: 1fr;
+    width: 90%;
+    height: 80%;
+    max-width: 80%;
+  }
+
+  .recommendation-card2 {
+    margin-top: 20px;
+    width: 90%;
+    max-width: 90%;
+  }
+
+  .recommendation-card2 img {
+    height: 150px;
+  }
+
+  .dropdown-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dropdown {
+    max-width: 100%;
+  }
+
+  .interaction-icons2{
+    width: 40%;
+    max-width: 80%;
+    gap: 40%;
+  }
 }
