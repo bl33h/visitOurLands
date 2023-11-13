@@ -8,6 +8,7 @@ function Comment({ selectedPlaceId }) {
   const [placeInfo, setPlaceInfo] = useState({});
   const [comment, setComment] = useState('');
   const [user, setUser] = useState(null);
+  const [isCommentOpen, setIsCommentOpen] = useState(true);
 
   useEffect(() => {
     async function fetchPlaceInfo() {
@@ -27,6 +28,7 @@ function Comment({ selectedPlaceId }) {
     }
 
     fetchPlaceInfo();
+    setIsCommentOpen(true);
   }, [selectedPlaceId]);
 
   useEffect(() => {
@@ -62,33 +64,30 @@ function Comment({ selectedPlaceId }) {
           },
         ])
         .single();
-
-        if (error) {
-          console.error('Error al guardar el comentario:', error);
-        } else {
+        
         console.log('Comentario guardado:', data);
         setComment('');
-      }
-    } catch (error) {
-        console.error('Error al guardar el comentario:', error);
+        setIsCommentOpen(false); // Cierra la ventana de comentarios
+      
+      } catch (error) {
+      console.error('Error al guardar el comentario:', error);
     }
   }
 
-  return (
-    <div className="root">
-      <div className="container">
-        <h2>Escribe tu comentario</h2>
-        <p>A: {placeInfo.name}</p>
-        <textarea
-          className="write-comment"
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          placeholder="Escribe aquí..."
-        />
-        <button className="save-comment" onClick={saveComment}>Guardar</button>
-      </div>
+  return isCommentOpen ? (
+    <div className="comment-container">
+      <h2>Escribe tu comentario</h2>
+      <p>A: {placeInfo.name}</p>
+      <textarea
+        className="write-comment"
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
+        placeholder="Escribe aquí..."
+      />
+      <button className="save-comment" onClick={saveComment}>Guardar</button>
+      <button className="close-button" onClick={() => setIsCommentOpen(false)}>×</button>
     </div>
-  );
+  ) : null;
 }
 
 export default Comment;

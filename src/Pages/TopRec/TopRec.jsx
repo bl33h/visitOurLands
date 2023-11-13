@@ -267,10 +267,7 @@ function TopRec(){
         </div>
       )}
       {showComment && (
-        <div className="comment-modal">
-          <button className="close-button" onClick={() => setShowComment(false)}>×</button>
-          <Comment selectedPlaceId={selectedCommentPlaceId} />
-        </div>
+        <Comment selectedPlaceId={selectedCommentPlaceId} />
       )}
       <div className="pagination">
         {Array.from({ length: totalPages }, (_, index) => (
