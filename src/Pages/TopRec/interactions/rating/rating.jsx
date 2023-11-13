@@ -9,6 +9,7 @@ function Rating({ selectedPlaceId }) {
   const [rate, setRate] = useState('');
   const [user, setUser] = useState(null);
   const [selectedStars, setSelectedStars] = useState(0); // Inicializar selectedStars como 0
+  const [isRatingOpen, setisRatingOpen] = useState(true);
 
   useEffect(() => {
     async function fetchPlaceInfo() {
@@ -28,6 +29,7 @@ function Rating({ selectedPlaceId }) {
     }
 
     fetchPlaceInfo();
+    setisRatingOpen(true);
   }, [selectedPlaceId]);
 
   useEffect(() => {
@@ -67,6 +69,7 @@ function Rating({ selectedPlaceId }) {
         console.error('Error al guardar la calificación:', error);
       } else {
         setSelectedStars(0);
+        setisRatingOpen(false);
       }
     } catch (error) {
       console.error('Error al guardar la calificación:', error);
@@ -91,16 +94,13 @@ function Rating({ selectedPlaceId }) {
     </a>
   ));
 
-  return (
-    <div className="root">
-        <div className="container">
-            <h2>Califica con estrellas</h2>
-            <p>A: {placeInfo.name}</p>
-            <div className="ec-stars-wrapper">{stars}</div>
-            <button className="save-rating" onClick={saveRating}>Guardar</button>
-        </div>
-    </div>
-  );
+  return isRatingOpen ? (
+    <div className="raiting">
+      <h2>Califica con estrellas</h2>
+      <p>A: {placeInfo.name}</p>
+      <div className="ec-stars-wrapper">{stars}</div>
+      <button className="save-rating" onClick={saveRating}>Guardar</button>    </div>
+  ) : null;
 }
 
 export default Rating;
