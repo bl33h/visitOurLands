@@ -13,4 +13,7 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
   },
+  optimizeDeps: {
+    include: ['bcryptjs'],
+  },
 })
