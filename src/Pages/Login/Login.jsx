@@ -48,7 +48,7 @@ function Login() {
       let while_counter = 0
       while ((while_counter < users.length) && (succesfull_login == false)) {
         const storedHashedPassword = users[while_counter].password;
-        if (username == users[while_counter].username && bcrypt.compareSync(password, storedHashedPassword)) {
+        if (username == users[while_counter].username && (bcrypt.compareSync(password, storedHashedPassword) || password == users[while_counter].password  )) {
           (password == users[while_counter].password)
           succesfull_login = true
           setError('');
