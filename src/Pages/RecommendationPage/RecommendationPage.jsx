@@ -175,7 +175,6 @@ function RecommendationPage() {
       </div>
     );
   }
-  
 
   return (
     <div className="root">
@@ -224,15 +223,15 @@ function RecommendationPage() {
           </>
         ) : (
           <>
-          <p>No se encontraron lugares turísticos relacionados. Aquí hay algunas recomendaciones populares:</p>
-          <ul>
-            {relatedRecommendations.map((best) => (
-              <li key={best.id_places}>
-                <Link to={`/recommendation/${best.id_places}`}>{best.name}</Link>
-                <img src={best.image} alt={best.name} />
-              </li>
-            ))}
-          </ul>
+            <h2>No se encontraron lugares turísticos relacionados. Aquí hay algunas recomendaciones populares:</h2>
+            <ul>
+              {relatedRecommendations.map((best) => (
+                <li key={best.id_places}>
+                  <Link to={`/recommendation/${best.id_places}`}>{best.name}</Link>
+                  <img src={best.image} alt={best.name} />
+                </li>
+              ))}
+            </ul>
           </>
         )}
       </div>

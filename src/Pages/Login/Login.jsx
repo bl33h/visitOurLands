@@ -4,6 +4,7 @@ import '/src/Components/display.css'
 import { useState, useEffect } from 'react'
 import { supabase } from '../../client'
 import { useHistory } from 'react-router-dom'
+import bcrypt from 'bcryptjs';
 import welcomeJagui from '../../assets/welcome.png'
 function Login() {
   const [mostrarContrasena, setMostrarContrasena] = useState(false);
@@ -13,6 +14,7 @@ function Login() {
   let { username, password, role } = ''
   let succesfull_login = false
   const history = useHistory()
+  
   useEffect(() => {
     window.localStorage.setItem('LOGIN_STATUS', JSON.stringify(user))
   }, [user])
@@ -45,7 +47,9 @@ function Login() {
     if(!((username==='')&&(password===''))){
       let while_counter = 0
       while ((while_counter < users.length) && (succesfull_login == false)) {
-        if ((username == users[while_counter].username) && (password == users[while_counter].password)) {
+        const storedHashedPassword = users[while_counter].password;
+        if (username == users[while_counter].username && (bcrypt.compareSync(password, storedHashedPassword) || password == users[while_counter].password  )) {
+          (password == users[while_counter].password)
           succesfull_login = true
           setError('');
           role = users[while_counter].role

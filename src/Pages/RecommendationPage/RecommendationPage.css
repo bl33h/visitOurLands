@@ -110,3 +110,39 @@
 .average-rating{
   margin-right: 10%;
 }
+
+@media (max-width: 768px) {
+  .recommendation-page {
+    flex-direction: column;
+  }
+
+  .rating-container{
+    display: flex;
+    font-size: 25px;
+    flex-direction: column;
+
+  }
+
+  .image-container,
+  .details-container,
+  .related-recommendations,
+  .recommendation-page,
+  .recommendation-details,
+  .rating-container {
+    max-width: 100%;
+  }
+
+  .image-container {
+    margin-bottom: 20px;
+  }
+
+  .details-container {
+    flex: 1;
+  }
+
+  .related-recommendations {
+    flex: 1;
+    border-left: none;
+    border-top: 1px solid #ddd;
+  }
+}

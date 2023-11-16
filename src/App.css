@@ -2,3 +2,6 @@
   margin: 0 auto;
   text-align: center;
 }
+.Toastify__progress-bar {
+  background: #8c4303;
+}

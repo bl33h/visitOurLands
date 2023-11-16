@@ -7,6 +7,8 @@ import { faHeart, faStar, faComment, faShare } from "@fortawesome/free-solid-svg
 import Comment from './interactions/comment/comment.jsx';
 import Rating from './interactions/rating/rating.jsx';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Define a functional component named "TopRec"
 function TopRec(){
@@ -24,6 +26,12 @@ function TopRec(){
   const itemsPerPage = recommendationsPerPage;
   const [copiedLink, setCopiedLink] = useState(null);
   const [showCopyMessage, setShowCopyMessage] = useState(false);
+
+  const showToastMessage = () => {
+    toast.success("Link copiado en el portapapeles!", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  };
 
 
   // useEffect hook to fetch user information from local storage
@@ -258,14 +266,9 @@ function TopRec(){
                   />
                   <FontAwesomeIcon
                     icon={faShare}
-                    onClick={() => toggleInteraction(recommendation.id_places, 'share')}
+                    onClick={() => {toggleInteraction(recommendation.id_places, 'share'); showToastMessage();}}
                     className={interactionStates[recommendation.id_places]?.share ? "activeIn" : ""}
                   />
-                  {showCopyMessage && (
-                    <div className="copy-message">
-                      <p>Enlace copiado al portapapeles: {copiedLink}</p>
-                    </div>
-                  )}
                 </div>
               </div>
             ))}
