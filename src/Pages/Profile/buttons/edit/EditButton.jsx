@@ -3,19 +3,21 @@ import { supabase } from '../../../../client';
 import EditRecommendations from './edit'; 
 import "./edit.css";
 
-function EditButton({setShowEditButton, setShowInitialInfo}) {
+function EditButton({ setShowEditButton, setShowInitialInfo }) {
   const [user, setUser] = useState({});
   const [userRecommendations, setUserRecommendations] = useState([]);
-  const [setLoadingRecommendations] = useState(true);
+  const [loadingRecommendations, setLoadingRecommendations] = useState(true);
   const [editRecom] = useState(true);
   const [showEditForm, setShowEditForm] = useState(false); 
-  const [currentRecommendation, setCurrentRecommendation] = useState(null); 
-  
+  const [currentRecommendation, setCurrentRecommendation] = useState(null);
+  const [userRole, setUserRole] = useState(null); // Estado para almacenar el rol del usuario
 
   useEffect(() => {
     const browser_data = window.localStorage.getItem('LOGIN_STATUS');
     if (browser_data !== null) {
-      setUser(JSON.parse(browser_data));
+      const userData = JSON.parse(browser_data);
+      setUser(userData);
+      setUserRole(userData.role); // Configurar el rol del usuario
     }
   }, []);
 
@@ -59,33 +61,13 @@ function EditButton({setShowEditButton, setShowInitialInfo}) {
     const recommendationToEdit = userRecommendations.find(
       (recommendation) => recommendation.id_places === recommendationId
     );
-
+  
+    console.log('Recommendation to Edit:', recommendationToEdit);
+  
     setCurrentRecommendation(recommendationToEdit);
     setShowEditForm(true);
-  }
-
-  async function handleSaveClick() {
-    editedRecommendation.rating = selectedStars;
-    console.log('edit:', editedRecommendation);
-    try {
-      const { data, error } = await supabase
-        .from('places')
-        .update(editedRecommendation)
-        .eq('id_places', recommendation.id_places);
-
-      if (error) {
-        console.error('Error al actualizar la recomendación:', error);
-      } else {
-        onSave();
-        setShowSuccessMessage(true);
-        setShowEditButton(false);
-        setShowInitialInfo(true);
-      }
-    } catch (error) {
-      console.error('Error al actualizar la recomendación:', error);
-    }
-  }
-
+  }  
+  
   async function handleSaveRecommendation(updatedRecommendation) {
     try {
       const { data, error } = await supabase
@@ -97,6 +79,11 @@ function EditButton({setShowEditButton, setShowInitialInfo}) {
         console.error('Error al obtener las recomendaciones:', error);
       } else {
         setUserRecommendations(data);
+  
+        if (userRole === 'admin') {
+          setShowEditButton(true);
+          setShowInitialInfo(true); // Mostrar todas las recomendaciones iniciales al presionar guardar
+        }
       }
     } catch (error) {
       console.error('Error al obtener las recomendaciones:', error);
@@ -104,7 +91,7 @@ function EditButton({setShowEditButton, setShowInitialInfo}) {
   }
 
   async function handleDeleteRecommendation(recommendationId) {
-    if (window.confirm("¿Estás seguro de que quieres eliminar esta recomendación?")) {
+    if (userRole === 'admin' || window.confirm("¿Estás seguro de que quieres eliminar esta recomendación?")) {
       try {
         // Eliminar la recomendación de la base de datos
         const { data, error } = await supabase
@@ -127,50 +114,51 @@ function EditButton({setShowEditButton, setShowInitialInfo}) {
     }
   }
 
-
   return (
     <div className="root">
-        {showEditForm ? (
-          <EditRecommendations
-            recommendation={currentRecommendation}
-            onSave={() => {
-              setShowEditForm(false);
-              handleSaveRecommendation(); // Llamar a la función handleSaveRecommendation sin argumentos
-            }}
-            onCancelEdit={() => setShowEditForm(false)}
-            setShowEditButton={setShowEditButton}
-            setShowInitialInfo={setShowInitialInfo}
-          />
-        ) : (
-          editRecom && (
-            <div className="user-recommendations">
-              <h2>Edita tus recomendaciones</h2>
-              <div className="recommendations-container">
-                {userRecommendations.map((recommendation) => (
-                  <div key={recommendation.id_places} className="recommendation-card">
-                    <h3>{recommendation.name}</h3>
-                    <p>{recommendation.description}</p>
-                    <div className="rating-stars">{renderRatingStars(recommendation.rating)}</div>
-                    <img src={recommendation.image} alt={recommendation.name} />
-                    <div className="change-buttons">
-                    <button className="edit-button-each" 
-                      onClick={() => handleEditRecommendationClick(recommendation.id_places)}
-                    >
-                      Editar
-                    </button>
+      {showEditForm ? (
+        <EditRecommendations
+          recommendation={currentRecommendation}
+          onSave={() => {
+            setShowEditForm(false);
+            handleSaveRecommendation(); // Llamar a la función handleSaveRecommendation sin argumentos
+          }}
+          onCancelEdit={() => setShowEditForm(false)}
+          setShowEditButton={setShowEditButton}
+          setShowInitialInfo={setShowInitialInfo}
+        />
+      ) : (
+        editRecom && (
+          <div className="user-recommendations">
+            <h2>Edita tus recomendaciones</h2>
+            <div className="recommendations-container">
+              {userRecommendations.map((recommendation) => (
+                <div key={recommendation.id_places} className="recommendation-card">
+                  <h3>{recommendation.name}</h3>
+                  <p>{recommendation.description}</p>
+                  <div className="rating-stars">{renderRatingStars(recommendation.rating)}</div>
+                  <img src={recommendation.image} alt={recommendation.name} />
+                  <div className="change-buttons">
+                    {userRole === 'admin' && (
+                      <button className="edit-button-each"
+                        onClick={() => handleEditRecommendationClick(recommendation.id_places)}
+                      >
+                        Editar
+                      </button>
+                    )}
                     <button className="edit-button-each"
                       onClick={() => handleDeleteRecommendation(recommendation.id_places)}
                     >
                       Eliminar
                     </button>
-                    </div>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
-          )
-        )}
-      </div>
+          </div>
+        )
+      )}
+    </div>
   );
 }
 
