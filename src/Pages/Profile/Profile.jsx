@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import { v4 as uuidv4 } from "uuid";
 
 function Profile() {
+  const [userRole, setUserRole] = useState(null);
   const [user, setUser] = useState({});
   const [userRecommendations, setUserRecommendations] = useState([]);
   const [loadingRecommendations, setLoadingRecommendations] = useState(true);
@@ -97,48 +98,54 @@ function Profile() {
         // Obtén la información del usuario de la tabla 'users' por su nombre de usuario
         const { data, error } = await supabase
           .from('users')
-          .select('images')
+          .select('images, role')
           .eq('username', user.username)
-          .single(); // Obtén solo una fila, ya que se supone que el nombre de usuario es único
-
+          .single();
+  
         if (error) {
           console.error('Error al obtener la información del usuario:', error);
         } else {
-          // Actualiza la URL de la imagen si existe en la base de datos
+          // Actualiza la URL de la imagen y el rol si existen en la base de datos
           if (data && data.images) {
             setUserData({ ...userData, imageUrl: data.images });
           }
+          setUserRole(data?.role || 'turista');
         }
       } catch (error) {
         console.error('Error en fetchUserData:', error);
       }
     }
-
+  
     if (user.username) {
       fetchUserData();
     }
   }, [user.username]);
-
+  
   useEffect(() => {
-    async function fetchUserRecommendations() {
-      setLoadingRecommendations(true);
-      const { data, error } = await supabase
-        .from('places')
-        .select('*')
-        .eq('author', user.username);
+  async function fetchUserRecommendations() {
+    setLoadingRecommendations(true);
 
-      if (error) {
-        console.error('Error al obtener las recomendaciones:', error);
-      } else {
-        setUserRecommendations(data);
-      }
-      setLoadingRecommendations(false);
+    let query = supabase.from('places').select('*');
+
+    // Si el usuario es 'admin', no aplicar restricciones de autor
+    if (userRole !== 'admin') {
+      query = query.eq('author', user.username);
     }
 
-    if (user.username) {
-      fetchUserRecommendations();
+    const { data, error } = await query;
+
+    if (error) {
+      console.error('Error al obtener las recomendaciones:', error);
+    } else {
+      setUserRecommendations(data);
     }
-  }, [user.username]);
+    setLoadingRecommendations(false);
+  }
+
+  if (user.username) {
+    fetchUserRecommendations();
+  }
+}, [user.username, userRole]);
 
   function renderRatingStars(rating) {
     const stars = [];

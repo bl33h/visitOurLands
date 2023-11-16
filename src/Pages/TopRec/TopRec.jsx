@@ -14,6 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 function TopRec(){
   // Define and initialize state variables using the useState hook
   const [user, setUser] = useState({});
+  const [userRole, setUserRole] = useState(null); // Estado para almacenar el rol del usuario
   const [loadingRecommendations, setLoadingRecommendations] = useState(true);
   const [userRecommendations, setUserRecommendations] = useState([]);
   const [recommendationsPerPage, setRecommendationsPerPage] = useState(2);
@@ -33,15 +34,18 @@ function TopRec(){
     });
   };
 
-
   // useEffect hook to fetch user information from local storage
   useEffect(() => {
-    // Local storage
     const browser_data = window.localStorage.getItem('LOGIN_STATUS');
     if (browser_data !== null) {
       setUser(JSON.parse(browser_data));
     }
   }, []);
+  
+  async function fetchPosts() {
+    const { data } = await supabase.from('users').select()
+    setUsers(data)
+  } 
 
   // Function to fetch user recommendations from the database
   async function fetchUserRecommendations() {
@@ -98,6 +102,23 @@ function TopRec(){
       window.localStorage.setItem('USER_RECOMMENDATIONS', JSON.stringify(userRecommendations));
     }
   }, [userRecommendations]);
+
+  async function handleDelete(recommendationId) {
+    try {
+      // Eliminar la recomendación de la tabla "places" utilizando el ID
+      const { error } = await supabase.from('places').delete().eq('id_places', recommendationId);
+  
+      if (error) {
+        console.error('Error al eliminar la recomendación:', error);
+      } else {
+        // Recargar las recomendaciones después de la eliminación
+        fetchUserRecommendations();
+        console.log('Recomendación eliminada exitosamente.');
+      }
+    } catch (error) {
+      console.error('Error al eliminar la recomendación:', error);
+    }
+  }  
 
   // Function to toggle interactions (like, share) for a recommendation
   async function toggleInteraction(recommendationId, interactionType) {
@@ -234,6 +255,15 @@ function TopRec(){
           <div className="recommendations-container2">
             {recommendationsToDisplay.map((recommendation) => (
               <div key={recommendation.id_places} className="recommendation-card2">
+                {/* Botones para el usuario admin */}
+                {userRole === 'admin' && (
+                  <div className="admin-buttons">
+                    <button onClick={() => handleDelete(recommendation.id_places)}>Eliminar</button>
+                    <button onClick={() => handleEdit(recommendation.id_places)}>Editar</button>
+                  </div>
+                )}
+
+                {/* Contenido de la tarjeta de recomendación */}
                 <Link to={`/MainPage/recommendation/${recommendation.id_places}`}>
                   <h3>{recommendation.name}</h3>
                 </Link>
@@ -241,7 +271,6 @@ function TopRec(){
                 <p>{recommendation.description}</p>
                 <div className="rating-stars">{renderRatingStars(recommendation.rating)}</div>
                 <img src={recommendation.image} alt={recommendation.name} />
-  
                 {/* Icons for interactions (like, comment, share) */}
                 <div className="interaction-icons">
                   <FontAwesomeIcon
