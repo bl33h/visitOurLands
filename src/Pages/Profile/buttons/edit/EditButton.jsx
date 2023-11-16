@@ -24,18 +24,25 @@ function EditButton({ setShowEditButton, setShowInitialInfo }) {
   useEffect(() => {
     async function fetchUserRecommendations() {
       setLoadingRecommendations(true);
-      const { data, error } = await supabase
-        .from('places')
-        .select('*')
-        .eq('author', user.username);
-
+    
+      let query = supabase.from('places').select('*');
+    
+      // Si el usuario no es un administrador, filtrar por autor
+      if (userRole !== 'admin') {
+        query = query.eq('author', user.username);
+      }
+    
+      const { data, error } = await query;
+    
       if (error) {
         console.error('Error al obtener las recomendaciones:', error);
       } else {
         setUserRecommendations(data);
       }
+    
       setLoadingRecommendations(false);
     }
+    
 
     if (user.username) {
       fetchUserRecommendations();
@@ -70,6 +77,7 @@ function EditButton({ setShowEditButton, setShowInitialInfo }) {
   
   async function handleSaveRecommendation(updatedRecommendation) {
     try {
+      // Obtener las recomendaciones actualizadas después de la edición
       const { data, error } = await supabase
         .from('places')
         .select('*')
@@ -79,16 +87,13 @@ function EditButton({ setShowEditButton, setShowInitialInfo }) {
         console.error('Error al obtener las recomendaciones:', error);
       } else {
         setUserRecommendations(data);
-  
-        if (userRole === 'admin') {
-          setShowEditButton(true);
-          setShowInitialInfo(true); // Mostrar todas las recomendaciones iniciales al presionar guardar
-        }
+        setShowEditButton(true);
+        setShowInitialInfo(true); // Mostrar todas las recomendaciones iniciales al presionar guardar
       }
     } catch (error) {
       console.error('Error al obtener las recomendaciones:', error);
     }
-  }
+  }  
 
   async function handleDeleteRecommendation(recommendationId) {
     if (userRole === 'admin' || window.confirm("¿Estás seguro de que quieres eliminar esta recomendación?")) {
@@ -139,18 +144,16 @@ function EditButton({ setShowEditButton, setShowInitialInfo }) {
                   <div className="rating-stars">{renderRatingStars(recommendation.rating)}</div>
                   <img src={recommendation.image} alt={recommendation.name} />
                   <div className="change-buttons">
-                    {userRole === 'admin' && (
-                      <button className="edit-button-each"
-                        onClick={() => handleEditRecommendationClick(recommendation.id_places)}
-                      >
+                    {(userRole === 'admin' || recommendation.author === user.username) && (
+                      <button className="edit-button-each" onClick={() => handleEditRecommendationClick(recommendation.id_places)}>
                         Editar
                       </button>
                     )}
-                    <button className="edit-button-each"
-                      onClick={() => handleDeleteRecommendation(recommendation.id_places)}
-                    >
-                      Eliminar
-                    </button>
+                    {(userRole === 'admin' || recommendation.author === user.username) && (
+                      <button className="edit-button-each" onClick={() => handleDeleteRecommendation(recommendation.id_places)}>
+                        Eliminar
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}
