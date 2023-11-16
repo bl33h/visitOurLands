@@ -147,7 +147,6 @@ function Profile() {
   }
 }, [user.username, userRole]);
 
-
   function renderRatingStars(rating) {
     const stars = [];
     const totalStars = 5;
