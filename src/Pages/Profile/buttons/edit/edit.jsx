@@ -52,13 +52,13 @@ function EditRecommendations({ recommendation, onSave, onCancelEdit }) {
       if (error) {
         console.error('Error al actualizar la recomendación:', error);
       } else {
-        onSave();
+        onSave(editedRecommendation); // Pasar la recomendación actualizada a la función onSave
         setShowSuccessMessage(true);
       }
     } catch (error) {
       console.error('Error al actualizar la recomendación:', error);
     }
-  }
+  }  
 
   function handleCancelClick() {
     onCancelEdit();
