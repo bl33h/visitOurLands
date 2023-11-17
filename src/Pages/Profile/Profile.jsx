@@ -1,3 +1,4 @@
+// Importing necessary styles and libraries
 import { useState, useEffect } from 'react';
 import './Profile.css';
 import '/src/Components/texts.css';
@@ -11,12 +12,14 @@ import LikeButton from './buttons/like/LikeButton';
 import { Link } from 'react-router-dom';
 import { v4 as uuidv4 } from "uuid";
 
+// Main Profile component
 function Profile() {
+  // State variables to store user-related data
   const [userRole, setUserRole] = useState(null);
   const [user, setUser] = useState({});
   const [userRecommendations, setUserRecommendations] = useState([]);
   const [loadingRecommendations, setLoadingRecommendations] = useState(true);
-  const [showInitialInfo, setShowInitialInfo] = useState(true); // Estado para mostrar/ocultar recomendaciones iniciales
+  const [showInitialInfo, setShowInitialInfo] = useState(true); // State to show/hide initial recommendations
   const [showEditButton, setShowEditButton] = useState(false);
   const [showLikeButton, setShowLikeButton] = useState(false);
   const [image, setImage] = useState();
@@ -28,20 +31,21 @@ function Profile() {
   const [uploading, setUploading] = useState(false);
   const inputRef = useState(null);
 
+  // Event handler for clicking on the profile image
   const handleImageClick = () => {
     inputRef.current.click();
-
   }
 
+  // Event handler for changing the profile image
   const handleImageChange = (event) => {
     const file = event.target.files[0];
-    setSelectedImage(URL.createObjectURL(file)); // Muestra la imagen seleccionada
+    setSelectedImage(URL.createObjectURL(file)); // Display the selected image
     setImage(file);
-
   }
 
+  // Function to handle image upload
   const handleImageUpload = async () => {
-    if (image && !uploading) { // Evita cargar si ya se está cargando una imagen
+    if (image && !uploading) { // Avoid uploading if an image is already being uploaded
       setUploading(true);
 
       const imageName = uuidv4();
@@ -49,104 +53,107 @@ function Profile() {
       const imagePath = `${folderName}/${imageName}`;
 
       try {
-          const { error: uploadError } = await supabase.storage
+        const { error: uploadError } = await supabase.storage
+          .from('ProfilePictures')
+          .upload(imagePath, image);
+
+        if (uploadError) {
+          console.error('Error uploading image:', uploadError);
+        } else {
+          console.log('Image uploaded successfully:', imagePath);
+
+          const imageUrlResponse = await supabase.storage
             .from('ProfilePictures')
-            .upload(imagePath, image);
+            .getPublicUrl(imagePath);
 
-          if (uploadError) {
-            console.error('Error al cargar la imagen:', uploadError);
-          } else {
-            console.log('Imagen cargada con éxito:', imagePath);
+          const imageUrl = imageUrlResponse.data.publicUrl;
+          setUserData({ ...userData, imageUrl });
 
-            const imageUrlResponse = await supabase.storage
-              .from('ProfilePictures')
-              .getPublicUrl(imagePath);
-
-            const imageUrl = imageUrlResponse.data.publicUrl;
-            setUserData({ ...userData, imageUrl });
-
-            const { error: updateError } = await supabase
+          const { error: updateError } = await supabase
             .from('users')
             .update({ images: imageUrl })
             .eq('username', user.username);
 
-            if (updateError) {
-              console.error('Error al actualizar la URL de la imagen en la base de datos:', updateError);
-            } else {
-              console.log('URL de imagen actualizada en la base de datos del usuario.');
-            }
+          if (updateError) {
+            console.error('Error updating image URL in the user database:', updateError);
+          } else {
+            console.log('Image URL updated in the user database.');
           }
-        } catch (error) {
-          console.error('Error en handleImageUpload:', error);
-        } finally {
-          setUploading(false); // Marca la carga como completa
         }
+      } catch (error) {
+        console.error('Error in handleImageUpload:', error);
+      } finally {
+        setUploading(false); // Mark the upload as complete
       }
     }
+  }
 
   useEffect(() => {
     // Local storage
-    const browser_data = window.localStorage.getItem('LOGIN_STATUS');
-    if (browser_data !== null) {
-      setUser(JSON.parse(browser_data));
+    const browserData = window.localStorage.getItem('LOGIN_STATUS');
+    if (browserData !== null) {
+      setUser(JSON.parse(browserData));
     }
   }, []);
 
+  // useEffect to fetch user data when the component mounts
   useEffect(() => {
     async function fetchUserData() {
       try {
-        // Obtén la información del usuario de la tabla 'users' por su nombre de usuario
+        // Get user information from the 'users' table based on the username
         const { data, error } = await supabase
           .from('users')
           .select('images, role')
           .eq('username', user.username)
           .single();
-  
+
         if (error) {
-          console.error('Error al obtener la información del usuario:', error);
+          console.error('Error fetching user information:', error);
         } else {
-          // Actualiza la URL de la imagen y el rol si existen en la base de datos
+          // Update the image URL and role if they exist in the database
           if (data && data.images) {
             setUserData({ ...userData, imageUrl: data.images });
           }
-          setUserRole(data?.role || 'turista');
+          setUserRole(data?.role || 'tourist');
         }
       } catch (error) {
-        console.error('Error en fetchUserData:', error);
+        console.error('Error in fetchUserData:', error);
       }
     }
-  
+
     if (user.username) {
       fetchUserData();
     }
   }, [user.username]);
-  
+
+  // useEffect to fetch user recommendations
   useEffect(() => {
-  async function fetchUserRecommendations() {
-    setLoadingRecommendations(true);
+    async function fetchUserRecommendations() {
+      setLoadingRecommendations(true);
 
-    let query = supabase.from('places').select('*');
+      let query = supabase.from('places').select('*');
 
-    // Si el usuario es 'admin', no aplicar restricciones de autor
-    if (userRole !== 'admin') {
-      query = query.eq('author', user.username);
+      // If the user is an 'admin', do not apply author restrictions
+      if (userRole !== 'admin') {
+        query = query.eq('author', user.username);
+      }
+
+      const { data, error } = await query;
+
+      if (error) {
+        console.error('Error fetching recommendations:', error);
+      } else {
+        setUserRecommendations(data);
+      }
+      setLoadingRecommendations(false);
     }
 
-    const { data, error } = await query;
-
-    if (error) {
-      console.error('Error al obtener las recomendaciones:', error);
-    } else {
-      setUserRecommendations(data);
+    if (user.username) {
+      fetchUserRecommendations();
     }
-    setLoadingRecommendations(false);
-  }
+  }, [user.username, userRole]);
 
-  if (user.username) {
-    fetchUserRecommendations();
-  }
-}, [user.username, userRole]);
-
+  // Function to render rating stars based on the given rating
   function renderRatingStars(rating) {
     const stars = [];
     const totalStars = 5;
@@ -162,31 +169,32 @@ function Profile() {
     return stars;
   }
 
+  // Event handler for clicking the Edit button on a recommendation
   function handleEditRecommendationClick(recommendationId) {
-    if (showInitialInfo == true) {
+    if (showInitialInfo === true) {
       setShowEditButton(true);
-      setShowInitialInfo(false); // Ocultar recomendaciones iniciales al presionar editar
+      setShowInitialInfo(false); // Hide initial recommendations when clicking Edit
     } else {
       setShowEditButton(false);
-      setShowInitialInfo(true); // Mostrar recomendaciones iniciales al presionar cancelar
+      setShowInitialInfo(true); // Show initial recommendations when clicking Cancel
     }
   }
+  // Render the main Profile component
 
   return (
-    // Foto de Perfil
     <div className="root">
       <div className="profile-container">
         <div className="info">
           <div className="image-container-profile">
             <div onClick={handleImageClick}>
               {userData.imageUrl ? (
-                // Muestra la imagen de la base de datos si existe
+                // Display the database image if it exists
                 <img id="profile-picture" src={userData.imageUrl} alt="Profile" className="image-display"/>
               ) : selectedImage ? (
-                // Muestra la imagen seleccionada si no hay imagen en la base de datos
+                // Display the selected image if there is no image in the database
                 <img id="profile-picture" src={selectedImage} alt="Profile" className="image-display"/>
               ) : (
-                // Si no tiene foto de perfil ni imagen seleccionada, muestra una predeterminada
+                // If there is no profile picture or selected image, display a default one
                 <img id="profile-picture" src={profileImage} alt="Profile" className="image-display" />
               )}
               <input
@@ -207,7 +215,7 @@ function Profile() {
         </div>
 
         <div className="buttons-container">
-          {/* Botón Editar */}
+          {/* Edit Button */}
           <button
             className="each-button"
             data-testid="edit-button"
@@ -219,6 +227,7 @@ function Profile() {
             onClick={() => handleEditRecommendationClick(null)}
           ></button>
 
+          {/* Like Button */}
           <button
             id="like"
             className="each-button"
@@ -237,7 +246,7 @@ function Profile() {
 
         {showLikeButton && <LikeButton />}
 
-        {/* Mostrar EditButton si showEditButton es true */}
+        {/* Display EditButton if showEditButton is true */}
         {showEditButton && (
           <EditButton
             recommendations={userRecommendations}
@@ -246,7 +255,7 @@ function Profile() {
             setShowInitialInfo={setShowInitialInfo}
           />
         )}
-        {/* Mostrar recomendaciones iniciales si showInitialInfo es true */}
+      {/* Display initial recommendations if showInitialInfo is true */}
         {showInitialInfo && !loadingRecommendations && userRecommendations.length > 0 && (
           <div className="user-recommendations">
             <h2>Tus recomendaciones</h2>

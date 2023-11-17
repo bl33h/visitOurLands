@@ -27,11 +27,13 @@ function SignIn() {
   const history = useHistory();
   let {roleUser} = '';
 
+    // Toggle password visibility
   function handleCheckboxChange1() {
     setMostrarContrasena1(!mostrarContrasena1);
     setMostrarContrasena2(!mostrarContrasena2);
   }
 
+    // Handle checkbox change for user role
   const handleOnChange = () => {
     setIsChecked(!isChecked);
   };
@@ -50,16 +52,17 @@ function SignIn() {
     }
   };
 
+    // Create user in the database
   async function createUser() {
     user.role = roleUser;
     const { username, role, email } = user;
     try {
       const password = await bcrypt.hash(user.password, 10);
-      // Insertar usuario en Supabase con la contraseña hasheada
+      // Insert user into Supabase with hashed password
       await supabase.from('users').insert([{ username, password, role, email }]);
-      // Limpiar el estado del usuario
+      // Clear user state
       setUser({ username: '', password: '', confirmPassword: '', email: '' });
-      // Actualizar la lista de usuarios
+      // Update the list of users
       fetchPosts();
     } catch (error) {
       setError('Ocurrió un error al crear el usuario.');
@@ -71,11 +74,13 @@ function SignIn() {
     setUser({ ...user, username: '', password: '', confirmPassword: '', email: '' });
   }
 
+    // Validate email format
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
+    // Validate password complexity
   const validatePassword = (password) => {
     const lengthRequirement = password.length >= 5;
     const specialCharRequirement = /[!@#$%^&*(),.?":{}|<>]/.test(password);
@@ -86,6 +91,7 @@ function SignIn() {
     return lengthRequirement && specialCharRequirement;
   };
 
+  // Check the sign-in conditions
   const check_signIn = () => {
     const { password, confirmPassword, email } = user;
     if (password !== confirmPassword) {
