@@ -17,29 +17,35 @@ function EditRecommendations({ recommendation, onSave, onCancelEdit }) {
   const [hoveredStars, setHoveredStars] = useState(editedRecommendation.rating);
   const history = useHistory();
 
+    // Handle input changes
   function handleInputChange(event) {
     const { name, value } = event.target;
-    // Si el campo es 'rating', convierte el valor a un número
+    // If the field is 'rating', convert the value to a number
     const parsedValue = name === 'rating' ? parseInt(value, 10) : value;
     setEditedRecommendation((prevRecommendation) => ({
       ...prevRecommendation,
       [name]: parsedValue,
     }));
-  }
+  }]
+
+    // Handle click on the star rating
   const handleRatingClick = (event) => {
     const value = parseInt(event.target.getAttribute("data-value"), 10);
     setSelectedStars(value);
   };
 
+    // Handle hover over the star rating
   const handleRatingHover = (event) => {
     const value = parseInt(event.target.getAttribute("data-value"), 10);
     setHoveredStars(value);
   };
 
+    // Handle leaving the star rating
   const handleRatingLeave = () => {
     setHoveredStars(0);
   };
 
+    // Handle saving the edited recommendation
   async function handleSaveClick() {
     editedRecommendation.rating = selectedStars;
     console.log('edit:', editedRecommendation);
@@ -52,14 +58,15 @@ function EditRecommendations({ recommendation, onSave, onCancelEdit }) {
       if (error) {
         console.error('Error al actualizar la recomendación:', error);
       } else {
-        onSave(editedRecommendation); // Pasar la recomendación actualizada a la función onSave
+        onSave(editedRecommendation); // Pass the updated recommendation to the onSave function
         setShowSuccessMessage(true);
       }
     } catch (error) {
       console.error('Error al actualizar la recomendación:', error);
     }
-  }  
+  }
 
+  // Handle canceling the edit
   function handleCancelClick() {
     onCancelEdit();
   }

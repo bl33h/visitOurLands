@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function Recomendations() {
+  // State variables for user-related data and recommendations
   const [user, setUser] = useState({});
   const [loadingRecommendations, setLoadingRecommendations] = useState(true);
   const [userRecommendations, setUserRecommendations] = useState([]);
@@ -30,11 +31,13 @@ function Recomendations() {
   const [, setHasFiltered] = useState(false);
   const [searching, setSearching] = useState(false);
 
+  // Event handler for changing the number of items per page
   const handleItemsPerPageChange = (event) => {
     setItemsPerPage(parseInt(event.target.value, 10));
     setCurrentPage(1);
   };
-  
+
+    // Function to display a success message when the link is copied
   const showToastMessage = () => {
     toast.success("Link copiado en el portapapeles!", {
       position: toast.POSITION.TOP_RIGHT,
@@ -49,6 +52,7 @@ function Recomendations() {
     }
   }, []);
 
+  // Function to fetch user recommendations and related data
   async function fetchUserRecommendations() {
     setLoadingRecommendations(true);
     const { data: placesData, error: placesError } = await supabase.from('places').select('*');
@@ -114,6 +118,7 @@ function Recomendations() {
     }
   }, [userRecommendations]);
 
+  // Function to toggle user interactions (like, share)
   async function toggleInteraction(recommendationId, interactionType) {
     const updatedInteractionStates = {
       ...interactionStates,
@@ -144,15 +149,15 @@ function Recomendations() {
 
     if (interactionType === 'like') {
       if (!favoriteRecommendations.includes(recommendationId)) {
-        // Agregar la recomendación a la lista de favoritos
+        // Add the recommendation to the favorites list
         const updatedFavorites = [...favoriteRecommendations, recommendationId];
         setFavoriteRecommendations(updatedFavorites);
 
-        // Insertar el "like" en la tabla likedReviews
+        // Insert the "like" into the likedReviews table
         const { error } = await supabase.from('likedReviews').upsert([
           {
-            username: user.username, // El ID del usuario que dio "like"
-            id_places: recommendationId, // El ID de la recomendación que se dio "like"
+            username: user.username,
+            id_places: recommendationId,
           },
         ]);
 
@@ -161,13 +166,13 @@ function Recomendations() {
 
         }
       } else {
-        // Si ya está marcado como favorito, quítalo de la lista de favoritos
+        // If already marked as a favorite, remove it from the favorites list
         const updatedFavorites = favoriteRecommendations.filter(
           (fav) => fav !== recommendationId
         );
         setFavoriteRecommendations(updatedFavorites);
 
-        // Eliminar el "like" de la tabla likedReviews
+        // Remove the "like" from the likedReviews table
         const { error } = await supabase.from('likedReviews').delete().eq('username', user.username).eq('id_places', recommendationId);
 
         if (error) {
@@ -178,6 +183,7 @@ function Recomendations() {
     }
   }
 
+  // Function to perform search based on search term and selected departments
   const performSearch = () => {
     if (searchTerm !== '') {
       setSearching(true);
@@ -199,7 +205,7 @@ function Recomendations() {
     }
   };
 
-
+  // Event handler for search input change
   const handleSearchInputChange = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -220,7 +226,7 @@ function Recomendations() {
     setSearchTerm(''); // Establece searchTerm en una cadena vacía
   }, []);
   
-
+  // Function to render rating stars based on the rating value
   function renderRatingStars(rating) {
     const stars = [];
     const totalStars = 5;
@@ -234,6 +240,7 @@ function Recomendations() {
     return stars;
   }
 
+  // Calculate start and end index for displaying recommendations
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const allrec = allRecommendations.slice(startIndex, endIndex);

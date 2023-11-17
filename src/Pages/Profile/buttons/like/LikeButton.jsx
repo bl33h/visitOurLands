@@ -8,6 +8,7 @@ function LikeButton() {
   const [likedRecommendations, setLikedRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
 
+    // Effect to fetch user data from local storage on component mount
   useEffect(() => {
     // Local storage
     const browser_data = window.localStorage.getItem('LOGIN_STATUS');
@@ -16,9 +17,11 @@ function LikeButton() {
     }
   }, []);
 
+    // Effect to fetch liked recommendations when the user changes
   useEffect(() => {
     async function fetchLikedRecommendations() {
       setLoading(true);
+            // Fetch liked recommendations data from 'likedReviews' table
       const { data: likedReviewsData, error: likedReviewsError } = await supabase
         .from('likedReviews')
         .select('*')
@@ -30,10 +33,10 @@ function LikeButton() {
         return;
       }
 
-      // Obtener los IDs de las recomendaciones marcadas como "like"
+      // Get IDs of recommendations marked as "like"
       const likedRecommendationIds = likedReviewsData.map(likedReview => likedReview.id_places);
 
-      // Consultar la tabla 'places' para obtener la información de las recomendaciones correspondientes
+      // Fetch information of liked recommendations from the 'places' table
       const { data: placesData, error: placesError } = await supabase
         .from('places')
         .select('*')
@@ -45,7 +48,7 @@ function LikeButton() {
         return;
       }
 
-      // Combinar la información de las recomendaciones marcadas como "like" con la información de las recomendaciones desde 'places'
+      // Combine information of liked recommendations with information from 'places'
       const likedRecommendationsWithPlaceInfo = likedReviewsData.map(likedReview => {
         const placeInfo = placesData.find(place => place.id_places === likedReview.id_places);
         return {
@@ -58,11 +61,13 @@ function LikeButton() {
       setLoading(false);
     }
 
+        // Fetch liked recommendations if the user has a username
     if (user.username) {
       fetchLikedRecommendations();
     }
   }, [user.username]);
 
+    // Render star rating icons based on the given rating
   function renderRatingStars(rating) {
     const stars = [];
     const totalStars = 5;
