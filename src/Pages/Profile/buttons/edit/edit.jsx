@@ -26,7 +26,7 @@ function EditRecommendations({ recommendation, onSave, onCancelEdit }) {
       ...prevRecommendation,
       [name]: parsedValue,
     }));
-  }]
+  }
 
     // Handle click on the star rating
   const handleRatingClick = (event) => {
