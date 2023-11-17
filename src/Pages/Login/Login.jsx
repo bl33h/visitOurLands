@@ -29,9 +29,15 @@ function Login() {
   const evaluate_login = () => {
     if (succesfull_login) {
       setTimeout(() => {
-        history.push('/MainPage')
+        const redirectPath = localStorage.getItem('redirectAfterLogin');
+        if (redirectPath) {
+          history.push(redirectPath);
+          localStorage.removeItem('redirectAfterLogin');
+        } else {
+          history.push('/MainPage');
+        }
       }, 1500)
-    } 
+    }
   }
   const sign_in = () => {
     history.push('/SignIn')
