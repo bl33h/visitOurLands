@@ -3,8 +3,9 @@ import { supabase } from '../../client';
 import './CreatePlace.css';
 import { v4 as uuidv4 } from "uuid";
 
-
+// CreatePlace component
 function CreatePlace() {
+  // State variables
   const [newIdValue, setNewIdValue] = useState(0);
   let maxId = 0;
   const MAX_DESCRIPTION_LENGTH = 280;
@@ -23,23 +24,26 @@ function CreatePlace() {
     department: 0,
     imageUrl: ''
   });
-
+  // Fetch data from Supabase and user data from local storage on component mount
   useEffect(() => {
     fetchPosts()
     const browser_data = window.localStorage.getItem('LOGIN_STATUS')
     if (browser_data !== null) setUser(JSON.parse(browser_data))
   }, [])
 
+  // Fetch departments and places data from Supabase
   async function fetchPosts() {
     await fetchPost()
     await fetchPost2()
   }
 
+  // Fetch department data from Supabase
   async function fetchPost() {
     const { data } = await supabase.from('departments').select()
     setDepartments(data)
   }
 
+    // Fetch places data from Supabase and determine the next available ID
   async function fetchPost2() {
     const { data } = await supabase.from('places').select()
 
@@ -52,73 +56,78 @@ function CreatePlace() {
     console.log("Global New ID Value:", newIdValue);
   }
 
+    // Handle input change in the form
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setPlaceData({ ...placeData, [name]: value });
   };
 
+  // Handle click on the rating stars
   const handleRatingClick = (event) => {
     const value = parseInt(event.target.getAttribute("data-value"), 10);
     setSelectedStars(value);
   };
 
+    // Handle hover over the rating stars
   const handleRatingHover = (event) => {
     const value = parseInt(event.target.getAttribute("data-value"), 10);
     setHoveredStars(value);
   };
 
+    // Handle leaving the rating stars
   const handleRatingLeave = () => {
     setHoveredStars(0);
   };
 
+      // Handle form submission
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     // Sube la imagen
     onPressButton()
     }
 
+  // Upload image to Supabase storage
     async function uploadImage(e) {
       let file = e.target.files[0];
     
       if (file) {
-        // Generar un nombre único para la imagen
+      // Generate a unique name for the image
         const imageName = uuidv4(); 
         const folderName = 'images';
-        // Construir la ruta completa
-        const imagePath = `${folderName}/${imageName}`; 
+        // Build the complete path
+      const imagePath = `${folderName}/${imageName}`; 
     
         const { error } = await supabase.storage
-          // Reemplaza 'tu_bucket_de_imagenes' con el nombre de tu bucket
           .from('PlacesImages') 
           .upload(imagePath, file);
     
         if (error) {
           console.error('Error al cargar la imagen:', error);
         } else {
-          // Usar imagePath en lugar de data.Key
+          // Use imagePath instead of data.Key
           console.log('Imagen cargada con éxito:', imagePath);
-          // Obtener la URL pública de la imagen recién cargada
+          // Get the public URL of the newly uploaded image
           const imageUrlResponse = await supabase.storage
             .from('PlacesImages')
-            // Usar imagePath en lugar de data.Key
-            .getPublicUrl(imagePath);
-          // Obtener solo la URL
+          // Use imagePath instead of data.Key
+          .getPublicUrl(imagePath);
+          // Get only the URL
           const imageUrl = imageUrlResponse.data.publicUrl;
-          // Actualizar el estado con la URL de la imagen
+          // Update the state with the image URL
           setPlaceData({ ...placeData, imageUrl });
         }
       }
     }
-    
-    
+
+  // Handle button press (form submission)
     async function onPressButton() {
       console.log(image);
       if (!image) {
         console.log("Debes seleccionar una imagen primero.");
       }
     
-      // Subir la imagen al bucket
-      if (placeData.imageUrl) {
+    // Upload the image to the bucket
+    if (placeData.imageUrl) {
         const { error } = await supabase
           .from('places')
           .insert([
@@ -137,7 +146,7 @@ function CreatePlace() {
           console.error('Error al insertar el lugar:', error);
         } else {
           console.log('Lugar insertado exitosamente:', placeData);
-          // Limpiar los campos después de la inserción exitosa
+          // Clear the fields after successful insertion
           setPlaceData({
             name: '',
             description: '',
@@ -151,7 +160,8 @@ function CreatePlace() {
         }
       }
     }
-    
+
+    // JSX rendering of the CreatePlace component
   return (
     <div className="root">
       <div className="container-CreatePlace">

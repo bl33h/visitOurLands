@@ -13,6 +13,7 @@ import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined'
 import LogoutIcon from '@mui/icons-material/Logout';
 import touristIcon from '../../assets/icon.png'
 
+// Item component represents a menu item in the sidebar
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme()
   const colors = tokens(theme.palette.mode)
@@ -44,11 +45,13 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   )
 }
 
+// Function to define the selected page and store it in local storage
 const define_selected_page = (page) => {
   window.localStorage.setItem('MAINPAGE_SELECTED', JSON.stringify({ page_selected: page }))
   console.log('define', typeof page, page)
 }
 
+// Function to collapse or expand the sidebar and store the state in local storage
 const colapse_sidebar = (sidebar_colpased_value) => {
   window.localStorage.setItem(
     'SIDEBAR_COLAPSED',
@@ -56,6 +59,7 @@ const colapse_sidebar = (sidebar_colpased_value) => {
   )
 }
 
+// Sidebar component
 const Sidebar = () => {
   const theme = useTheme()
   const colors = tokens(theme.palette.mode)
@@ -67,10 +71,12 @@ const Sidebar = () => {
   const [logged_In, set_Logged_In_Status] = useState(false)
   const history = useHistory()
 
+    // Handle window resize for mobile responsiveness
   const handleResize = () => {
     setIsMobile(window.innerWidth <= 425);
   };
 
+    // Add and remove event listener for window resize
   useEffect(() => {
     window.addEventListener('resize', handleResize);
     return () => {
@@ -78,10 +84,12 @@ const Sidebar = () => {
     };
   }, []);
 
+    // Toggle the sidebar expansion
   const toggleSidebar = () => {
     setIsSidebarExpanded(!isSidebarExpanded);
   };
 
+    // Fetch data from local storage on component mount
   useMemo(() => {
     const browser_data = window.localStorage.getItem('LOGIN_STATUS')
     if (browser_data !== null) {
@@ -101,6 +109,7 @@ const Sidebar = () => {
     }
   }, [])
 
+    // Redirect to the Mainpage
   const redirectToPage = () => {
     history.push("/Mainpage")
   };
@@ -108,6 +117,7 @@ const Sidebar = () => {
   useEffect(() => {
   }, [user])
 
+    // Sign out function
   const signOut = () => {
     set_Logged_In_Status(false)
     window.localStorage.setItem(
