@@ -5,6 +5,7 @@ import './SignIn.css';
 import '/src/Components/texts.css';
 import '/src/Components/display.css';
 import jagui from '../../assets/jagui.png'
+import bcrypt from 'bcryptjs';
 
 function SignIn() {
   const [mostrarContrasena1, setMostrarContrasena1] = useState(false);
@@ -13,9 +14,9 @@ function SignIn() {
     username: '',
     password: '',
     confirmPassword: '',
-    role: '',
+    role: 'Turista',
     email: '',
-  });
+  })
   const [error, setError] = useState('');
   const [passwordMatch, setPasswordMatch] = useState(true);
   const [isChecked, setIsChecked] = useState(false);
@@ -24,6 +25,7 @@ function SignIn() {
     specialChar: false,
   });
   const history = useHistory();
+  let {roleUser} = '';
 
   function handleCheckboxChange1() {
     setMostrarContrasena1(!mostrarContrasena1);
@@ -49,14 +51,17 @@ function SignIn() {
   };
 
   async function createUser() {
-    const { username, password, role, email } = user;
-    
+    user.role = roleUser;
+    const { username, role, email } = user;
     try {
+      const password = await bcrypt.hash(user.password, 10);
+      // Insertar usuario en Supabase con la contraseña hasheada
       await supabase.from('users').insert([{ username, password, role, email }]);
+      // Limpiar el estado del usuario
       setUser({ username: '', password: '', confirmPassword: '', email: '' });
-      fetchPosts(); // Optional: You can fetch the updated users list after creating a new user.
+      // Actualizar la lista de usuarios
+      fetchPosts();
     } catch (error) {
-      console.error('Error creating user:', error);
       setError('Ocurrió un error al crear el usuario.');
     }
   }
@@ -83,7 +88,6 @@ function SignIn() {
 
   const check_signIn = () => {
     const { password, confirmPassword, email } = user;
-
     if (password !== confirmPassword) {
       setPasswordMatch(false);
       return;
@@ -99,6 +103,11 @@ function SignIn() {
       return;
     }
 
+    if (isChecked == true) {
+      roleUser = 'Dueño'
+    }else{
+      roleUser = 'Turista'
+    }
     evaluate_signin();
   };
 

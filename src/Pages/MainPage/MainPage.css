@@ -1,7 +1,5 @@
 .main-page {
   height: 100vh;
-  width: 100vw;
-  overflow-y: auto;
   position: relative;
   font-family: 'Source Sans Pro', sans-serif;
   justify-content: center;

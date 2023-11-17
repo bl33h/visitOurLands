@@ -87,6 +87,7 @@
   .pagination {
     margin-top: 5px;
     text-align: center;
+    padding-bottom: 3%;
   }
   
   .pagination button {

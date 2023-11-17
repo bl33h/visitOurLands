@@ -44,10 +44,12 @@ function MainPage() {
 
   useEffect(() => {
     if (!user.logged_in) {
-      // Almacena la URL si el usuario no está logueado
-      localStorage.setItem('redirectAfterLogin', location.pathname);
+      // Only store the URL if the user is not logged in and there's no stored redirect path
+      if (!localStorage.getItem('redirectAfterLogin')) {
+        localStorage.setItem('redirectAfterLogin', location.pathname);
+      }
     } else {
-      // Si el usuario está logueado, borra el almacenamiento local de redirección
+      // If the user is logged in, remove the redirect path from the local storage
       localStorage.removeItem('redirectAfterLogin');
     }
   }, [user.logged_in, location.pathname]);
@@ -98,7 +100,7 @@ function MainPage() {
               </main>
             </div>
           ) : (
-            <div id="logged-out-status" style={{ color: 'red' }}>Cerrando sesión...</div>
+            <div id="logged-out-status" style={{ color: 'red' }}>Necesita tener una cuenta para ver la pagina, se le redirigirá al Log in, espere unos segundos...</div>
           )}
         </div>
       </ThemeProvider>

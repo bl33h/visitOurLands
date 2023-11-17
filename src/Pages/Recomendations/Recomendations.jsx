@@ -6,6 +6,8 @@ import { faHeart, faStar, faComment, faShare } from "@fortawesome/free-solid-svg
 import Comment from './interactions/comment/comment.jsx';
 import Rating from './interactions/rating/rating.jsx';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Recomendations() {
   const [user, setUser] = useState({});
@@ -33,6 +35,12 @@ function Recomendations() {
     setCurrentPage(1);
   };
   
+  const showToastMessage = () => {
+    toast.success("Link copiado en el portapapeles!", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  };
+
   useEffect(() => {
     // Local storage
     const browser_data = window.localStorage.getItem('LOGIN_STATUS');
@@ -300,14 +308,9 @@ function Recomendations() {
                   />
                   <FontAwesomeIcon
                     icon={faShare}
-                    onClick={() => toggleInteraction(recommendation.id_places, 'share')}
+                    onClick={() => {toggleInteraction(recommendation.id_places, 'share'); showToastMessage();}}
                     className={interactionStates[recommendation.id_places].share ? "activeIn" : ""}
                   />
-                  {showCopyMessage && (
-                    <div className="copy-message">
-                      <p>Enlace copiado al portapapeles: {copiedLink}</p>
-                    </div>
-                  )}
                 </div>
               </div>
             ))}
@@ -347,14 +350,9 @@ function Recomendations() {
                   />
                   <FontAwesomeIcon
                     icon={faShare}
-                    onClick={() => toggleInteraction(recommendation.id_places, 'share')}
+                    onClick={() => {toggleInteraction(recommendation.id_places, 'share'); showToastMessage();}}
                     className={interactionStates[recommendation.id_places].share ? "activeIn" : ""}
                   />
-                  {showCopyMessage && (
-                    <div className="copy-message">
-                      <p>Enlace copiado al portapapeles: {copiedLink}</p>
-                    </div>
-                  )}
                 </div>
               </div>
             ))}
@@ -369,10 +367,7 @@ function Recomendations() {
         </div>
       )}
       {showComment && (
-        <div className="comment-modal">
-          <button className="close-button" onClick={() => setShowComment(false)}>×</button>
           <Comment selectedPlaceId={selectedCommentPlaceId} />
-        </div>
       )}
       <div className="pagination">
         {(searchResults.length > 0 || searchTerm === '') &&(
