@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { supabase } from '../../client';
 
 function Map(){
-
+  // State variables to store data fetched from the database
   const [departmentsData, setDepartmentsData] = useState([]);
   const [placesData, setPlacesData] = useState([]);
   const [, setDepartmentInfo] = useState({});
@@ -15,7 +15,7 @@ function Map(){
   const [selectedDept, setSelectedDept] = useState({});
 
   useEffect(() => {
-  // Función para obtener los datos de la tabla 'departments'
+    // Function to fetch data from the 'departments' table
     const fetchDepartmentsData = async () => {
       try {
       const { data, error } = await supabase.from('departments').select('*');
@@ -26,7 +26,7 @@ function Map(){
       }
     };
   
-    // Función para obtener los datos de la tabla 'places'
+    // Function to fetch data from the 'places' table
     const fetchPlacesData = async () => {
       try {
       const { data, error } = await supabase.from('places').select('*');
@@ -37,7 +37,7 @@ function Map(){
       }
     };
 
-    // Llama a ambas funciones para obtener los datos cuando el componente se monta
+    // Call both functions to fetch data when the component mounts
     fetchDepartmentsData();
     fetchPlacesData();
     }, []); 
@@ -58,35 +58,38 @@ function Map(){
       setDepartmentInfo(mergedData);
       }, [departmentsData, placesData]);
   
-      const getDepartmentPlaces = (departmentsData) => {
-        // Supongamos que tienes una lista de lugares en placesData y cada lugar tiene un campo id_departments
-        const departmentId = departmentsData;
-    
-        const departmentPlaces = placesData.filter((place) => place.id_departments === departmentId);
-  
-        return departmentPlaces;
-      };
-  
-       
-  const handleDepartmentClick = (departmentsData) => {
-    const departmentPlaces = getDepartmentPlaces(departmentsData);
-    console.log("Department Places:", departmentPlaces);
+// Function to get places associated with a department
+const getDepartmentPlaces = (departmentsData) => {
+  const departmentId = departmentsData;
 
+  const departmentPlaces = placesData.filter((place) => place.id_departments === departmentId);
+
+  return departmentPlaces;
+};
+
+// Event handler for when a department is clicked
+const handleDepartmentClick = (departmentsData) => {
+  const departmentPlaces = getDepartmentPlaces(departmentsData);
+  console.log("Department Places:", departmentPlaces);
+
+
+    // Update the selected department state with associated places
     setSelectedDept((prevSelectedDept) => ({
-    ...prevSelectedDept,
-    ...departmentsData,
-    places: departmentPlaces,
+      ...prevSelectedDept,
+      ...departmentsData,
+      places: departmentPlaces,
     }));
   };
+
+  // useEffect to set a random place index when the selected department changes
   useEffect(() => {
     if (selectedDept && selectedDept.places && Array.isArray(selectedDept.places)) {
       const randomIndex = Math.floor(Math.random() * selectedDept.places.length);
       setRandomPlaceIndex(randomIndex);
     } else {
-      console.error("selectedDept o selectedDept.places no están definidos o no son un array válido.");
+      console.error("selectedDept or selectedDept.places are not defined or not a valid array.");
     }
   }, [selectedDept]);
-    
   return (
     <div>
     <div className="root">
