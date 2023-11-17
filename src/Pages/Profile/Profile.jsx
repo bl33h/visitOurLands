@@ -163,8 +163,13 @@ function Profile() {
   }
 
   function handleEditRecommendationClick(recommendationId) {
-    setShowEditButton(true);
-    setShowInitialInfo(false); // Ocultar recomendaciones iniciales al presionar editar
+    if (showInitialInfo == true) {
+      setShowEditButton(true);
+      setShowInitialInfo(false); // Ocultar recomendaciones iniciales al presionar editar
+    } else {
+      setShowEditButton(false);
+      setShowInitialInfo(true); // Mostrar recomendaciones iniciales al presionar cancelar
+    }
   }
 
   return (

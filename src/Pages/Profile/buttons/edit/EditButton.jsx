@@ -120,7 +120,7 @@ function EditButton({ setShowEditButton, setShowInitialInfo }) {
   }
 
   return (
-    <div className="root">
+    <div className="user-recommendations">
       {showEditForm ? (
         <EditRecommendations
           recommendation={currentRecommendation}
