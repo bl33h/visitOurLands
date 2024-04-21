@@ -7,7 +7,7 @@ With a user-friendly interface and comprehensive information about each location
 
 <p align="center">
   <br>
-  <img src="https://i.imgur.com/NUIECyb.png" alt="pic" width="400">
+  <img src="https://i.imgur.com/Rqp1fVu.png" alt="pic" width="400">
   <br>
 </p>
 <p align="center" >
